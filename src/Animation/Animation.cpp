@@ -4,11 +4,11 @@ Animation::Animation(int row, int col, sf::IntRect zone)
 {
 	curFrame = 0;
 	frameNum = row * col;
-	sf::Vector2 size = zone.size;
+	sf::Vector2 zoneSize = zone.size;
 	sf::Vector2 pos = zone.position;
 	int startWidth = pos.x;
-	width = size.x;
-	height = size.y;
+	width = zoneSize.x;
+	height = zoneSize.y;
 	sf::Vector2 size(width, height);
 	sf::IntRect temp;
 	temp.size = size;

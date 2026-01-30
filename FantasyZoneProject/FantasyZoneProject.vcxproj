@@ -20,10 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Animation\Animation.cpp" />
+    <ClCompile Include="..\src\Game\Game.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h" />
+    <ClInclude Include="..\src\Game\Game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\Levels\Round 1 - Plaleaf.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

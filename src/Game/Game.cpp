@@ -29,6 +29,7 @@ void Game::run()
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
+        //window.draw(*player.getSprite());
         window.display();
     }
 }

@@ -24,6 +24,27 @@
     <ClCompile Include="..\src\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Entity\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Player\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Spawner\Spawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Weapons\Weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Weapons\Bomb\Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Weapons\Bullet\Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h">
@@ -32,9 +53,63 @@
     <ClInclude Include="..\src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Entity\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Player\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Spawner\Spawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Weapons\Weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Weapons\Bomb\Bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Weapons\Bullet\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\Levels\Round 1 - Plaleaf.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Bosses.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Enemies.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Opa-Opa.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Shop.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Title, Intro, Ending and Text.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 2 - Tabas.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 3 - La Dune.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 4 - Dolimicca.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 5 - Polaria.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 6 - Mockstar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 7 - Pocarius.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

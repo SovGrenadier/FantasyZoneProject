@@ -25,7 +25,7 @@ void Game::run()
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        viewport.move({ 2.0f,0.0f });
+        //viewport.move({ 2.0f,0.0f });
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);

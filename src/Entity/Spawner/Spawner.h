@@ -2,13 +2,17 @@
 #include <vector>
 #include "../Entity.h"
 
-class Spawner
+class Spawner : public Entity
 {
 public:
 	Spawner();
 	~Spawner();
 
-	int spawnRate; //calculated in frames
-	int health = 20; 
+	const void spawn_enemy(int);
+	void update_health(int); //runs every tick, checks for damage
+
+private:
+	int spawn_rate = 5 * 60; //5 seconds between each spawn sequence, 60 fps
+	//void destroy(); //destroys the spawner when health reaches 0
 
 };

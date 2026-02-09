@@ -16,6 +16,7 @@ protected:
 	sf::Vector2f pos;
 	sf::Sprite* sprite;
 	sf::Texture* texture;
+	unsigned int ticks = 0;
 
 private:
 	static std::vector<Entity*> entities;

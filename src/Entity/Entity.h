@@ -1,5 +1,6 @@
-#include<SFML/Graphics.hpp>
-#include<vector>
+#pragma once
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 class Entity
 {
@@ -9,8 +10,7 @@ public:
 	std::vector<Entity*>* getEntities() { return &entities; }
 	//virtual void update();
 	//void death();
-	sf::Sprite* getSprite() { return sprite; }
-
+	
 protected:
 	int health;
 	sf::Vector2f pos;

@@ -11,13 +11,13 @@ const void Spawner::spawn_enemy(int tick)
 {
 	if (tick % spawn_rate == 0) //every 300 frames
 	{
-		//spawning logic
+		spawn();
 	}
 }
 
 void Spawner::update_health(int tick)
 {
-	//checkCollision(Entity);
+	//check_collision(Entity);
 	if (health <= 0)
 	{
 		death();

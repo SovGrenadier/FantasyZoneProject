@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
-#include "../Entity.h"
+#include "../Enemy/Enemy.h"
 
-class Spawner : public Entity
+class Spawner : public Enemy
 {
 public:
 	Spawner();

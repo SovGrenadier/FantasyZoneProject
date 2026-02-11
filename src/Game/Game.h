@@ -8,7 +8,7 @@ public:
 	Game();
 	~Game();
 	void run();
-
+	int tick; 
 private:
 	sf::RenderWindow window;
 	sf::Texture background1;

@@ -1,6 +1,5 @@
 #include<../../src/Game/Game.h>
 
-
 Game::Game()
 {
     window = sf::RenderWindow(sf::VideoMode({ 1920, 1080 }), "SFML works!");
@@ -10,7 +9,7 @@ Game::Game()
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
     viewport.setCenter(sf::Vector2f{330.f,290.f});
     player.getView(&viewport);
-    //entities = 
+    tick = 0;
 }
 
 Game::~Game()
@@ -20,6 +19,8 @@ Game::~Game()
 
 void Game::run()
 {
+    
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -87,11 +88,14 @@ void Game::run()
                 }
             }
         }
+
         //viewport.move({ 2.0f,0.0f });
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
+		//window.draw(*weapon.getSprite());   
         //window.draw(*player.getSprite());
         window.display();
+        tick += 1;
     }
 }

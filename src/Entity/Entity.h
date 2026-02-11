@@ -8,7 +8,7 @@ public:
 	Entity();
 	~Entity();
 	std::vector<Entity*>* getEntities() { return &entities; }
-	//virtual void update();
+	virtual void update();
 	//void death();
 	
 protected:

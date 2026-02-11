@@ -15,6 +15,11 @@ Entity::~Entity()
 } 
 
 
+void Entity::update()
+{
+
+}
+
 /*
 void Entity::death()
 {

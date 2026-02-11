@@ -5,10 +5,7 @@ Spawner::Spawner()
 	health = 20;
 }
 
-Spawner::~Spawner()
-{
-
-}
+Spawner::~Spawner() {}
 
 const void Spawner::spawn_enemy(int tick)
 {
@@ -23,6 +20,6 @@ void Spawner::update_health(int tick)
 	//checkCollision(Entity);
 	if (health <= 0)
 	{
-		//destroy();
+		death();
 	}
 }

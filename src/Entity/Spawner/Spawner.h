@@ -13,6 +13,4 @@ public:
 
 private:
 	int spawn_rate = 5 * 60; //5 seconds between each spawn sequence, 60 fps
-	//void destroy(); //destroys the spawner when health reaches 0
-
 };

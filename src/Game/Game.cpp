@@ -10,6 +10,7 @@ Game::Game()
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
     viewport.setCenter(sf::Vector2f{330.f,290.f});
     player.getView(&viewport);
+    //entities = 
 }
 
 Game::~Game()

@@ -18,7 +18,7 @@ public:
 		MOVE_RIGHT,
 	};
 	//void update() override;
-	std::unordered_map<Actions, Animation> animations;
+	std::unordered_map<Actions, Animation*> animations;
 private:
 	int speed;
 	bool faceRight = true;

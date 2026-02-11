@@ -5,7 +5,7 @@ Player::Player()
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{45,49} });
-	animations[GLIDE_RIGHT] = *rightFly;
+	animations[GLIDE_RIGHT] = rightFly;
 
 
 }
@@ -19,6 +19,7 @@ Player::~Player()
 
 void Player::update(int input)
 {
+	ticks++;
 	//a is pressed
 	if (((input % 0b00000100) / 0b00000010) == 1)
 		faceRight = false;
@@ -29,12 +30,23 @@ void Player::update(int input)
 	{
 	case 0b00000000:
 		if (faceRight)
+		{
 			curAction = GLIDE_RIGHT;
+			sprite->move({ 0.5f,0.0f });
+		}
 		else
+		{
 			curAction = GLIDE_LEFT;
+			sprite->move({ -0.5f,0.0f });
+		}
 		break;
 	}
-
+	if (ticks == 3)
+	{
+		//reset to 0 so ticks doesn't get to large
+		ticks = 0;
+		sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+	}
 
 
 }

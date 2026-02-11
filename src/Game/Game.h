@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include<string>
+#include<iostream>
 #include "../Entity/Player/Player.h"
 
 class Game {
@@ -13,9 +14,14 @@ private:
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
 	sf::View viewport;
-	//Weapons weapon;
-
-	//Player player;
+	Player player;
+	/*this binary int will represent input
+	* The first bit will represent if w is pressed
+	* The second bit will represent if a is pressed
+	* The third bit will represent if s is pressed
+	* The fourth bit will represent if d is pressed
+	* */
+	int input = 0b00000000;
 
 
 };

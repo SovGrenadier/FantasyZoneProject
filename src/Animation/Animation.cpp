@@ -1,6 +1,11 @@
 #include<../../src/Animation/Animation.h>
 #include<iostream>
 
+Animation::Animation()
+{
+
+}
+
 Animation::Animation(int row, int col, sf::IntRect zone)
 {
 	curFrame = 0;

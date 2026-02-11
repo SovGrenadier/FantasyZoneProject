@@ -18,8 +18,7 @@ public:
 
 	//void update() overide;
 
-	sf::Sprite getSprite() { return *sprite; }
-
+	sf::Sprite* getSprite();
 private:
 	unsigned int defeatPoints;
 

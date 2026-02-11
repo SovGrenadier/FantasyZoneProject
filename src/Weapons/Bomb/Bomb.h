@@ -5,10 +5,7 @@
 class Bomb : public Weapons
 {
 public:
-	Bomb();
+	Bomb(sf::Vector2f);
 	~Bomb();
-private:
-	//can only travel vertically
-	float velocity;
 
 };

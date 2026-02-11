@@ -5,9 +5,7 @@
 class Bullet : public Weapons
 {
 public:
-	Bullet();
+	Bullet(sf::Vector2f);
 	~Bullet();
-private:
-	//can only travel vertically
-	float velocity;
+
 };

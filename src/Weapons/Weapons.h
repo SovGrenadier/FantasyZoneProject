@@ -1,11 +1,13 @@
-#pragma once
-#include "../Entity/Entity.h"
-
+clude "../Entity/Entity.h"
 
 class Weapons : public Entity
 {
-public:
-	Weapons();
+public: 
+	Weapons(); 
 	~Weapons();
-private:
+	void update() override;
+
+private: 
+	int damage;
+	sf::Vector2f velocity; 
 };

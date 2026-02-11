@@ -18,6 +18,7 @@ protected:
 	sf::Sprite* sprite;
 	sf::Texture* texture;
 	unsigned int ticks = 0;
+	bool set_visible; //if false, the entity does not show on screen and has no collision
 
 private:
 	static std::vector<Entity*> entities;

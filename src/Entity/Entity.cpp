@@ -9,10 +9,7 @@ Entity::Entity()
 	pos = sf::Vector2f(500.f, 600.f);
 }
 
-Entity::~Entity()
-{
-	texture = nullptr; 
-} 
+Entity::~Entity() {} 
 
 
 void Entity::update()

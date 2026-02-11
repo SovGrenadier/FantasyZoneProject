@@ -10,7 +10,7 @@ public:
 	std::vector<Entity*>* getEntities() { return &entities; }
 	sf::Sprite* getSprite() { return sprite; }
 	virtual void update(int input) = 0;
-	//void death();
+	//virtual void death() =0;
 	
 protected:
 	int health;

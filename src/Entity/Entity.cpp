@@ -16,9 +16,3 @@ Entity::~Entity()
 } 
 
 
-/*
-void Entity::death()
-{
-
-}
-*/

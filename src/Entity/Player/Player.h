@@ -24,6 +24,6 @@ private:
 	Actions curAction = GLIDE_RIGHT;
 	sf::View* viewport;
 	void updateView();
-
+	unsigned int tickRate;
 
 };

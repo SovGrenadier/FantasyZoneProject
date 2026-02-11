@@ -26,3 +26,8 @@ void Spawner::update_health(int tick)
 		//destroy();
 	}
 }
+
+void Spawner::update(int input)
+{
+
+}

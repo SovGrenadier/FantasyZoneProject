@@ -11,14 +11,9 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	texture = nullptr; 
+	
 } 
 
-
-void Entity::update()
-{
-
-}
 
 /*
 void Entity::death()

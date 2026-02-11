@@ -15,6 +15,7 @@ public:
 	virtual void attack();
 
 	void spawn();
+	void update(int input) override;
 
 	//void update() overide;
 

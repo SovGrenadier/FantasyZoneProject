@@ -11,3 +11,9 @@ Shop::~Shop()
 {
 
 }
+
+
+void Shop::update(int input)
+{
+
+}

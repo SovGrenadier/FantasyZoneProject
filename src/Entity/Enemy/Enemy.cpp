@@ -66,3 +66,8 @@ void Enemy::spawn()
 
 
 }*/
+
+void Enemy::update(int input)
+{
+
+}

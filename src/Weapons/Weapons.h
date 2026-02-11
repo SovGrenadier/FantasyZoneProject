@@ -6,7 +6,7 @@ class Weapons : public Entity
 public: 
 	Weapons(); 
 	~Weapons();
-	void update() override;
+	void update(int input) override;
 
 private: 
 	int damage;

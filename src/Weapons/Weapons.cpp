@@ -20,7 +20,7 @@ Weapons::~Weapons()
 
 }
 
-void Weapons::update()
+void Weapons::update(int input)
 {
 	pos += velocity; 
 	sprite->setPosition(pos);

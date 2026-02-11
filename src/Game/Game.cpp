@@ -10,6 +10,7 @@ Game::Game()
     viewport.setCenter(sf::Vector2f{330.f,290.f});
     player.getView(&viewport);
     tick = 0;
+    entities = player.getEntities();
 }
 
 Game::~Game()
@@ -20,7 +21,7 @@ Game::~Game()
 void Game::run()
 {
     
-
+    window.setFramerateLimit(60);
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -93,9 +94,28 @@ void Game::run()
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
+        updateEntities();
+        drawEntities();
 		//window.draw(*weapon.getSprite());   
         //window.draw(*player.getSprite());
         window.display();
         tick += 1;
+    }
+}
+
+
+void Game::updateEntities()
+{
+    for (int i{}; i < entities->size(); i++)
+    {
+        (entities->at(i))->update(input);
+    }
+}
+
+void Game::drawEntities()
+{
+    for (int i{}; i < entities->size(); i++)
+    {
+        window.draw(*((entities->at(i))->getSprite()));
     }
 }

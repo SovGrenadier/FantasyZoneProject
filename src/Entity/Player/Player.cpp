@@ -4,9 +4,9 @@ Player::Player()
 {
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
-	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{45,49} });
+	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;
-
+	sprite->setPosition({ 330.f,290.f });
 
 }
 
@@ -32,12 +32,12 @@ void Player::update(int input)
 		if (faceRight)
 		{
 			curAction = GLIDE_RIGHT;
-			sprite->move({ 0.5f,0.0f });
+			//sprite->move({0.5f,0.0f});
 		}
 		else
 		{
 			curAction = GLIDE_LEFT;
-			sprite->move({ -0.5f,0.0f });
+			//sprite->move({ -0.5f,0.0f });
 		}
 		break;
 	}

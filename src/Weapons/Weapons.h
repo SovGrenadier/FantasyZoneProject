@@ -4,11 +4,11 @@
 class Weapons : public Entity
 {
 public: 
-	Weapons(); 
+	Weapons(sf::Vector2f);
 	~Weapons();
 	void update(int input) override;
 
-private: 
+protected: 
 	int damage;
 	sf::Vector2f velocity; 
 };

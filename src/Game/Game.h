@@ -22,6 +22,8 @@ private:
 	* The fourth bit will represent if d is pressed
 	* */
 	int input = 0b00000000;
-	std::vector<Entity*> entities;
+	std::vector<Entity*>* entities;
+	void updateEntities();
+	void drawEntities();
 
 };

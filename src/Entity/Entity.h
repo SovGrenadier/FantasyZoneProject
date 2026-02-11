@@ -8,8 +8,9 @@ public:
 	Entity();
 	~Entity();
 	std::vector<Entity*>* getEntities() { return &entities; }
-	virtual void update();
-	void death();
+	sf::Sprite* getSprite() { return sprite; }
+	virtual void update(int input) = 0;
+	//void death();
 	
 protected:
 	int health;

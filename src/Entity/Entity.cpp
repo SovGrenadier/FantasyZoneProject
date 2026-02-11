@@ -10,13 +10,11 @@ Entity::Entity()
 	set_visible = true;
 }
 
-Entity::~Entity() {} 
-
-
-void Entity::update()
+Entity::~Entity()
 {
+	
+} 
 
-}
 
 /*
 void Entity::death()

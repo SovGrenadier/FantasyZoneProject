@@ -6,7 +6,7 @@ class Weapons : public Entity
 public: 
 	Weapons(sf::Vector2f);
 	~Weapons();
-	void update() override;
+	void update(int input) override;
 
 protected: 
 	int damage;

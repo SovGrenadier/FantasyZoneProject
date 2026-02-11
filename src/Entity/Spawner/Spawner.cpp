@@ -23,3 +23,8 @@ void Spawner::update_health(int tick)
 		death();
 	}
 }
+
+void Spawner::update(int input)
+{
+
+}

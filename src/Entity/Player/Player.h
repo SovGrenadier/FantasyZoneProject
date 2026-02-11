@@ -8,7 +8,6 @@ class Player : public Entity
 public:
 	Player();
 	~Player();
-	void update(int input);
 	void getView(sf::View* view) { viewport = view; }
 	enum Actions
 	{
@@ -17,7 +16,7 @@ public:
 		MOVE_LEFT,
 		MOVE_RIGHT,
 	};
-	//void update() override;
+	void update(int input) override;
 	std::unordered_map<Actions, Animation*> animations;
 private:
 	int speed;

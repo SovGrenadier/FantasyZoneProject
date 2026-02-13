@@ -8,6 +8,7 @@ public:
 	~Boss();
 
 	void attack() override;
+	void death() override;
 private:
 
 };

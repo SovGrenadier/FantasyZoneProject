@@ -9,6 +9,5 @@ public:
 	void update(int input) override;
 
 protected: 
-	int damage;
-	sf::Vector2f velocity; 
+	int damage; 
 };

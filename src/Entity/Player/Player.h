@@ -16,7 +16,10 @@ public:
 		MOVE_LEFT,
 		MOVE_RIGHT,
 	};
+
 	void update(int input) override;
+	void death() override;
+
 	std::unordered_map<Actions, Animation*> animations;
 private:
 	int speed;

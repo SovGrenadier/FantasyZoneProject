@@ -6,7 +6,6 @@ Enemy::Enemy() : Entity()
 {
 	defeatPoints = 100;
 
-
 	//if NOT loaded
 	if (!(texture->loadFromFile("../res/Enemies.png")))
 		std::cout << "FAILLLL\n";
@@ -16,7 +15,6 @@ Enemy::Enemy() : Entity()
 	sprite = new sf::Sprite(*texture);
 	sprite->setTexture(*texture);
 	sprite->setPosition(pos);
-
 
 }
 
@@ -61,13 +59,22 @@ void Enemy::spawn()
 }
 
 
-/*void Enemy::update()
+void Enemy::move()
 {
+	pos += velocity;
+	sprite->setPosition(pos);
+}
 
-
-}*/
 
 void Enemy::update(int input)
 {
+	ticks++;
+	move();
 
+}
+
+
+void Enemy::death()
+{
+	//death logic
 }

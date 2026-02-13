@@ -15,9 +15,11 @@ public:
 	virtual void attack();
 
 	void spawn();
+	void move();
+	
 	void update(int input) override;
-
-	//void update() overide;
+	void death() override;
+	
 
 	sf::Sprite* getSprite();
 private:

@@ -7,5 +7,10 @@ class Bullet : public Weapons
 public:
 	Bullet(sf::Vector2f);
 	~Bullet();
+	
+	
+	void death() override;
+
+private:
 
 };

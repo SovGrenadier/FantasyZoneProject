@@ -10,3 +10,9 @@ Bullet::Bullet(sf::Vector2f playPos) : Weapons(playPos)
 Bullet::~Bullet()
 {
 }
+
+
+void Bullet::death()
+{
+	//death logic
+}

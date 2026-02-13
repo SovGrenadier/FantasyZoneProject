@@ -10,11 +10,11 @@ public:
 	std::vector<Entity*>* getEntities() { return &entities; }
 	sf::Sprite* getSprite() { return sprite; }
 	virtual void update(int input) = 0;
-	//virtual void death() =0;
+	virtual void death() = 0;
 	
 protected:
 	int health;
-	sf::Vector2f pos;
+	sf::Vector2f pos, velocity;
 	sf::Sprite* sprite;
 	sf::Texture* texture;
 	unsigned int ticks = 0;

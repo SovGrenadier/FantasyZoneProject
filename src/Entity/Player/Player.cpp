@@ -69,3 +69,9 @@ void Player::updateView()
 
 
 }
+
+
+void Player::death()
+{
+
+}

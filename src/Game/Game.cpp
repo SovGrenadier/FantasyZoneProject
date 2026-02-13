@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    window = sf::RenderWindow(sf::VideoMode({ 1920, 1080 }), "SFML works!");
+    window = sf::RenderWindow(sf::VideoMode({ 1000, 500 }), "SFML works!");
     background1.loadFromFile("../res/Levels/Round 1 - Plaleaf.png");
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
@@ -15,7 +15,7 @@ Game::Game()
 
 Game::~Game()
 {
-
+    delete backgroundSprite1;
 }
 
 void Game::run()

@@ -17,3 +17,9 @@ void Boss::attack()
 {
 
 }
+
+
+void Boss::death()
+{
+	//death logic
+}

@@ -2,6 +2,7 @@
 #include"../Entity.h"
 #include"../../Animation/Animation.h"
 #include<unordered_map>
+#include<iostream>
 
 class Player : public Entity
 {
@@ -26,7 +27,9 @@ private:
 	bool faceRight = true;
 	Actions curAction = GLIDE_RIGHT;
 	sf::View* viewport;
-	void updateView();
+	void updateView(int input);
 	unsigned int tickRate;
+	//represents which level of the background spritesheet the player is on
+	uint16_t level = 2;
 
 };

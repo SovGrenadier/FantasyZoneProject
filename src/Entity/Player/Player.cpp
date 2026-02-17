@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	texture = new sf::Texture("../res/Opa-Opa-removebg-preview (1).png");
+	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;
@@ -32,15 +32,15 @@ void Player::update(int input)
 		if (faceRight)
 		{
 			curAction = GLIDE_RIGHT;
-			sprite->move({0.15f,0.0f});
-			viewport->move({ 0.15f,0.0f });
+			sprite->move({0.40f,0.0f});
+			viewport->move({ 0.40f,0.0f });
 		}
 		else
 		{
 			curAction = GLIDE_LEFT;
-			sprite->move({ -0.15f,0.0f });
+			sprite->move({ -0.40f,0.0f });
 		}
-		tickRate = 10;
+		tickRate = 12;
 		break;
 	case 0b00000001:
 		break;

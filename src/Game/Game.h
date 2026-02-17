@@ -2,6 +2,8 @@
 #include<string>
 #include<iostream>
 #include "../Entity/Player/Player.h"
+#include"../Weapons/Bullet/Bullet.h"
+#include"../Weapons/Bomb/Bomb.h"
 
 class Game {
 public:
@@ -25,5 +27,8 @@ private:
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();
+	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player posution + offset
+	Bullet* bullet = new Bullet(pos); 
+	Bomb* bomb = new Bomb(pos);
 
 };

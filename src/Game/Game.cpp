@@ -96,8 +96,6 @@ void Game::run()
         window.draw(*backgroundSprite1);
         updateEntities();
         drawEntities();
-		//window.draw(*weapon.getSprite());   
-        //window.draw(*player.getSprite());
         window.display();
         tick += 1;
     }

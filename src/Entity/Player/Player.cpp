@@ -32,15 +32,15 @@ void Player::update(int input)
 		if (faceRight)
 		{
 			curAction = GLIDE_RIGHT;
-			sprite->move({0.15f,0.0f});
-			viewport->move({ 0.15f,0.0f });
+			sprite->move({0.40f,0.0f});
+			viewport->move({ 0.40f,0.0f });
 		}
 		else
 		{
 			curAction = GLIDE_LEFT;
-			sprite->move({ -0.15f,0.0f });
+			sprite->move({ -0.40f,0.0f });
 		}
-		tickRate = 10;
+		tickRate = 12;
 		break;
 	case 0b00000001:
 		break;
@@ -64,9 +64,40 @@ void Player::update(int input)
 
 }
 
-void Player::updateView()
+void Player::updateView(int input)
 {
+	if (level == 2)
+	{
+		if ((viewport->getCenter().x - 125) == 559.f)
+		{
+			std::cout << "test" << std::endl;
+			viewport->setCenter({ 60.f + 125.f,14.f + 87.5f });
+		}
+	}
 
+
+	switch (input)
+	{
+	case 0b00000000:
+		if (faceRight)
+		{
+			viewport->move({ 0.40f,0.0f });
+		}
+		else
+		{
+			viewport->move({ -0.40f,0.0f });
+		}
+		break;
+	case 0b00000001:
+		break;
+	case 0b00000010:
+		break;
+	case 0b00000100:
+		break;
+	case 0b00001000:
+		break;
+
+	}
 
 }
 

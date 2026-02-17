@@ -3,11 +3,11 @@
 Game::Game()
 {
     window = sf::RenderWindow(sf::VideoMode({ 1000, 500 }), "SFML works!");
-    background1.loadFromFile("../res/Levels/Round 1 - Plaleaf.png");
+    background1.loadFromFile("../res/Levels/Round 1.png");
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
-    viewport.setCenter(sf::Vector2f{330.f,290.f});
+    viewport.setCenter(sf::Vector2f{330.f,285.f});
     player.getView(&viewport);
     tick = 0;
     entities = player.getEntities();

@@ -22,6 +22,7 @@
     <ClCompile Include="..\src\Animation\Animation.cpp" />
     <ClCompile Include="..\src\Entity\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="..\src\Entity\Enemy\Enemy.cpp" />
+    <ClCompile Include="..\src\Entity\Enemy\Moocolon\Moocolon.cpp" />
     <ClCompile Include="..\src\Entity\Entity.cpp" />
     <ClCompile Include="..\src\Entity\Player\Player.cpp" />
     <ClCompile Include="..\src\Entity\Shop\Shop.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="..\src\Animation\Animation.h" />
     <ClInclude Include="..\src\Entity\Enemy\Boss\Boss.h" />
     <ClInclude Include="..\src\Entity\Enemy\Enemy.h" />
+    <ClInclude Include="..\src\Entity\Enemy\Moocolon\Moocolon.h" />
     <ClInclude Include="..\src\Entity\Entity.h" />
     <ClInclude Include="..\src\Entity\Player\Player.h" />
     <ClInclude Include="..\src\Entity\Shop\Shop.h" />
@@ -48,17 +50,16 @@
   <ItemGroup>
     <Image Include="..\res\Bosses.png" />
     <Image Include="..\res\Enemies.png" />
-    <Image Include="..\res\Levels\Round 1 - Plaleaf.png" />
+    <Image Include="..\res\Levels\Round 1.png" />
     <Image Include="..\res\Levels\Round 2 - Tabas.png" />
     <Image Include="..\res\Levels\Round 3 - La Dune.png" />
     <Image Include="..\res\Levels\Round 4 - Dolimicca.png" />
     <Image Include="..\res\Levels\Round 5 - Polaria.png" />
     <Image Include="..\res\Levels\Round 6 - Mockstar.png" />
     <Image Include="..\res\Levels\Round 7 - Pocarius.png" />
-    <Image Include="..\res\Opa-Opa-removebg-preview (1).png" />
     <Image Include="..\res\Opa-Opa.png" />
     <Image Include="..\res\Shop.png" />
-    <Image Include="..\res\Title, Intro, Ending and Text.png" />
+    <Image Include="..\res\Title, Intro and Ending Text.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

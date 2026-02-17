@@ -51,6 +51,9 @@
     <ClCompile Include="..\src\Entity\Shop\Shop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Moocolon\Moocolon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h">
@@ -86,24 +89,21 @@
     <ClInclude Include="..\src\Entity\Shop\Shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Moocolon\Moocolon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\res\Levels\Round 1 - Plaleaf.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Bosses.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Enemies.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Opa-Opa.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Shop.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Title, Intro, Ending and Text.png">
+    <Image Include="..\res\Title, Intro and Ending Text.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Levels\Round 2 - Tabas.png">
@@ -124,7 +124,10 @@
     <Image Include="..\res\Levels\Round 7 - Pocarius.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Opa-Opa-removebg-preview (1).png">
+    <Image Include="..\res\Levels\Round 1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

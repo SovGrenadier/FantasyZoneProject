@@ -88,16 +88,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\res\Levels\Round 1 - Plaleaf.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Bosses.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Enemies.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Shop.png">
@@ -124,7 +118,10 @@
     <Image Include="..\res\Levels\Round 7 - Pocarius.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Opa-Opa-removebg-preview (1).png">
+    <Image Include="..\res\Levels\Round 1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

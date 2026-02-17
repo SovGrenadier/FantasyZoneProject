@@ -48,14 +48,13 @@
   <ItemGroup>
     <Image Include="..\res\Bosses.png" />
     <Image Include="..\res\Enemies.png" />
-    <Image Include="..\res\Levels\Round 1 - Plaleaf.png" />
+    <Image Include="..\res\Levels\Round 1.png" />
     <Image Include="..\res\Levels\Round 2 - Tabas.png" />
     <Image Include="..\res\Levels\Round 3 - La Dune.png" />
     <Image Include="..\res\Levels\Round 4 - Dolimicca.png" />
     <Image Include="..\res\Levels\Round 5 - Polaria.png" />
     <Image Include="..\res\Levels\Round 6 - Mockstar.png" />
     <Image Include="..\res\Levels\Round 7 - Pocarius.png" />
-    <Image Include="..\res\Opa-Opa-removebg-preview (1).png" />
     <Image Include="..\res\Opa-Opa.png" />
     <Image Include="..\res\Shop.png" />
     <Image Include="..\res\Title, Intro, Ending and Text.png" />

@@ -32,15 +32,15 @@ void Player::update(int input)
 		if (faceRight)
 		{
 			curAction = GLIDE_RIGHT;
-			sprite->move({0.15f,0.0f});
-			viewport->move({ 0.15f,0.0f });
+			sprite->move({0.40f,0.0f});
+			viewport->move({ 0.40f,0.0f });
 		}
 		else
 		{
 			curAction = GLIDE_LEFT;
-			sprite->move({ -0.15f,0.0f });
+			sprite->move({ -0.40f,0.0f });
 		}
-		tickRate = 10;
+		tickRate = 12;
 		break;
 	case 0b00000001:
 		break;

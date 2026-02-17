@@ -6,7 +6,7 @@
 Weapons::Weapons(sf::Vector2f playerPos) : Entity()
 {
 	texture = new sf::Texture(); 
-	if (!texture->loadFromFile("../res/Opa-Opa.png"))
+	if (!texture->loadFromFile("../res/res/Opa-Opa-removebg-preview (1).png"))
 		std::cout << "Error"; 
 
 	sprite = new sf::Sprite(*texture);

@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    window = sf::RenderWindow(sf::VideoMode({ 1000, 500 }), "SFML works!");
+    window = sf::RenderWindow(sf::VideoMode({ 1550, 1175 }), "SFML works!");
     background1.loadFromFile("../res/Levels/Round 1.png");
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
@@ -94,6 +94,7 @@ void Game::run()
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
+        
         updateEntities();
         drawEntities();
 		//window.draw(*weapon.getSprite());   

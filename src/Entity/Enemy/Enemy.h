@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include <../../src/Entity/Entity.h>
+#include "../../src/Entity/Entity.h"
+#include "../../Animation/Animation.h"
 
 
 class Enemy : public Entity 
@@ -14,13 +15,14 @@ public:
 	
 	virtual void attack();
 
-	void spawn();
-	void move();
+	virtual void spawn();
+	virtual void move();
 	
+	//inherited methods
 	void update(int input) override;
 	void death() override;
 	
-
+	//get methods
 	sf::Sprite* getSprite();
 private:
 	unsigned int defeatPoints;

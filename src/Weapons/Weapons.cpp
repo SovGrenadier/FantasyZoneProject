@@ -3,11 +3,12 @@
 #include "../Weapons/Weapons.h"
 
 
-Weapons::Weapons(sf::Vector2f playerPos) : Entity()
+
+Weapons::Weapons(sf::Vector2f playerPos) 
 {
-	texture = new sf::Texture(); 
-	if (!texture->loadFromFile("../res/res/Opa-Opa-removebg-preview (1).png"))
-		std::cout << "Error"; 
+	texture = new sf::Texture();
+	if (!texture->loadFromFile("../res/Opa-Opa.png"))
+		std::cout << "Error Loading Image"; 
 
 	sprite = new sf::Sprite(*texture);
 	sprite->setPosition(playerPos);	
@@ -22,6 +23,5 @@ Weapons::~Weapons()
 
 void Weapons::update(int input)
 {
-	pos += velocity; 
-	sprite->setPosition(pos);
+	sprite->move({1.5, 0});
 }

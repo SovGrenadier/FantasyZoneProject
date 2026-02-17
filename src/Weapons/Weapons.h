@@ -1,5 +1,7 @@
+#pragma once 
 #include <SFML/Graphics.hpp>
 #include "../Entity/Entity.h"
+#include "../Animation/Animation.h"
 
 class Weapons : public Entity
 {

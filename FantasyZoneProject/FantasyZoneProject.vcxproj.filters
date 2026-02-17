@@ -51,6 +51,9 @@
     <ClCompile Include="..\src\Entity\Shop\Shop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Moocolon\Moocolon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h">
@@ -86,6 +89,9 @@
     <ClInclude Include="..\src\Entity\Shop\Shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Moocolon\Moocolon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\Bosses.png">
@@ -97,7 +103,7 @@
     <Image Include="..\res\Shop.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Title, Intro, Ending and Text.png">
+    <Image Include="..\res\Title, Intro and Ending Text.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Levels\Round 2 - Tabas.png">

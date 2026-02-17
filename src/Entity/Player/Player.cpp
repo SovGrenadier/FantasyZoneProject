@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	texture = new sf::Texture("../res/Opa-Opa-removebg-preview (1).png");
+	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;

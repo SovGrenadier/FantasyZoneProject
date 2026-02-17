@@ -76,5 +76,5 @@ void Enemy::update(int input)
 
 void Enemy::death()
 {
-	//death logic
+	set_visible = false;
 }

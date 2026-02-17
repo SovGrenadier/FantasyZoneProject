@@ -9,7 +9,7 @@ Spawner::~Spawner() {}
 
 const void Spawner::spawn_enemy(int tick)
 {
-	if (tick % spawn_rate == 0) //every 300 frames
+	if (tick % spawn_rate == 0 && set_visible == true) //every 300 frames
 	{
 		spawn();
 	}

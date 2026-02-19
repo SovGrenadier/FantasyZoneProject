@@ -30,6 +30,12 @@ void Game::run()
                 window.close();
             if (event->is<sf::Event::KeyPressed>())
             {
+                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+                {
+                    //make sure first bit isn't already set to 1
+                    if (((input % 0b00010000) / 0b00001000) == 0)
+                        input += 0b00010000;
+                }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
                 {
                     //make sure first bit isn't already set to 1
@@ -86,6 +92,12 @@ void Game::run()
                     //make sure first bit isn't already set to 0
                     if (((input % 0b00010000) / 0b00001000) == 1)
                         input += 0b00001000;
+                }
+                if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
+                {
+                    //make sure first bit isn't already set to 1
+                    if (((input % 0b00010000) / 0b00001000) == 1)
+                        input -= 0b00010000;
                 }
             }
         }

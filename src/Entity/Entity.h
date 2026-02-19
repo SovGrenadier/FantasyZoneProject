@@ -15,6 +15,7 @@ public:
 protected:
 	int health;
 	sf::Vector2f pos;
+	sf::Vector2f velocity;
 	sf::Sprite* sprite;
 	sf::Texture* texture;
 	unsigned int ticks = 0;

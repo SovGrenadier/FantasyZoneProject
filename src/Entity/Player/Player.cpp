@@ -67,14 +67,11 @@ void Player::update(int input)
 
 void Player::updateView(int input)
 {
-	if (level == 2)
+	if ((viewport->getCenter().x - 125) < 1050.f&& (viewport->getCenter().x - 125) > 1048.f)
 	{
-		if ((viewport->getCenter().x - 125) < 560.f&& (viewport->getCenter().x - 125) > 558.f)
-		{
-			std::cout << "test" << std::endl;
-			viewport->setCenter({ 60.f+((viewport->getCenter().x - 125)-559.f) + 125.f,14.f + 87.5f});
-			level = 1;
-		}
+		std::cout << "test" << std::endl;
+		viewport->setCenter({ 33.f+((viewport->getCenter().x - 125)-1049.f) + 125.f,101.5f});
+		level = 1;
 	}
 	if (input == 0b00010000)
 	{

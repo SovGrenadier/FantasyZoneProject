@@ -26,6 +26,10 @@ void Player::update(int input)
 	//w is pressed
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
+	if (input == 0b00010000)
+		shoot();
+
+
 	switch (input)
 	{
 	case 0b00000000:
@@ -80,12 +84,6 @@ void Player::updateView(int input)
 		std::cout << "test" << std::endl;
 		viewport->setCenter({ 93.f + ((viewport->getCenter().x + 125) - 1109.f) + 125.f,101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
-	}
-
-
-	if (input == 0b00010000)
-	{
-		shoot();
 	}
 
 	switch (input)

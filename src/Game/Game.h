@@ -10,7 +10,7 @@ public:
 	Game();
 	~Game();
 	void run();
-	int tick; 
+	int tick;
 private:
 	sf::RenderWindow window;
 	sf::Texture background1;
@@ -28,6 +28,6 @@ private:
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();
-	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player posution + offset
+	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
 };

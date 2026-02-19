@@ -127,7 +127,6 @@ void Game::drawEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
-        std::cout << "test";
         window.draw(*((entities->at(i))->getSprite()));
     }
 }

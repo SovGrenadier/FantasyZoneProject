@@ -29,6 +29,7 @@ private:
 	Actions curAction = GLIDE_RIGHT;
 	sf::View* viewport;
 	void shoot();
+	void bomb();
 	void updateView(int input);
 	unsigned int tickRate;
 	//represents which level of the background spritesheet the player is on

@@ -6,7 +6,7 @@ Player::Player()
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;
-	sprite->setPosition({ 330.f,290.f });
+	sprite->setPosition(sf::Vector2f{ 790.f,109.f });
 	tickRate = 100000;
 }
 
@@ -67,12 +67,22 @@ void Player::update(int input)
 
 void Player::updateView(int input)
 {
-	if ((viewport->getCenter().x - 125) < 1050.f&& (viewport->getCenter().x - 125) > 1048.f)
+	std::cout << sprite->getPosition().x << std::endl;
+	//viewport goes of left end
+	if ((viewport->getCenter().x - 125) > 32.f&& (viewport->getCenter().x - 125) < 34.f)
+	{
+		viewport->setCenter({ 1049.f+((viewport->getCenter().x - 125)-33.f) + 125.f,101.5f});
+		sprite->setPosition({ sprite->getPosition().x+1049.f-33.f,sprite->getPosition().y });
+	}
+	//viewport goes off right end
+	if ((viewport->getCenter().x - 125) > 1108.f && (viewport->getCenter().x - 125) < 1110.f)
 	{
 		std::cout << "test" << std::endl;
-		viewport->setCenter({ 33.f+((viewport->getCenter().x - 125)-1049.f) + 125.f,101.5f});
-		level = 1;
+		viewport->setCenter({ 93.f + ((viewport->getCenter().x + 125) - 1109.f) + 125.f,101.5f });
+		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
+
+
 	if (input == 0b00010000)
 	{
 		shoot();
@@ -113,4 +123,9 @@ void Player::death()
 void Player::shoot()
 {
 	Bullet x(pos);
+}
+
+void Player::bomb()
+{
+
 }

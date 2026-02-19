@@ -4,7 +4,7 @@
 Bullet::Bullet(sf::Vector2f playPos) : Weapons(playPos)
 {
 	velocity = sf::Vector2f(5.0f, 0.f);
-	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,22},sf::Vector2i{8,16} });
+	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,22},sf::Vector2i{8,16}});
 }
 
 
@@ -20,5 +20,5 @@ void Bullet::death()
 
 void Bullet::update(int input)
 {
-	sprite->move({.5, 0});
+
 }

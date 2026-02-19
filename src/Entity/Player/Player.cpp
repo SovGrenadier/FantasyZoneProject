@@ -26,6 +26,10 @@ void Player::update(int input)
 	//w is pressed
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
+	if (input == 0b00010000)
+		shoot();
+
+
 	switch (input)
 	{
 	case 0b00000000:
@@ -73,10 +77,6 @@ void Player::updateView(int input)
 		viewport->setCenter({ 33.f+((viewport->getCenter().x - 125)-1049.f) + 125.f,101.5f});
 		level = 1;
 	}
-	if (input == 0b00010000)
-	{
-		shoot();
-	}
 
 	switch (input)
 	{
@@ -112,5 +112,6 @@ void Player::death()
 
 void Player::shoot()
 {
-	Bullet x(pos);
+   new Bullet(pos, faceRight);
 }
+

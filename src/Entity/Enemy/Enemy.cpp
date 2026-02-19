@@ -5,16 +5,15 @@
 Enemy::Enemy() : Entity()
 {
 	defeatPoints = 100;
+	tickRate = 12;
 	//if NOT loaded
-	if (!(texture->loadFromFile("../res/Enemies.png")))
+	if (!(texture->loadFromFile("../../res/Enemies.png")))
 		std::cout << "FAILLLL\n";
 	else
 		std::cout << "Successful\n";
 	//allocate memory for sprite, then set texture and position
-	sprite = new sf::Sprite(*texture);
-	sprite->setTexture(*texture);
-	sprite->setPosition(pos);
-
+	
+	
 }
 
 

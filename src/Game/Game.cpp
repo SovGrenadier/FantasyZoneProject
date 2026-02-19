@@ -7,7 +7,7 @@ Game::Game()
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
-    viewport.setCenter(sf::Vector2f{330.f,285.f});
+    viewport.setCenter(sf::Vector2f{840.f,101.5f});
     player.getView(&viewport);
     tick = 0;
     entities = player.getEntities();
@@ -127,6 +127,7 @@ void Game::drawEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
+        std::cout << "test";
         window.draw(*((entities->at(i))->getSprite()));
     }
 }

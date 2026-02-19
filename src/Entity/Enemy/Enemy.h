@@ -24,7 +24,8 @@ public:
 	
 	//get methods
 	sf::Sprite* getSprite();
-private:
+protected:
+	unsigned int tickRate;
 	unsigned int defeatPoints;
 
 };

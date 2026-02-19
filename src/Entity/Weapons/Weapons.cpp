@@ -1,6 +1,6 @@
 #include<SFML/Graphics.hpp>
 #include <iostream>
-#include "../Weapons/Weapons.h"
+#include "Weapons.h"
 
 
 

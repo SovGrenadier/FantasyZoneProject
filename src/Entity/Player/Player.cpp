@@ -54,6 +54,7 @@ void Player::update(int input)
 		break;
 
 	}
+	updateView(input);
 	if (ticks == tickRate)
 	{
 		//reset to 0 so ticks doesn't get to large
@@ -68,24 +69,28 @@ void Player::updateView(int input)
 {
 	if (level == 2)
 	{
-		if ((viewport->getCenter().x - 125) == 559.f)
+		if ((viewport->getCenter().x - 125) < 560.f&& (viewport->getCenter().x - 125) > 558.f)
 		{
 			std::cout << "test" << std::endl;
-			viewport->setCenter({ 60.f + 125.f,14.f + 87.5f });
+			viewport->setCenter({ 60.f+((viewport->getCenter().x - 125)-559.f) + 125.f,14.f + 87.5f});
+			level = 1;
 		}
 	}
-
+	if (input == 0b00010000)
+	{
+		shoot();
+	}
 
 	switch (input)
 	{
 	case 0b00000000:
 		if (faceRight)
 		{
-			viewport->move({ 0.40f,0.0f });
+			//viewport->move({ 0.40f,0.0f });
 		}
 		else
 		{
-			viewport->move({ -0.40f,0.0f });
+			//viewport->move({ -0.40f,0.0f });
 		}
 		break;
 	case 0b00000001:
@@ -105,4 +110,10 @@ void Player::updateView(int input)
 void Player::death()
 {
 
+}
+
+
+void Player::shoot()
+{
+	Bullet x(pos);
 }

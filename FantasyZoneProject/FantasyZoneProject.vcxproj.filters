@@ -130,5 +130,8 @@
     <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\res\Levels\Round 1 with spawner locs.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

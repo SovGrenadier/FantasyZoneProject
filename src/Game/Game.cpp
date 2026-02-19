@@ -79,19 +79,19 @@ void Game::run()
                 {
                     //make sure first bit isn't already set to 0
                     if (((input % 0b00000100) / 0b00000010) == 1)
-                        input += 0b00000010;
+                        input -= 0b00000010;
                 }
                 if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::S)
                 {
                     //make sure first bit isn't already set to 0
                     if (((input % 0b00001000) / 0b00000100) == 1)
-                        input += 0b00000100;
+                        input -= 0b00000100;
                 }
                 if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::D)
                 {
                     //make sure first bit isn't already set to 0
                     if (((input % 0b00010000) / 0b00001000) == 1)
-                        input += 0b00001000;
+                        input -= 0b00001000;
                 }
                 if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
                 {
@@ -106,7 +106,8 @@ void Game::run()
         window.clear();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
-        
+        //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
+        //window.draw(&(test), 1, sf::PrimitiveType::Points);
         updateEntities();
         drawEntities();
         window.display();

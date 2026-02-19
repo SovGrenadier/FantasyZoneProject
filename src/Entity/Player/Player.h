@@ -34,5 +34,10 @@ private:
 	unsigned int tickRate;
 	//represents which level of the background spritesheet the player is on
 	int level = 2;
+	//represents edges where viewport matches player movement speed
+	bool rightEdge = false;
+	bool leftEdge = false;
+	sf::Vector2f spriteMov;
+	sf::Vector2f viewMov;
 
 };

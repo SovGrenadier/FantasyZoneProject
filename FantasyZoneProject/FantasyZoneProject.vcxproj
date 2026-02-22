@@ -21,8 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\src\Animation\Animation.cpp" />
     <ClCompile Include="..\src\Entity\Enemy\Boss\Boss.cpp" />
+    <ClCompile Include="..\src\Entity\Enemy\Bottaco\Bottaco.cpp" />
     <ClCompile Include="..\src\Entity\Enemy\Enemy.cpp" />
+    <ClCompile Include="..\src\Entity\Enemy\Kirikiri\Kirikiri.cpp" />
     <ClCompile Include="..\src\Entity\Enemy\Moocolon\Moocolon.cpp" />
+    <ClCompile Include="..\src\Entity\Enemy\Scissors\Scissors.cpp" />
+    <ClCompile Include="..\src\Entity\Enemy\Snake\Snake.cpp" />
     <ClCompile Include="..\src\Entity\Entity.cpp" />
     <ClCompile Include="..\src\Entity\Player\Player.cpp" />
     <ClCompile Include="..\src\Entity\Shop\Shop.cpp" />
@@ -36,8 +40,12 @@
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h" />
     <ClInclude Include="..\src\Entity\Enemy\Boss\Boss.h" />
+    <ClInclude Include="..\src\Entity\Enemy\Bottaco\Bottaco.h" />
     <ClInclude Include="..\src\Entity\Enemy\Enemy.h" />
+    <ClInclude Include="..\src\Entity\Enemy\Kirikiri\Kirikiri.h" />
     <ClInclude Include="..\src\Entity\Enemy\Moocolon\Moocolon.h" />
+    <ClInclude Include="..\src\Entity\Enemy\Scissors\Scissors.h" />
+    <ClInclude Include="..\src\Entity\Enemy\Snake\Snake.h" />
     <ClInclude Include="..\src\Entity\Entity.h" />
     <ClInclude Include="..\src\Entity\Player\Player.h" />
     <ClInclude Include="..\src\Entity\Shop\Shop.h" />

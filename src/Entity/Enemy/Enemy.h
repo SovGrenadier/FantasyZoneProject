@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "../../src/Entity/Entity.h"
 #include "../../Animation/Animation.h"

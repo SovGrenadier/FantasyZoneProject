@@ -36,15 +36,6 @@
     <ClCompile Include="..\src\Entity\Enemy\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Weapons\Weapons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Weapons\Bomb\Bomb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Weapons\Bullet\Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Entity\Enemy\Boss\Boss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +43,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Entity\Enemy\Moocolon\Moocolon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Weapons\Bomb\Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Weapons\Bullet\Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Weapons\Weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Bottaco\Bottaco.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Kirikiri\Kirikiri.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Scissors\Scissors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Enemy\Snake\Snake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,15 +86,6 @@
     <ClInclude Include="..\src\Entity\Enemy\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Weapons\Weapons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Weapons\Bomb\Bomb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Weapons\Bullet\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Entity\Enemy\Boss\Boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,6 +93,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Entity\Enemy\Moocolon\Moocolon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Weapons\Bomb\Bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Weapons\Bullet\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Weapons\Weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Bottaco\Bottaco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Kirikiri\Kirikiri.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Snake\Snake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Enemy\Scissors\Scissors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -124,13 +148,16 @@
     <Image Include="..\res\Levels\Round 7 - Pocarius.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Levels\Round 1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Levels\Round 1 with spawner locs.png">
+    <Image Include="..\res\Levels\Original Round 1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 1 wrapped with spawner locs.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 1 Wrapped.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

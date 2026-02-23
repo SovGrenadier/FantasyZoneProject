@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(sf::Vector2f playPos) : Weapons(playPos)
+Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 {
 
 	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,22},sf::Vector2i{8,16}});

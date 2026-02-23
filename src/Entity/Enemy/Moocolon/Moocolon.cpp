@@ -6,7 +6,7 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 {
 	faceRight = isFaceRight;
 	ticks = 13;
-	pos = sf::Vector2f{ 840.f,30.f };
+	pos = sf::Vector2f{ 840.f,115.f };
 	//840 is center of screen
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
@@ -17,12 +17,6 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 		curAction = FLY_LEFT;
 	animations[curAction] = fly;
 
-	//needed for movement
-	speed = .5f;
-	amplitude = 10.f;
-	frequency = 0.1f;
-	time = 0.f;
-	baseY = pos.y;
 
 	//set sprite
 	sprite->setTexture(*texture);
@@ -52,18 +46,7 @@ void Moocolon::spawn()
 
 void Moocolon::move()
 {
-	//move like a sinusoidal func, until it charges in a straight line
-	if (faceRight)
-		pos.x += speed;
-	else
-		pos.x -= speed;                               
 	
-	time += 0.05f;          
-
-	float wave = static_cast<float>(sin(time));
-	pos.y = baseY + amplitude * wave;
-
-	sprite->setPosition(pos);
 }
 
 

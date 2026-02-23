@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
@@ -6,7 +7,7 @@
 class Snake : public Enemy
 {
 public:
-	Snake(bool isFacingRight);
+	Snake(bool isFaceRight);
 	~Snake();
 
 	enum Actions
@@ -25,4 +26,5 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	float speed;
 };

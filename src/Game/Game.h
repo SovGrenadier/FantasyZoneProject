@@ -16,6 +16,7 @@ private:
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
 	sf::View viewport;
+
 	Player player;
 	/*this binary int will represent input
 	* The first bit will represent if w is pressed
@@ -25,6 +26,7 @@ private:
 	* the fifth bit will represent if x is pressed
 	* */
 	int input = 0b00000000;
+
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();

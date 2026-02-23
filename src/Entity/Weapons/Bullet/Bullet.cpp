@@ -1,10 +1,19 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(sf::Vector2f playPos, bool direction) : Weapons(playPos)
+Bullet::Bullet(sf::Vector2f playPos) : Weapons(playPos)
 {
-	velocity = sf::Vector2f(5.0f, 0.f);
+
 	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,22},sf::Vector2i{8,16}});
+
+	if (faceRight)
+	{
+		speed = 1.5f;
+	}
+	else
+	{
+		speed = -1.5f;
+	}
 }
 
 
@@ -20,5 +29,5 @@ void Bullet::death()
 
 void Bullet::update(int input)
 {
-
+	sprite->move({ speed, 0 });
 }

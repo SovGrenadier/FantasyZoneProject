@@ -14,6 +14,20 @@ public:
 		FLY_LEFT
 	};
 
+	enum Formation
+	{
+		VERTICAL,
+		HORIZONTAL
+
+		/*
+		vertical is when there is a 1x3 formation of enemies
+		near the bottom and near the top of the screen.
+
+		horizontal is when near the middle of the screen there 
+		is a 2x3 formation of enemies, like a rectangle
+		*/
+	};
+
 	void spawn() override;
 	void move() override;
 	void update(int) override;
@@ -24,4 +38,5 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	float speed, amplitude, frequency, time, baseY;
 };

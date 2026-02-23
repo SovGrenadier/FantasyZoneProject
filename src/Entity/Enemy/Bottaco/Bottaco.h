@@ -4,10 +4,11 @@
 #include <unordered_map>
 
 
+
 class Bottaco : public Enemy
 {
 public:
-	Bottaco();
+	Bottaco(bool isFaceRight);
 	~Bottaco();
 	        
 	enum Actions
@@ -26,5 +27,5 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-
+	
 };

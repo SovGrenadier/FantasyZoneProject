@@ -8,7 +8,7 @@ public:
 	Spawner();
 	~Spawner();
 
-	const void spawn_enemy(int);
+	void spawn_enemy(int);
 	void update_health(int); //runs every tick, checks for damage
 	void update(int input, int tick);
 

@@ -21,7 +21,7 @@ Game::~Game()
 void Game::run()
 {
     
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(50);
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
@@ -112,6 +112,7 @@ void Game::run()
         drawEntities();
         window.display();
         tick += 1;
+		std::cout << "Tick: " << tick << std::endl;
     }
 }
 

@@ -9,6 +9,7 @@ Entity::Entity()
 	health = 1;
 	pos = sf::Vector2f(500.f, 600.f);
 	set_visible = true;
+	set_active = true;
 	sprite = nullptr;
 	texture = nullptr;
 }
@@ -18,4 +19,8 @@ Entity::~Entity()
 	
 } 
 
-
+ void Entity::death()
+{
+	 set_visible = false;
+	 set_active = false;
+}

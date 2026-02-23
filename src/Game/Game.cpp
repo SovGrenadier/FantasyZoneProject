@@ -112,6 +112,7 @@ void Game::run()
         drawEntities();
         window.display();
         tick += 1;
+		std::cout << "Tick: " << tick << std::endl;
     }
 }
 

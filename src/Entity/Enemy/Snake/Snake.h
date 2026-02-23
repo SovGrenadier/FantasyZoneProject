@@ -1,15 +1,13 @@
 #pragma once
-#include <unordered_map>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
-//orange guy
-//made up of groups that are together in a column but move in sync
-class Moocolon : public Enemy
+
+class Snake : public Enemy
 {
 public:
-	Moocolon(bool isFaceRight);
-	~Moocolon();
+	Snake(bool isFacingRight);
+	~Snake();
 
 	enum Actions
 	{
@@ -27,5 +25,4 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed, amplitude, frequency,time, baseY; 
 };

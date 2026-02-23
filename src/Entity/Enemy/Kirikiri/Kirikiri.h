@@ -3,13 +3,12 @@
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
-//orange guy
-//made up of groups that are together in a column but move in sync
-class Moocolon : public Enemy
+
+class Kirikiri : public Enemy
 {
 public:
-	Moocolon(bool isFaceRight);
-	~Moocolon();
+	Kirikiri(bool isFaceRight);
+	~Kirikiri();
 
 	enum Actions
 	{
@@ -27,5 +26,5 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed, amplitude, frequency,time, baseY; 
+
 };

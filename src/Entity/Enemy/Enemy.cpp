@@ -4,24 +4,19 @@
 
 Enemy::Enemy() : Entity()
 {
+	//loads enemies png, child class will have to crop
 	defeatPoints = 100;
-	//if NOT loaded
-	if (!(texture->loadFromFile("../res/Enemies.png")))
-		std::cout << "FAILLLL\n";
-	else
-		std::cout << "Successful\n";
-	//allocate memory for sprite, then set texture and position
+	texture = new sf::Texture();
+	if (!texture->loadFromFile("../res/Enemies.png"))
+		std::cout << "Fail loading enemies.png\n";
 	sprite = new sf::Sprite(*texture);
-	sprite->setTexture(*texture);
-	sprite->setPosition(pos);
 
+	tickRate = 12;
 }
 
 
 Enemy::~Enemy()
 {
-	delete texture;
-	delete sprite;
 }
 
 

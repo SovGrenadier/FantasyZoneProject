@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "../../src/Entity/Entity.h"
 #include "../../Animation/Animation.h"
@@ -24,7 +25,8 @@ public:
 	
 	//get methods
 	sf::Sprite* getSprite();
-private:
+protected:
+	unsigned int tickRate;
 	unsigned int defeatPoints;
 
 };

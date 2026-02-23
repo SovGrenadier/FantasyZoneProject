@@ -5,7 +5,7 @@ Player::Player()
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
-	Animation* leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
+	Animation* leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{69,150},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;
 	animations[MOVE_RIGHT] = rightFly;
 	animations[GLIDE_LEFT] = leftFly;
@@ -32,7 +32,7 @@ void Player::update(int input)
 		faceRight = true;
 	if (input == 0b00010000)
 		shoot();
-
+	std::cout << input << std::endl;
 	switch (input)
 	{
 	case 0b00000000:
@@ -51,6 +51,10 @@ void Player::update(int input)
 	case 0b00000001:
 		break;
 	case 0b00000010:
+		faceRight = false;
+		curAction = MOVE_LEFT;
+		tickRate = 6;
+		spriteMov = { -1.2f,0.0f };
 		break;
 	case 0b00000100:
 		break;
@@ -91,7 +95,7 @@ void Player::updateView(int input)
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
 
-	if ((viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))
+	if (!(viewportCatchUp&&!faceRight)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))
 	{
 		leftEdge = true;
 		sprite->setPosition({ viewport->getCenter().x - 80.f,sprite->getPosition().y });
@@ -99,7 +103,7 @@ void Player::updateView(int input)
 	else
 		leftEdge = false;
 
-	if (!viewportCatchUp&&(viewport->getCenter().x + 125) <= ((sprite->getPosition().x+sprite->getGlobalBounds().size.x) + 45.f))
+	if (!(viewportCatchUp&&faceRight)&&(viewport->getCenter().x + 125) <= ((sprite->getPosition().x+sprite->getGlobalBounds().size.x) + 45.f))
 	{
 		rightEdge = true;
 		sprite->setPosition({ viewport->getCenter().x + 79.f - sprite->getGlobalBounds().size.x, sprite->getPosition().y });
@@ -122,9 +126,25 @@ void Player::updateView(int input)
 			viewMov = { 0.8f, 0.0f };
 		if(viewportCatchUp)
 			viewMov = { spriteMov.x * 2,0.0f };
-		std::cout << rightEdge << std::endl;
+		//std::cout << rightEdge << std::endl;
 	}
-
+	else
+	{
+		if (rightEdge)
+		{
+			viewMov = { -0.6f, 0.0f };
+			viewportCatchUp = false;
+		}
+		else if (leftEdge)
+		{
+			viewportCatchUp = true;
+		}
+		else
+			viewMov = { -0.8f, 0.0f };
+		if (viewportCatchUp)
+			viewMov = { spriteMov.x * 2,0.0f };
+		//std::cout << rightEdge << std::endl;
+	}
 	viewport->move(viewMov);
 }
 

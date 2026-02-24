@@ -18,4 +18,7 @@ Entity::~Entity()
 	
 } 
 
-
+void Entity::setPosition(sf::Vector2f newPos)
+{
+	sprite->setPosition(newPos);
+}

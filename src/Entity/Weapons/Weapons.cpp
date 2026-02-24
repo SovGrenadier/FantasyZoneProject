@@ -14,6 +14,7 @@ Weapons::Weapons(sf::Vector2f playerPos)
 	sprite->setPosition(playerPos);	
 	damage = 1;
 	health = 1; 
+	ownWeapon = true;
 }
 
 Weapons::~Weapons()
@@ -25,3 +26,4 @@ void Weapons::update(int input)
 {
 	sprite->move({1.5, 0});
 }
+

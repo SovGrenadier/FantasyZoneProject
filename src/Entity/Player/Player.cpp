@@ -4,7 +4,7 @@ Player::Player()
 {
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
-	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
+	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,39},sf::Vector2i{36,10} });
 	animations[GLIDE_RIGHT] = rightFly;
 	animations[MOVE_RIGHT] = rightFly;
 	sprite->setPosition(sf::Vector2f{ 790.f,109.f });

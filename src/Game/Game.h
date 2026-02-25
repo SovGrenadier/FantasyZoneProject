@@ -31,8 +31,8 @@ private:
 	void drawEntities();
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::RectangleShape hitbox = sf::RectangleShape(sf::Vector2f(16.f, 22.f));	
-	bool checkCollision(); 
-	Bullet* bullet = new Bullet(sf::Vector2f(345.f, 290.f), true);
-	Bottaco* enemy = new Bottaco();
+	void checkCollision(); 
+	//Bullet* bullet = new Bullet(sf::Vector2f(345.f, 290.f), true);
+	Bottaco enemy;
 
 };

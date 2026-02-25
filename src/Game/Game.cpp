@@ -104,14 +104,16 @@ void Game::run()
 
         const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-        bullet->setPosition(mouseCoord); 
-        if(checkCollision())
-			std::cout << "Collision Detected" << std::endl;
+        //bullet->setPosition(mouseCoord); 
+
+        enemy.setPosition(mouseCoord); 
+
+		checkCollision();
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
         window.setView(viewport);
-        window.draw(*backgroundSprite1);
+        //window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
         //window.draw(&(test), 1, sf::PrimitiveType::Points);
         updateEntities();
@@ -138,37 +140,49 @@ void Game::drawEntities()
     }
 }
 
-bool Game::checkCollision()
+void Game::checkCollision()
 {
-	bool collision = false;
-    sf::FloatRect entity1, entity2; 
-    //Collision between player and enemies 
-    for (int i = 1; i < entities->size(); i++)
-    {
-        if (!entities->at(i)->ownWeapon)
-        {
-            entity1 = player.getSprite()->getGlobalBounds();
-            entity2 = entities->at(i)->getSprite()->getGlobalBounds();
+    sf::FloatRect entity1, entity2;
 
-            if (entity1.findIntersection(entity2).has_value())
-                collision = true; 
+
+    for (int i = 0; i < entities->size(); i++)
+    {
+        for(int x=0; x<entities->size(); x++)
+        {
+            if (i != x)
+            {
+                //Check for collisions between player and enemies
+                if (!entities->at(x)->ownWeapon &&
+                    dynamic_cast<Player*>(entities->at(i)) != nullptr)
+                {
+                    entity1 = entities->at(i)->getSprite()->getGlobalBounds();
+                    entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+                    //std::cout << "Player Enemy Collision\n";
+                }
+                else if (entities->at(x)->ownWeapon &&
+                    dynamic_cast<Player*>(entities->at(i)) == nullptr)
+                {
+                    entity1 = entities->at(i)->getSprite()->getGlobalBounds();
+                    entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+                    std::cout << "Weapon Enemy Collision\n";
+                }
+
+
+                if (entity1.findIntersection(entity2).has_value())
+                {
+                    entities->at(x)->takeDamage(entities->at(i)->getDamage());
+                    entities->at(i)->takeDamage(entities->at(x)->getDamage());
+                    std::cout << "Collision\n";
+                }
+            }
+		}
+
+
+        //Remove any enemies that are dead 
+        if (!entities->at(i)->alive)
+        {
+			entities->at(i)->death();
+		    //entities->erase(entities->begin() + i);
         }
     }
-
-    //Check for collisision between the enemies and bullets 
-    for(int i = 1; i<entities->size(); i++)
-    {
-       for(int x=i+1; x<entities->size(); x++)
-       {
-            if(entities->at(i)->ownWeapon && !entities->at(x)->ownWeapon)
-            {
-                entity1 = entities->at(i)->getSprite()->getGlobalBounds();
-                entity2 = entities->at(x)->getSprite()->getGlobalBounds();
-                if (entity1.findIntersection(entity2).has_value())
-					collision = true;
-			}
-	   }
-	}
-
-    return collision; 
 }

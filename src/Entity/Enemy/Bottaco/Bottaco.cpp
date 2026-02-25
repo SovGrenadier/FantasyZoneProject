@@ -14,7 +14,7 @@ Bottaco::Bottaco() : Enemy()
 	animations[curAction] = fly;
 
 	sprite->setTexture(*texture);
-	sprite->setPosition(pos);
+	//sprite->setPosition(pos);
 }
 
 
@@ -32,7 +32,7 @@ void Bottaco::spawn()
 void Bottaco::move()
 {
 	//move logic
-	sprite->setPosition(pos);
+	//sprite->setPosition(pos);
 }
 
 

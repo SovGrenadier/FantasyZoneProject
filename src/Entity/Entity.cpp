@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <iostream>
 std::vector<Entity*> Entity::entities;
 
 Entity::Entity()
@@ -21,4 +22,13 @@ Entity::~Entity()
 void Entity::setPosition(sf::Vector2f newPos)
 {
 	sprite->setPosition(newPos);
+}
+
+void Entity::takeDamage(int damage)
+{
+	health -= damage;
+
+	std::cout << health << std::endl;
+	if (health <= 0)
+		alive = false;
 }

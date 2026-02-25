@@ -40,6 +40,5 @@ private:
 	sf::Vector2f spriteMov;
 	sf::Vector2f viewMov;
 	bool viewportCatchUp = false;
-	bool changeDir = false;
 
 };

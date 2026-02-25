@@ -54,7 +54,7 @@ void Game::run()
                     if (((input % 0b00000100) / 0b00000010) == 0)
                         input += 0b00000010;
                     //if a is pressed and d is pressed a takes priority
-                    if (((input % 0b00010000) / 0b00001000) == 0)
+                    if (((input % 0b00010000) / 0b00001000) == 1)
                         input -= 0b00001000;
                 }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::W)
@@ -63,8 +63,8 @@ void Game::run()
                     if (((input % 0b00000010) / 0b00000001) == 0)
                         input += 0b00000001;
                     //if w and s are pressed w takes priority
-                    if (((input % 0b00010000) / 0b00001000) == 0)
-                        input += 0b00001000;
+                    if (((input % 0b00001000) / 0b00000100) == 1)
+                        input -= 0b00000100;
                 }
             }
             if (event->is<sf::Event::KeyReleased>())
@@ -112,7 +112,7 @@ void Game::run()
         drawEntities();
         window.display();
         tick += 1;
-		std::cout << "Tick: " << tick << std::endl;
+		//std::cout << "Tick: " << tick << std::endl;
     }
 }
 

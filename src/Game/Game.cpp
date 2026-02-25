@@ -32,25 +32,29 @@ void Game::run()
             {
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
                 {
-                    //make sure first bit isn't already set to 1
+                    //make sure fifth bit isn't already set to 1
                     if (((input % 0b00010000) / 0b00001000) == 0)
                         input += 0b00010000;
                 }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
                 {
-                    //make sure first bit isn't already set to 1
+                    //make sure third bit isn't already set to 1
                     if (((input % 0b00001000) / 0b00000100) == 0)
                         input += 0b00000100;
                 }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::D)
                 {
-                    //make sure first bit isn't already set to 1
-                    if (((input % 0b00010000) / 0b00001000) == 0)
-                        input += 0b00001000;
+                    //ensure that a isn't already pressed
+                    if (((input % 0b00000100) / 0b00000010) == 0)
+                    {
+                        //make sure fourth bit isn't already set to 1
+                        if (((input % 0b00010000) / 0b00001000) == 0)
+                            input += 0b00001000;
+                    }
                 }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::A)
                 {
-                    //make sure first bit isn't already set to 1
+                    //make sure second bit isn't already set to 1
                     if (((input % 0b00000100) / 0b00000010) == 0)
                         input += 0b00000010;
                     //if a is pressed and d is pressed a takes priority

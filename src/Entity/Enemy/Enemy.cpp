@@ -17,6 +17,8 @@ Enemy::Enemy() : Entity()
 
 Enemy::~Enemy()
 {
+	delete texture;
+	delete sprite;
 }
 
 
@@ -72,4 +74,5 @@ void Enemy::update(int input)
 void Enemy::death()
 {
 	set_visible = false;
+	set_active = false;
 }

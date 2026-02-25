@@ -17,6 +17,10 @@ public:
 		GLIDE_RIGHT,
 		MOVE_LEFT,
 		MOVE_RIGHT,
+		MOVE_UP_FACE_RIGHT,
+		MOVE_UP_FACE_LEFT,
+		MOVE_DOWN_FACE_RIGHT,
+		MOVE_DOWN_FACE_LEFT,
 	};
 
 	void update(int input) override;
@@ -39,6 +43,12 @@ private:
 	bool leftEdge = false;
 	sf::Vector2f spriteMov;
 	sf::Vector2f viewMov;
-	bool viewportCatchUp = false;
+	//if player hits an edge of the viewport the viewport speeds up
+	bool viewportCatchUpRight = false;
+	bool viewportCatchUpLeft = false;
+	//When the viewport is catching up, if the player changes direction
+	// the viewport stops moving until an edge is hit or the player chenges direction again
+	bool stopRight = false;
+	bool stopLeft = false;
 
 };

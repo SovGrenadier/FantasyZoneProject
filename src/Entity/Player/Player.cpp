@@ -8,8 +8,12 @@ Player::Player()
 	Animation* leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{69,150},sf::Vector2i{36,12} });
 	animations[GLIDE_RIGHT] = rightFly;
 	animations[MOVE_RIGHT] = rightFly;
+	animations[MOVE_UP_FACE_RIGHT] = rightFly;
+	animations[MOVE_DOWN_FACE_RIGHT] = rightFly;
 	animations[GLIDE_LEFT] = leftFly;
 	animations[MOVE_LEFT] = leftFly;
+	animations[MOVE_UP_FACE_LEFT] = leftFly;
+	animations[MOVE_DOWN_FACE_LEFT] = leftFly;
 	sprite->setPosition(sf::Vector2f{ 790.f,109.f });
 	tickRate = 100000;
 }
@@ -32,7 +36,6 @@ void Player::update(int input)
 		faceRight = true;
 	if (input == 0b00010000)
 		shoot();
-	std::cout << input << std::endl;
 	switch (input)
 	{
 	case 0b00000000:
@@ -49,6 +52,25 @@ void Player::update(int input)
 		tickRate = 12;
 		break;
 	case 0b00000001:
+		if (faceRight)
+		{
+			curAction = MOVE_UP_FACE_RIGHT;
+			viewportCatchUpLeft = false;
+			viewportCatchUpRight = false;
+			stopRight = false;
+			stopLeft = false;
+			spriteMov = { viewMov.x,-0.8f };
+		}
+		else
+		{
+			curAction = MOVE_UP_FACE_LEFT;
+			viewportCatchUpLeft = false;
+			viewportCatchUpRight = false;
+			stopRight = false;
+			stopLeft = false;
+			spriteMov = { viewMov.x,-0.8f };
+		}
+		tickRate = 12;
 		break;
 	case 0b00000010:
 		faceRight = false;
@@ -57,6 +79,25 @@ void Player::update(int input)
 		spriteMov = { -1.2f,0.0f };
 		break;
 	case 0b00000100:
+		if (faceRight)
+		{
+			curAction = MOVE_DOWN_FACE_RIGHT;
+			viewportCatchUpLeft = false;
+			viewportCatchUpRight = false;
+			stopRight = false;
+			stopLeft = false;
+			spriteMov = { viewMov.x,0.8f };
+		}
+		else
+		{
+			curAction = MOVE_DOWN_FACE_LEFT;
+			viewportCatchUpLeft = false;
+			viewportCatchUpRight = false;
+			stopRight = false;
+			stopLeft = false;
+			spriteMov = { viewMov.x,0.8f };
+		}
+		tickRate = 12;
 		break;
 	case 0b00001000:
 		faceRight = true;
@@ -95,7 +136,7 @@ void Player::updateView(int input)
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
 
-	if (!(viewportCatchUp&&!faceRight)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))
+	if (!(viewportCatchUpLeft)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))
 	{
 		leftEdge = true;
 		sprite->setPosition({ viewport->getCenter().x - 80.f,sprite->getPosition().y });
@@ -103,7 +144,7 @@ void Player::updateView(int input)
 	else
 		leftEdge = false;
 
-	if (!(viewportCatchUp&&faceRight)&&(viewport->getCenter().x + 125) <= ((sprite->getPosition().x+sprite->getGlobalBounds().size.x) + 45.f))
+	if (!(viewportCatchUpRight)&&(viewport->getCenter().x + 125) <= ((sprite->getPosition().x+sprite->getGlobalBounds().size.x) + 45.f))
 	{
 		rightEdge = true;
 		sprite->setPosition({ viewport->getCenter().x + 79.f - sprite->getGlobalBounds().size.x, sprite->getPosition().y });
@@ -116,35 +157,58 @@ void Player::updateView(int input)
 		if (leftEdge)
 		{
 			viewMov = { 0.6f, 0.0f };
-			viewportCatchUp = false;
+			viewportCatchUpRight = false;
 		}
 		else if (rightEdge)
 		{
-			viewportCatchUp = true;
+			viewportCatchUpLeft = false;
+			viewportCatchUpRight = true;
+			stopRight = false;
 		}
 		else
 			viewMov = { 0.8f, 0.0f };
-		if(viewportCatchUp)
-			viewMov = { spriteMov.x * 2,0.0f };
-		//std::cout << rightEdge << std::endl;
 	}
 	else
 	{
 		if (rightEdge)
 		{
 			viewMov = { -0.6f, 0.0f };
-			viewportCatchUp = false;
+			viewportCatchUpLeft = false;
 		}
 		else if (leftEdge)
 		{
-			viewportCatchUp = true;
+			viewportCatchUpLeft = true;
+			viewportCatchUpRight = false;
+			stopLeft = false;
 		}
 		else
 			viewMov = { -0.8f, 0.0f };
-		if (viewportCatchUp)
-			viewMov = { spriteMov.x * 2,0.0f };
-		//std::cout << rightEdge << std::endl;
 	}
+	if (viewportCatchUpRight && faceRight)
+		viewMov = { spriteMov.x * 2,0.0f };
+	else if (viewportCatchUpLeft && !faceRight)
+		viewMov = { spriteMov.x * 2,0.0f };
+	else if (viewportCatchUpRight && !faceRight)
+	{
+		stopLeft = true;
+		viewportCatchUpRight = false;
+	}
+	else if (viewportCatchUpLeft && faceRight)
+	{
+		stopRight = true;
+		viewportCatchUpLeft = false;
+	}
+	if (stopRight && !faceRight)
+		stopRight = false;
+	else if(stopRight&& faceRight)
+		viewMov = { 0.1f,0.0f };
+
+	if (stopLeft && faceRight)
+		stopLeft = false;
+	else if (stopLeft && !faceRight)
+		viewMov = { -0.1f,0.0f };
+
+
 	viewport->move(viewMov);
 }
 

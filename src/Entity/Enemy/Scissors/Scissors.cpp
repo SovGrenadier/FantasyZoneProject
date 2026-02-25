@@ -7,7 +7,7 @@ Scissors::Scissors(bool isFaceRight) : Enemy()
 	// and charges straight
 	faceRight = isFaceRight;
 	ticks = 13;
-	pos = { 840.f, 90.f };
+	pos = { 840.f, 60.f };
 
 	sf::IntRect zone({ 9, 4 }, { 80, 16 });
 	Animation* fly = new Animation(1,4,zone);
@@ -22,7 +22,7 @@ Scissors::Scissors(bool isFaceRight) : Enemy()
 	//needed for movement
 	speed = .5f;
 	amplitude = 10.f;
-	frequency = 0.1f;
+	frequency = 1.f;
 	time = 0.f;
 	baseY = pos.y;
 
@@ -71,7 +71,7 @@ void Scissors::move()
 void Scissors::update(int input)
 {
 	ticks++;
-	//move();
+	move();
 
 	if (faceRight)
 	{

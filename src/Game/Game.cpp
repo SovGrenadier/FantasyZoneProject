@@ -66,6 +66,9 @@ void Game::run()
                     if (((input % 0b00001000) / 0b00000100) == 1)
                         input -= 0b00000100;
                 }
+                if(event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+                    window.close();
+				
             }
             if (event->is<sf::Event::KeyReleased>())
             {

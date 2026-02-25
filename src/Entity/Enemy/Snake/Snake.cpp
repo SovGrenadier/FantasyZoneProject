@@ -39,7 +39,7 @@ void Snake::spawn()
 
 void Snake::move()
 {
-	//move in a straight line, then charge off screen
+	//moves in a straight line, then charge off screen
 
 	//After 7 seconds, speed increases by 5% every tick
 	sf::Time lifeSpan = sf::seconds(7.f);
@@ -71,5 +71,8 @@ void Snake::update(int input)
 
 void Snake::death()
 {
+	set_visible = false;
+	//run death animation and remove from entities vector
+	
 
 }

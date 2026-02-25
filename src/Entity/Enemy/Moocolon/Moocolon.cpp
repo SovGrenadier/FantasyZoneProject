@@ -6,7 +6,7 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 {
 	faceRight = isFaceRight;
 	ticks = 13;
-	pos = sf::Vector2f{ 840.f,115.f };
+	pos = sf::Vector2f{ 840.f,100.f };
 	//840 is center of screen
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });

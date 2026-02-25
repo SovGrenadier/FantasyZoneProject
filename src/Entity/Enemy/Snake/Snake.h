@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
@@ -26,5 +28,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed;
+	float speed, acceleration;
+	sf::Clock timer;
 };

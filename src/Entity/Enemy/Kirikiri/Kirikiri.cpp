@@ -5,7 +5,7 @@ Kirikiri::Kirikiri(bool isFaceRight) : Enemy()
 {
 	faceRight = isFaceRight;
 	ticks = 12;
-	pos = { 840.f,110.f };
+	pos = { 840.f, 80.f };
 
 	sf::IntRect zone({ 8, 20 }, { 51, 15 });
 	Animation* fly = new Animation(1, 3, zone);

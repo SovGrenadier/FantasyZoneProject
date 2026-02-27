@@ -16,7 +16,8 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	
+	//delete texture;
+	//delete sprite;
 } 
 
  void Entity::death()

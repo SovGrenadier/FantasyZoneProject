@@ -33,7 +33,7 @@ public:
 		*/
 	};
 
-	void spawn() override;
+	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;

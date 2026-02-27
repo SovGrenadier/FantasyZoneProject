@@ -8,7 +8,7 @@ Enemy::Enemy() : Entity()
 	defeatPoints = 100;
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Enemies.png"))
-		std::cout << "Fail loading enemies.png\n";
+		std::cout << "Fail loading Enemies.png\n";
 	sprite = new sf::Sprite(*texture);
 
 	tickRate = 12;
@@ -49,9 +49,11 @@ void Enemy::attack()
 }
 
 
-void Enemy::spawn()
+void Enemy::spawn(sf::Vector2f spawnpos)
 {
-	//spawn logic
+	pos = spawnpos;
+	set_active = true;
+	set_visible = true;
 }
 
 

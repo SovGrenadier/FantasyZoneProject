@@ -27,5 +27,7 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	
+	float centerX, centerY;
+	float amplitudeX, amplitudeY;
+	float time, speed;
 };

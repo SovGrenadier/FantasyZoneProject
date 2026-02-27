@@ -5,6 +5,10 @@
 #include"../Entity/Weapons/Bullet/Bullet.h"
 #include"../Entity/Weapons/Bomb/Bomb.h"
 #include "../Entity/Enemy/Bottaco/Bottaco.h"
+#include "../Entity/Enemy/Moocolon/Moocolon.h"
+#include "../Entity/Enemy/Snake/Snake.h"
+#include "../Entity/Enemy/Scissors/Scissors.h"
+#include "../Entity/Enemy/Kirikiri/Kirikiri.h"
 
 class Game {
 public:
@@ -33,6 +37,12 @@ private:
 	sf::RectangleShape hitbox = sf::RectangleShape(sf::Vector2f(16.f, 22.f));	
 	void checkCollision(); 
 	//Bullet* bullet = new Bullet(sf::Vector2f(345.f, 290.f), true);
-	Bottaco enemy;
+
+	Moocolon* dummy3 = new Moocolon(true);
+	Snake* dummy1 = new Snake(true);
+	Scissors* dummy2 = new Scissors(true); 
+	Kirikiri* dummy4 = new Kirikiri(true);
+	Bottaco* dummy5 = new Bottaco(); 
+	Bullet* bullet = new Bullet(pos, true);
 
 };

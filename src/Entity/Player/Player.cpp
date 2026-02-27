@@ -7,8 +7,9 @@ Player::Player()
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,39},sf::Vector2i{36,10} });
 	animations[GLIDE_RIGHT] = rightFly;
 	animations[MOVE_RIGHT] = rightFly;
-	sprite->setPosition(sf::Vector2f{ 790.f,109.f });
+	sprite->setPosition(sf::Vector2f{ 345.f,109.f });
 	tickRate = 100000;
+	health = 3;
 }
 
 Player::~Player()

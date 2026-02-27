@@ -104,9 +104,9 @@ void Game::run()
 
         const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-        //bullet->setPosition(mouseCoord); 
+        bullet->setPosition(mouseCoord); 
 
-        enemy.setPosition(mouseCoord); 
+        //dummy4->setPosition(mouseCoord); 
 
 		checkCollision();
    
@@ -147,9 +147,10 @@ void Game::checkCollision()
 
     for (int i = 0; i < entities->size(); i++)
     {
+
         for(int x=0; x<entities->size(); x++)
         {
-            if (i != x)
+			if (i != x && entities->at(x)->alive && entities->at(i)->alive)   
             {
                 //Check for collisions between player and enemies
                 if (!entities->at(x)->ownWeapon &&
@@ -157,14 +158,12 @@ void Game::checkCollision()
                 {
                     entity1 = entities->at(i)->getSprite()->getGlobalBounds();
                     entity2 = entities->at(x)->getSprite()->getGlobalBounds();
-                    //std::cout << "Player Enemy Collision\n";
                 }
-                else if (entities->at(x)->ownWeapon &&
-                    dynamic_cast<Player*>(entities->at(i)) == nullptr)
+                else if (entities->at(i)->ownWeapon &&
+                    dynamic_cast<Enemy*>(entities->at(x)) != nullptr)
                 {
                     entity1 = entities->at(i)->getSprite()->getGlobalBounds();
                     entity2 = entities->at(x)->getSprite()->getGlobalBounds();
-                    std::cout << "Weapon Enemy Collision\n";
                 }
 
 
@@ -172,17 +171,16 @@ void Game::checkCollision()
                 {
                     entities->at(x)->takeDamage(entities->at(i)->getDamage());
                     entities->at(i)->takeDamage(entities->at(x)->getDamage());
-                    std::cout << "Collision\n";
+			
                 }
             }
 		}
 
-
         //Remove any enemies that are dead 
         if (!entities->at(i)->alive)
         {
-			entities->at(i)->death();
-		    //entities->erase(entities->begin() + i);
+            entities->at(i)->death();
+            entities->erase(entities->begin() + i);
         }
     }
 }

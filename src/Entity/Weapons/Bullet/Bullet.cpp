@@ -24,7 +24,7 @@ Bullet::~Bullet()
 
 void Bullet::death()
 {
-	//death logic
+	
 }
 
 void Bullet::update(int input)

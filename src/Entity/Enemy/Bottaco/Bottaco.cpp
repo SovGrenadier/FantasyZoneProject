@@ -32,7 +32,7 @@ void Bottaco::spawn()
 void Bottaco::move()
 {
 	//move logic
-	//sprite->setPosition(pos);
+	sprite->setPosition(pos);
 }
 
 

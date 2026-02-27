@@ -27,8 +27,6 @@ void Entity::setPosition(sf::Vector2f newPos)
 void Entity::takeDamage(int damage)
 {
 	health -= damage;
-
-	std::cout << health << std::endl;
 	if (health <= 0)
 		alive = false;
 }

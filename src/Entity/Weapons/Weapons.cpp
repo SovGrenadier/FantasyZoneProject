@@ -13,7 +13,6 @@ Weapons::Weapons(sf::Vector2f playerPos)
 	sprite = new sf::Sprite(*texture);
 	sprite->setPosition(playerPos);	
 	damage = 1;
-	health = 1; 
 	ownWeapon = true;
 }
 

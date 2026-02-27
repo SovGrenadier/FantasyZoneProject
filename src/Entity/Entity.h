@@ -19,7 +19,7 @@ public:
 	bool alive = true;
 
 protected:
-	int health;
+	int health=1;
 	sf::Vector2f pos, velocity;
 	sf::Sprite* sprite;
 	sf::Texture* texture;

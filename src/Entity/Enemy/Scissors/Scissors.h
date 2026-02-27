@@ -1,5 +1,10 @@
 #pragma once
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
+#include <unordered_map>
 #include "../Enemy.h"
+#include "../../../Animation/Animation.h"
+
 
 
 class Scissors : public Enemy
@@ -38,5 +43,7 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed, amplitude, frequency, time, baseY;
+	float amplitude, frequency, time, baseY;
+	float speed, acceleration;
+	sf::Clock timer;
 };

@@ -34,7 +34,7 @@ void Player::update(int input)
 	//a is pressed
 	if (((input % 0b00000100) / 0b00000010) == 1)
 		faceRight = false;
-	//w is pressedz
+	//w is pressed
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
 	if (input == 0b00010000)
@@ -117,8 +117,6 @@ void Player::update(int input)
 		ticks = 0;
 		sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	}
-
-
 }
 
 void Player::updateView(int input)

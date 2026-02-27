@@ -9,7 +9,6 @@ Spawner::~Spawner() {}
 
 void Spawner::update_health(int tick)
 {
-	//check_collision(Entity);
 	if (health <= 0)
 	{
 		death();

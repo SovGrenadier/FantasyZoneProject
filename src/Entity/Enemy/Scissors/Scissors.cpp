@@ -3,11 +3,12 @@
 
 Scissors::Scissors(bool isFaceRight) : Enemy()
 {
-	//moves like sine func, then stops the sine movement
-	// and charges straight
+	timer.restart();
 	faceRight = isFaceRight;
 	ticks = 13;
 	pos = { 840.f, 60.f };
+	acceleration = 1.05f;
+
 
 	sf::IntRect zone({ 9, 4 }, { 80, 16 });
 	Animation* fly = new Animation(1,4,zone);
@@ -49,21 +50,40 @@ void Scissors::spawn()
 void Scissors::move()
 {
 	/*
-	moves up and down like a sine func, then stops at 
-	last point and charges straight
+	* horizontal movement is based off speed
+	* vertical movement is changed via a sine func
+	* After 7 seconds, vertical movement stops
+	* and horizontal movement increases by 5% every tick
 	*/
-	
-	
-	if (faceRight)
-		pos.x += speed;
-	else
-		pos.x -= speed;
 
-	time += 0.05f; 
-
+	
 	float wave = static_cast<float>(sin(time));
-	pos.y = baseY + amplitude * wave;
-
+	
+	sf::Time lifeSpan = sf::seconds(7.f);
+	bool isAlive = true;
+	
+	if (timer.getElapsedTime() >= lifeSpan)
+	{
+		isAlive = false;
+		speed *= acceleration;
+	}
+	if (faceRight && isAlive)
+	{
+		pos.x += speed;
+		pos.y = baseY + amplitude * wave;
+	}
+	else if (!faceRight && isAlive)
+	{
+		pos.x -= speed;
+		pos.y = baseY + amplitude * wave;
+	}
+	else if (faceRight && !isAlive)
+		pos.x += speed;
+	else if (!faceRight && !isAlive)
+		pos.x -= speed;
+	 
+	
+	time += 0.05f;
 	sprite->setPosition(pos);
 }
 

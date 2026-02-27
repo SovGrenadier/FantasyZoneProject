@@ -21,6 +21,9 @@ public:
 		MOVE_UP_FACE_LEFT,
 		MOVE_DOWN_FACE_RIGHT,
 		MOVE_DOWN_FACE_LEFT,
+		WALK_LEFT,
+		WALK_RIGHT,
+		STANDING
 	};
 
 	void update(int input) override;
@@ -43,8 +46,8 @@ private:
 	bool leftEdge = false;
 	sf::Vector2f spriteMov;
 	sf::Vector2f viewMov;
-	sf::IntRect ceiling;
-	sf::IntRect ground;
+	sf::FloatRect ceiling;
+	sf::FloatRect ground;
 	//if player hits an edge of the viewport the viewport speeds up
 	bool viewportCatchUpRight = false;
 	bool viewportCatchUpLeft = false;

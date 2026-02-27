@@ -20,8 +20,8 @@ Player::Player()
 
 Player::~Player()
 {
-	delete texture;
-	delete sprite;
+	//delete texture;
+	//delete sprite;
 }
 
 
@@ -59,7 +59,7 @@ void Player::update(int input)
 			viewportCatchUpRight = false;
 			stopRight = false;
 			stopLeft = false;
-			spriteMov = { viewMov.x,-0.8f };
+			spriteMov = { viewMov.x,-2.0f };
 		}
 		else
 		{
@@ -68,7 +68,7 @@ void Player::update(int input)
 			viewportCatchUpRight = false;
 			stopRight = false;
 			stopLeft = false;
-			spriteMov = { viewMov.x,-0.8f };
+			spriteMov = { viewMov.x,-2.0f };
 		}
 		tickRate = 12;
 		break;
@@ -76,7 +76,7 @@ void Player::update(int input)
 		faceRight = false;
 		curAction = MOVE_LEFT;
 		tickRate = 6;
-		spriteMov = { -1.2f,0.0f };
+		spriteMov = { -2.2f,0.0f };
 		break;
 	case 0b00000100:
 		if (faceRight)
@@ -86,7 +86,7 @@ void Player::update(int input)
 			viewportCatchUpRight = false;
 			stopRight = false;
 			stopLeft = false;
-			spriteMov = { viewMov.x,0.8f };
+			spriteMov = { viewMov.x,2.0f };
 		}
 		else
 		{
@@ -95,7 +95,7 @@ void Player::update(int input)
 			viewportCatchUpRight = false;
 			stopRight = false;
 			stopLeft = false;
-			spriteMov = { viewMov.x,0.8f };
+			spriteMov = { viewMov.x,2.0f };
 		}
 		tickRate = 12;
 		break;
@@ -103,7 +103,7 @@ void Player::update(int input)
 		faceRight = true;
 		curAction = MOVE_RIGHT;
 		tickRate = 6;
-		spriteMov = { 1.2f,0.0f };
+		spriteMov = { 2.2f,0.0f };
 		break;
 	}
 	sprite->move(spriteMov);

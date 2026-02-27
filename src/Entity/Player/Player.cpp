@@ -188,13 +188,13 @@ void Player::updateView(int input)
 	//std::cout <<"Sprite:"<< sprite->getPosition().x<<' '<< sprite->getPosition().y<< std::endl;
 	//std::cout << "viewport:" << viewport->getCenter().x << ' ' << viewport->getCenter().y << std::endl;
 	//viewport goes of left end
-	if ((viewport->getCenter().x - 125) > 31.f&& (viewport->getCenter().x - 125) < 35.f)
+	if ((viewport->getCenter().x - 125) > 29.f&& (viewport->getCenter().x - 125) < 37.f)
 	{
 		viewport->setCenter({ 1049.f+((viewport->getCenter().x)-33.f),101.5f});
 		sprite->setPosition({ sprite->getPosition().x+1049.f-33.f,sprite->getPosition().y });
 	}
 	//viewport goes off right end
-	if ((viewport->getCenter().x - 125) > 1107.f && (viewport->getCenter().x - 125) < 1111.f)
+	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
 	{
 		//std::cout << "test" << std::endl;
 		viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });

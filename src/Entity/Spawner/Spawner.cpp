@@ -19,6 +19,6 @@ void Spawner::spawn_enemy(int tick)
 {
 	if (tick % spawn_rate == 0 && set_active == true) //every 300 frames, spawn an enemy
 	{
-		spawn();
+		spawn(position);
 	}
 }

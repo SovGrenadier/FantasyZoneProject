@@ -6,16 +6,18 @@ Player::Player()
 	sprite = new sf::Sprite(*texture);
 	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
 	Animation* leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{69,150},sf::Vector2i{36,12} });
-	animations[GLIDE_RIGHT] = rightFly;
-	animations[MOVE_RIGHT] = rightFly;
-	animations[MOVE_UP_FACE_RIGHT] = rightFly;
-	animations[MOVE_DOWN_FACE_RIGHT] = rightFly;
-	animations[GLIDE_LEFT] = leftFly;
-	animations[MOVE_LEFT] = leftFly;
-	animations[MOVE_UP_FACE_LEFT] = leftFly;
-	animations[MOVE_DOWN_FACE_LEFT] = leftFly;
-	sprite->setPosition(sf::Vector2f{ 790.f,109.f });
+	animations[Actions::GLIDE_RIGHT] = rightFly;
+	animations[Actions::MOVE_RIGHT] = rightFly;
+	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;
+	animations[Actions::MOVE_DOWN_FACE_RIGHT] = rightFly;
+	animations[Actions::GLIDE_LEFT] = leftFly;
+	animations[Actions::MOVE_LEFT] = leftFly;
+	animations[Actions::MOVE_UP_FACE_LEFT] = leftFly;
+	animations[Actions::MOVE_DOWN_FACE_LEFT] = leftFly;
+	sprite->setPosition({ 790.f,109.f });
 	tickRate = 100000;
+	ceiling.position = { 33, 8 };
+	ceiling.size = { 1348, 6 };
 }
 
 Player::~Player()
@@ -27,6 +29,7 @@ Player::~Player()
 
 void Player::update(int input)
 {
+	//if(ceiling.findIntersection)
 	ticks++;
 	//a is pressed
 	if (((input % 0b00000100) / 0b00000010) == 1)
@@ -41,12 +44,12 @@ void Player::update(int input)
 	case 0b00000000:
 		if (faceRight)
 		{
-			curAction = GLIDE_RIGHT;
+			curAction = Actions::GLIDE_RIGHT;
 			spriteMov = { 0.6f,0.0f };
 		}
 		else
 		{
-			curAction = GLIDE_LEFT;
+			curAction = Actions::GLIDE_LEFT;
 			spriteMov = { -0.6f,0.0f };
 		}
 		tickRate = 12;
@@ -54,7 +57,7 @@ void Player::update(int input)
 	case 0b00000001:
 		if (faceRight)
 		{
-			curAction = MOVE_UP_FACE_RIGHT;
+			curAction = Actions::MOVE_UP_FACE_RIGHT;
 			viewportCatchUpLeft = false;
 			viewportCatchUpRight = false;
 			stopRight = false;
@@ -63,7 +66,7 @@ void Player::update(int input)
 		}
 		else
 		{
-			curAction = MOVE_UP_FACE_LEFT;
+			curAction = Actions::MOVE_UP_FACE_LEFT;
 			viewportCatchUpLeft = false;
 			viewportCatchUpRight = false;
 			stopRight = false;
@@ -74,14 +77,14 @@ void Player::update(int input)
 		break;
 	case 0b00000010:
 		faceRight = false;
-		curAction = MOVE_LEFT;
+		curAction = Actions::MOVE_LEFT;
 		tickRate = 6;
 		spriteMov = { -2.2f,0.0f };
 		break;
 	case 0b00000100:
 		if (faceRight)
 		{
-			curAction = MOVE_DOWN_FACE_RIGHT;
+			curAction = Actions::MOVE_DOWN_FACE_RIGHT;
 			viewportCatchUpLeft = false;
 			viewportCatchUpRight = false;
 			stopRight = false;
@@ -90,7 +93,7 @@ void Player::update(int input)
 		}
 		else
 		{
-			curAction = MOVE_DOWN_FACE_LEFT;
+			curAction = Actions::MOVE_DOWN_FACE_LEFT;
 			viewportCatchUpLeft = false;
 			viewportCatchUpRight = false;
 			stopRight = false;
@@ -101,7 +104,7 @@ void Player::update(int input)
 		break;
 	case 0b00001000:
 		faceRight = true;
-		curAction = MOVE_RIGHT;
+		curAction = Actions::MOVE_RIGHT;
 		tickRate = 6;
 		spriteMov = { 2.2f,0.0f };
 		break;

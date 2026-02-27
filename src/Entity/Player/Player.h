@@ -11,7 +11,7 @@ public:
 	Player();
 	~Player();
 	void getView(sf::View* view) { viewport = view; }
-	enum Actions
+	enum class Actions
 	{
 		GLIDE_LEFT,
 		GLIDE_RIGHT,
@@ -30,7 +30,7 @@ public:
 private:
 	int speed;
 	bool faceRight = true;
-	Actions curAction = GLIDE_RIGHT;
+	Actions curAction = Actions::GLIDE_RIGHT;
 	sf::View* viewport;
 	void shoot();
 	void bomb();
@@ -43,6 +43,8 @@ private:
 	bool leftEdge = false;
 	sf::Vector2f spriteMov;
 	sf::Vector2f viewMov;
+	sf::IntRect ceiling;
+	sf::IntRect ground;
 	//if player hits an edge of the viewport the viewport speeds up
 	bool viewportCatchUpRight = false;
 	bool viewportCatchUpLeft = false;
@@ -50,5 +52,7 @@ private:
 	// the viewport stops moving until an edge is hit or the player chenges direction again
 	bool stopRight = false;
 	bool stopLeft = false;
+	bool hitCeil = false;
+	bool hitFloor = false;
 
 };

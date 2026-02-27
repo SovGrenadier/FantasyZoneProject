@@ -27,8 +27,8 @@ Player::Player()
 
 Player::~Player()
 {
-	//delete texture;
-	//delete sprite;
+	delete texture;
+	delete sprite;
 }
 
 
@@ -110,7 +110,7 @@ void Player::update(int input)
 				viewportCatchUpRight = false;
 				stopRight = false;
 				stopLeft = false;
-				spriteMov = { viewMov.x,-0.8f };
+				spriteMov = { viewMov.x,-2.0f };
 			}
 			else
 			{
@@ -119,7 +119,7 @@ void Player::update(int input)
 				viewportCatchUpRight = false;
 				stopRight = false;
 				stopLeft = false;
-				spriteMov = { viewMov.x,-0.8f };
+				spriteMov = { viewMov.x,-2.0f };
 			}
 			tickRate = 12;
 		}

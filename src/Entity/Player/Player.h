@@ -23,7 +23,8 @@ public:
 		MOVE_DOWN_FACE_LEFT,
 		WALK_LEFT,
 		WALK_RIGHT,
-		STANDING
+		STAND_LEFT,
+		STAND_RIGHT
 	};
 
 	void update(int input) override;
@@ -57,5 +58,12 @@ private:
 	bool stopLeft = false;
 	bool hitCeil = false;
 	bool hitFloor = false;
+	//used to store different animations that will go into the map
+	Animation* rightFly;
+	Animation* leftFly;
+	Animation* walkRight;
+	Animation* walkLeft;
+	Animation* standingRight;
+	Animation* standingLeft;
 
 };

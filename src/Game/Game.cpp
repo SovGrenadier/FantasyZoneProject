@@ -28,6 +28,7 @@ void Game::run()
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+            //check header file to see more info on input
             if (event->is<sf::Event::KeyPressed>())
             {
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)

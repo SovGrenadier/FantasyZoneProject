@@ -4,9 +4,12 @@ Player::Player()
 {
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
-	Animation* rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
-	Animation* leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{69,150},sf::Vector2i{36,12} });
-	Animation* walkRight = new Animation(1, 2, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{36,16} });
+	rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
+	leftFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{69,150},sf::Vector2i{36,12} });
+	walkRight = new Animation(1, 2, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{36,16} });
+	walkLeft = new Animation(1, 2, sf::IntRect{ sf::Vector2i{33,166},sf::Vector2i{36,16} });
+	standingRight = new Animation(1, 1, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{18,16} });
+	standingLeft = new Animation(1, 1, sf::IntRect{ sf::Vector2i{51,166},sf::Vector2i{18,16} });
 	animations[Actions::GLIDE_RIGHT] = rightFly;
 	animations[Actions::MOVE_RIGHT] = rightFly;
 	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;
@@ -16,12 +19,14 @@ Player::Player()
 	animations[Actions::MOVE_UP_FACE_LEFT] = leftFly;
 	animations[Actions::MOVE_DOWN_FACE_LEFT] = leftFly;
 	animations[Actions::WALK_RIGHT] = walkRight;
+	animations[Actions::WALK_LEFT] = walkLeft;
+	animations[Actions::STAND_RIGHT] = standingRight;
 	sprite->setPosition({ 790.f,109.f });
 	tickRate = 100000;
 	ceiling.position = { 33.f, 8.f };
 	ceiling.size = { 1348.f, 6.f };
-	ground.position = { 33.f, 188.f };
-	ground.size = { 1348.f , 6.f };
+	ground.position = { 33.f, 176.f };
+	ground.size = { 1348.f , 60.f };
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 }
 
@@ -29,9 +34,15 @@ Player::~Player()
 {
 	delete texture;
 	delete sprite;
+	delete rightFly;
+	delete leftFly;
+	delete walkRight;
+	delete walkLeft;
+	delete standingRight;
+	delete standingLeft;
 }
 
-
+//don't try to walk to the left
 void Player::update(int input)
 {
 	//check if player hit the ceiling
@@ -49,27 +60,26 @@ void Player::update(int input)
 	//check if player hit the floor
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
-		if (!hitFloor)
-		{
-			sprite->setPosition({ sprite->getPosition().x, ((ground.position.y)-sprite->getGlobalBounds().size.y)});
-			hitFloor = true;
-		}
+		//sprite->setPosition({ sprite->getPosition().x, ((ground.position.y)-sprite->getGlobalBounds().size.y-3)});
+		hitFloor = true;
 	}
 	else
 		hitFloor = false;
-
+	std::cout << hitFloor << std::endl;
 
 	ticks++;
 	//a is pressed
 	if (((input % 0b00000100) / 0b00000010) == 1)
 		faceRight = false;
-	//w is pressed
+	//d is pressed
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
 	if (input == 0b00010000)
 		shoot();
+
 	switch (input)
 	{
+		//nothing is pressed
 	case 0b00000000:
 		if (!hitFloor)
 		{
@@ -89,17 +99,19 @@ void Player::update(int input)
 		{
 			if (faceRight)
 			{
-				curAction = Actions::STANDING;
-				spriteMov = { 0.6f,0.0f };
+				curAction = Actions::STAND_RIGHT;
+				spriteMov = { 0.0f,0.0f };
 			}
 			else
 			{
-				curAction = Actions::STANDING;
-				spriteMov = { -0.6f,0.0f };
+				curAction = Actions::STAND_LEFT;
+				spriteMov = { 0.0f,0.0f };
 			}
 			tickRate = 12;
+			ticks = 12;
 		}
 		break;
+		//w is pressed
 	case 0b00000001:
 		if (!hitCeil)
 		{
@@ -138,38 +150,69 @@ void Player::update(int input)
 			tickRate = 12;
 		}
 		break;
+		//a is pressed
 	case 0b00000010:
 		faceRight = false;
 		curAction = Actions::MOVE_LEFT;
 		tickRate = 6;
 		spriteMov = { -2.2f,0.0f };
 		break;
+		//s is pressed
 	case 0b00000100:
-		if (faceRight)
+		if (!hitFloor)
 		{
-			curAction = Actions::MOVE_DOWN_FACE_RIGHT;
-			viewportCatchUpLeft = false;
-			viewportCatchUpRight = false;
-			stopRight = false;
-			stopLeft = false;
-			spriteMov = { viewMov.x,2.0f };
+			if (faceRight)
+			{
+				curAction = Actions::MOVE_DOWN_FACE_RIGHT;
+				viewportCatchUpLeft = false;
+				viewportCatchUpRight = false;
+				stopRight = false;
+				stopLeft = false;
+				spriteMov = { viewMov.x,2.0f };
+			}
+			else
+			{
+				curAction = Actions::MOVE_DOWN_FACE_LEFT;
+				viewportCatchUpLeft = false;
+				viewportCatchUpRight = false;
+				stopRight = false;
+				stopLeft = false;
+				spriteMov = { viewMov.x,2.0f };
+			}
+			tickRate = 12;
 		}
 		else
 		{
-			curAction = Actions::MOVE_DOWN_FACE_LEFT;
-			viewportCatchUpLeft = false;
-			viewportCatchUpRight = false;
-			stopRight = false;
-			stopLeft = false;
-			spriteMov = { viewMov.x,2.0f };
+			std::cout << "test" << std::endl;
+			if (faceRight)
+			{
+				curAction = Actions::STAND_LEFT;
+				spriteMov = { 0.0f,0.0f };
+			}
+			else
+			{
+				curAction = Actions::STAND_RIGHT;
+				spriteMov = { 0.0f,0.0f };
+			}
+			tickRate = 12;
+			ticks = 12;
 		}
-		tickRate = 12;
 		break;
+		//d is pressed
 	case 0b00001000:
 		faceRight = true;
-		curAction = Actions::MOVE_RIGHT;
-		tickRate = 6;
-		spriteMov = { 2.2f,0.0f };
+		if (!hitFloor)
+		{
+			curAction = Actions::MOVE_RIGHT;
+			tickRate = 6;
+			spriteMov = { 2.2f,0.0f };
+		}
+		else
+		{
+			curAction = Actions::WALK_RIGHT;
+			tickRate = 6;
+			spriteMov = { 2.2f,0.0f };
+		}
 		break;
 	}
 	sprite->move(spriteMov);
@@ -178,8 +221,11 @@ void Player::update(int input)
 	{
 		//reset to 0 so ticks doesn't get to large
 		ticks = 0;
-		if(curAction!=Actions::STANDING)
-			sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+		sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+	}
+	if (hitFloor)
+	{
+		sprite->setPosition({ sprite->getPosition().x, ((ground.position.y) - sprite->getGlobalBounds().size.y + 1) });
 	}
 }
 
@@ -200,7 +246,7 @@ void Player::updateView(int input)
 		viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
-
+	//player hits the left edge of the viewport
 	if (!(viewportCatchUpLeft)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))
 	{
 		leftEdge = true;
@@ -208,7 +254,7 @@ void Player::updateView(int input)
 	}
 	else
 		leftEdge = false;
-
+	//player hits the right edge of the viewport
 	if (!(viewportCatchUpRight)&&(viewport->getCenter().x + 125) <= ((sprite->getPosition().x+sprite->getGlobalBounds().size.x) + 45.f))
 	{
 		rightEdge = true;
@@ -219,35 +265,45 @@ void Player::updateView(int input)
 
 	if (faceRight)
 	{
+		//viewport moves same speed as player
 		if (leftEdge)
 		{
-			viewMov = { 0.6f, 0.0f };
+			viewMov = { spriteMov.x, 0.0f };
 			viewportCatchUpRight = false;
 		}
+		//viewport must catch up and move faster
 		else if (rightEdge)
 		{
 			viewportCatchUpLeft = false;
 			viewportCatchUpRight = true;
 			stopRight = false;
 		}
+		//viewport moves faster than player glide slower than player sprint
 		else
+		{
 			viewMov = { 0.8f, 0.0f };
+		}
 	}
 	else
 	{
+		//viewport moves same speed as player
 		if (rightEdge)
 		{
-			viewMov = { -0.6f, 0.0f };
+			viewMov = { spriteMov.x, 0.0f };
 			viewportCatchUpLeft = false;
 		}
+		//viewport must catch up and move faster
 		else if (leftEdge)
 		{
 			viewportCatchUpLeft = true;
 			viewportCatchUpRight = false;
 			stopLeft = false;
 		}
+		//viewport moves faster than player glide slower than player sprint
 		else
+		{
 			viewMov = { -0.8f, 0.0f };
+		}
 	}
 	if (viewportCatchUpRight && faceRight)
 		viewMov = { spriteMov.x * 2,0.0f };

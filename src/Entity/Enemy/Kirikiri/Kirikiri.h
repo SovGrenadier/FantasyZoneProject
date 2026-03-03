@@ -16,7 +16,7 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn();
+	void spawn(sf::Vector2f);
 	void move() override;
 	void update(int) override;
 	void death() override;

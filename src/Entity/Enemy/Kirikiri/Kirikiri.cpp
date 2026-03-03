@@ -5,7 +5,7 @@ Kirikiri::Kirikiri(bool isFaceRight) : Enemy()
 {
 	faceRight = isFaceRight;
 	ticks = 12;
-	pos = { 840.f, 80.f };
+	pos = { 700.f, 25.f };
 
 	sf::IntRect zone({ 8, 20 }, { 51, 15 });
 	Animation* fly = new Animation(1, 3, zone);
@@ -24,9 +24,9 @@ Kirikiri::~Kirikiri()
 }
 
 
-void Kirikiri::spawn()
+void Kirikiri::spawn(sf::Vector2f spawnpos)
 {
-
+	pos = spawnpos;
 }
 
 
@@ -36,7 +36,7 @@ void Kirikiri::move()
 }
 
 
-void Kirikiri::update(int)
+void Kirikiri::update(int) 
 {
 	ticks++;
 	move();

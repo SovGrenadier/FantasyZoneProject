@@ -26,5 +26,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	sf::Vector2f speed;
 
 };

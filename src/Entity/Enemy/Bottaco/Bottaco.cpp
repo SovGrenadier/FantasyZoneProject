@@ -1,11 +1,11 @@
 #include "Bottaco.h"
 
 
-Bottaco::Bottaco(bool isFaceRight) : Enemy()
+Bottaco::Bottaco() : Enemy()
 {
-	faceRight = isFaceRight;
+	faceRight = false;
 	ticks = 13;
-	pos = { 840.f, 30.f };
+	pos = { 840.f, 75.f };
 
 	sf::IntRect zone({ 10, 55}, { 63, 20});
 	Animation* fly = new Animation(1, 3, zone);
@@ -15,10 +15,9 @@ Bottaco::Bottaco(bool isFaceRight) : Enemy()
 
 	sprite->setTexture(*texture);
 	sprite->setPosition(pos);
-	
-	speed = .05f;
-	amplitudeX = 10.f;
-	amplitudeY = 5.f;
+
+	amplitudeX = 120.f;
+	amplitudeY = 80.f;
 	time = 0.f;
 	centerX = pos.x;
 	centerY = pos.y;
@@ -50,17 +49,13 @@ void Bottaco::move()
 	//moves like a figure 8/infinity symbol
 	//parametric equations
 
-	float xMovement = static_cast<float>(sin(time*2));
-	float yMovement = static_cast<float>(sin(time));
+	float sine = static_cast<float>(sin(time));
+	float cosine = static_cast<float>(cos(time));
 
-	if (faceRight)
-	{
-		pos.x = centerX + amplitudeX * xMovement;
-		pos.y = centerY + amplitudeY * yMovement;
-	}
+	pos.x = centerX + amplitudeX * sine;
+	pos.y = centerY + amplitudeY * sine * cosine;
 
-
-	time += 0.05f;
+	time += 0.05;
 	sprite->setPosition(pos);
 	
 }

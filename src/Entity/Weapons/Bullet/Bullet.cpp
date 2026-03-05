@@ -4,7 +4,7 @@
 Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 {
 
-	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,22},sf::Vector2i{8,16}});
+	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{14,28},sf::Vector2i{6,7}});
 
 	if (faceRight)
 	{
@@ -24,10 +24,11 @@ Bullet::~Bullet()
 
 void Bullet::death()
 {
-	//death logic
+	
 }
 
 void Bullet::update(int input)
 {
 	sprite->move({ speed, 0 });
 }
+

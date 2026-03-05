@@ -8,7 +8,7 @@
 class Bottaco : public Enemy
 {
 public:
-	Bottaco(bool isFaceRight);
+	Bottaco();
 	~Bottaco();
 	        
 	enum Actions
@@ -29,5 +29,5 @@ private:
 	bool faceRight;
 	float centerX, centerY;
 	float amplitudeX, amplitudeY;
-	float time, speed;
+	float time;
 };

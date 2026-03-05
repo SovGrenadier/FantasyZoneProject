@@ -10,6 +10,7 @@
 #include "../Entity/Enemy/Scissors/Scissors.h"
 #include "../Entity/Enemy/Kirikiri/Kirikiri.h"
 #include "../Entity/Spawner/Spawner.h"
+#include "../Entity/Shop/Shop.h"
 
 
 class Game {
@@ -45,4 +46,5 @@ private:
 	//Kirikiri* dummy4 = new Kirikiri(true);
 	Bottaco* dummy5 = new Bottaco(true);
 	Spawner* spawner1 = new Spawner();
+	Shop* shop = new Shop();
 };

@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <iostream>
 std::vector<Entity*> Entity::entities;
 
 Entity::Entity()
@@ -20,6 +21,13 @@ Entity::~Entity()
 	//delete sprite;
 } 
 
+
+void Entity::takeDamage(int damage)
+{
+	health -= damage;
+	if (health <= 0)
+		alive = false;
+}
  void Entity::death()
 {
 	 set_visible = false;

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "../Animation/Animation.h"
 
 class Entity
 {
@@ -10,18 +11,25 @@ public:
 	std::vector<Entity*>* getEntities() { return &entities; }
 	sf::Sprite* getSprite() { return sprite; }
 	virtual void update(int input) = 0;
+	bool ownWeapon = false;
+	void takeDamage(int); 
+	int getDamage() { return damage;}
+	bool alive = true;
+
 	virtual void death();
 
 	int ticks = 0;
 	
 protected:
-	int health;
+	int health=1;
 	sf::Vector2f pos, velocity;
 	sf::Sprite* sprite;
 	sf::Texture* texture;
+	int damage = 1; 
 	bool set_visible; //if false, the entity does not show on screen
 	bool set_active; //if false, the entity does not update
 
 private:
 	static std::vector<Entity*> entities;
+	
 };

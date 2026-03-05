@@ -8,11 +8,11 @@ Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 
 	if (faceRight)
 	{
-		speed = 1.5f;
+		speed = 7.5f;
 	}
 	else
 	{
-		speed = -1.5f;
+		speed = -7.5f;
 	}
 }
 

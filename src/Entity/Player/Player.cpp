@@ -21,6 +21,7 @@ Player::Player()
 	animations[Actions::WALK_RIGHT] = walkRight;
 	animations[Actions::WALK_LEFT] = walkLeft;
 	animations[Actions::STAND_RIGHT] = standingRight;
+	animations[Actions::STAND_LEFT] = standingLeft;
 	sprite->setPosition({ 790.f,109.f });
 	tickRate = 100000;
 	ceiling.position = { 33.f, 8.f };
@@ -65,7 +66,6 @@ void Player::update(int input)
 	}
 	else
 		hitFloor = false;
-	std::cout << hitFloor << std::endl;
 
 	ticks++;
 	//a is pressed
@@ -74,8 +74,25 @@ void Player::update(int input)
 	//d is pressed
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
-	if (input == 0b00010000)
+
+	if (((input % 0b01000000) / 0b00100000) == 1 && bombingTicks >= 8)
+	{
+		bomb();
+		bombingTicks = 0;
+	}
+	else if (bombingTicks < 8)
+		bombingTicks++;
+
+
+	if (((input % 0b00100000) / 0b00010000) == 1 && shootingTicks >= 12)
+	{
 		shoot();
+		shootingTicks = 0;
+	}
+	else if (shootingTicks < 12)
+		shootingTicks++;
+
+	
 
 	switch (input)
 	{
@@ -149,13 +166,23 @@ void Player::update(int input)
 			}
 			tickRate = 12;
 		}
+		hitFloor = false;
 		break;
 		//a is pressed
 	case 0b00000010:
 		faceRight = false;
-		curAction = Actions::MOVE_LEFT;
-		tickRate = 6;
-		spriteMov = { -2.2f,0.0f };
+		if (!hitFloor)
+		{
+			curAction = Actions::MOVE_LEFT;
+			tickRate = 6;
+			spriteMov = { -2.2f,0.0f };
+		}
+		else
+		{
+			curAction = Actions::WALK_LEFT;
+			tickRate = 6;
+			spriteMov = { -2.2f,0.0f };
+		}
 		break;
 		//s is pressed
 	case 0b00000100:
@@ -183,15 +210,14 @@ void Player::update(int input)
 		}
 		else
 		{
-			std::cout << "test" << std::endl;
 			if (faceRight)
 			{
-				curAction = Actions::STAND_LEFT;
+				curAction = Actions::STAND_RIGHT;
 				spriteMov = { 0.0f,0.0f };
 			}
 			else
 			{
-				curAction = Actions::STAND_RIGHT;
+				curAction = Actions::STAND_LEFT;
 				spriteMov = { 0.0f,0.0f };
 			}
 			tickRate = 12;
@@ -213,6 +239,68 @@ void Player::update(int input)
 			tickRate = 6;
 			spriteMov = { 2.2f,0.0f };
 		}
+		break;
+		//w and d is pressed
+	case 0b00001001:
+		if (!hitCeil)
+		{
+			curAction = Actions::MOVE_UP_FACE_RIGHT;
+			spriteMov = { 2.2f,-2.0f };
+		}
+		else
+		{
+			curAction = Actions::MOVE_RIGHT;
+			spriteMov = { 2.2f,0.0f };
+		}
+		tickRate = 6;
+		hitFloor = false;
+		faceRight = true;
+		break;
+		//s and d is pressed
+	case 0b00001100:
+		if (!hitFloor)
+		{
+				curAction = Actions::MOVE_DOWN_FACE_RIGHT;
+				spriteMov = { 2.2f,2.0f };
+		}
+		else
+		{
+				curAction = Actions::WALK_RIGHT;
+				spriteMov = { 2.2f,0.0f };
+		}
+		tickRate = 6;
+		faceRight = true;
+		break;
+		//w and a is pressed
+	case 0b00000011:
+		if (!hitCeil)
+		{
+			curAction = Actions::MOVE_UP_FACE_LEFT;
+			spriteMov = { -2.2f,-2.0f };
+		}
+		else
+		{
+			curAction = Actions::MOVE_LEFT;
+			spriteMov = { -2.2f,0.0f };
+		}
+		tickRate = 6;
+		hitFloor = false;
+		faceRight = false;
+		break;
+		//s and a is pressed
+	case 0b00000110:
+		if (!hitFloor)
+		{
+			curAction = Actions::MOVE_DOWN_FACE_LEFT;
+			spriteMov = { -2.2f,2.0f };
+		}
+		else
+		{
+			curAction = Actions::WALK_LEFT;
+			spriteMov = { -2.2f,0.0f };
+		}
+		tickRate = 6;
+		faceRight = false;
 		break;
 	}
 	sprite->move(spriteMov);
@@ -262,7 +350,7 @@ void Player::updateView(int input)
 	}
 	else
 		rightEdge = false;
-
+	//to-do: fix viewport when player changes direction during a viewport catchup
 	if (faceRight)
 	{
 		//viewport moves same speed as player
@@ -339,13 +427,14 @@ void Player::death()
 
 }
 
-
+//to-do: need to come up with away to delete bullets when created
 void Player::shoot()
 {
-	//Bullet x(pos);
+	new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y }, faceRight);
+	std::cout << "shoot" << std::endl;
 }
 
 void Player::bomb()
 {
-
+	std::cout << "bomb" << std::endl;
 }

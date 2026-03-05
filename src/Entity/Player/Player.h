@@ -65,5 +65,7 @@ private:
 	Animation* walkLeft;
 	Animation* standingRight;
 	Animation* standingLeft;
+	int shootingTicks = 0;
+	int bombingTicks = 0;
 
 };

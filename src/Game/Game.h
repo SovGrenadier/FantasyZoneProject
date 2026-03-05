@@ -31,9 +31,10 @@ private:
 	* The third bit will represent if s is pressed
 	* The fourth bit will represent if d is pressed
 	* the fifth bit will represent if x is pressed
+	* the sixth bit will represent if z is pressed
 	* */
 	int input = 0b00000000;
-
+	//we need to deallocate bullets and bombs from this vector 
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();
@@ -44,5 +45,5 @@ private:
 	Moocolon* dummy3 = new Moocolon(true);
 	Kirikiri* dummy4 = new Kirikiri(true);
 	Bottaco* dummy5 = new Bottaco;
-	Shop* shop = new Shop();
+	//Shop* shop = new Shop();
 };

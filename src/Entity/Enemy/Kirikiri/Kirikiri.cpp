@@ -6,7 +6,7 @@ Kirikiri::Kirikiri(bool isFaceRight) : Enemy()
 	//same speed as player
 	faceRight = isFaceRight;
 	ticks = 12;
-	pos = { 700f, 25.f };
+	pos = { 700.f, 25.f };
 	speed.x = 0.6f;
 	
 	

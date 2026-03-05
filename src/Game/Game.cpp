@@ -34,8 +34,14 @@ void Game::run()
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
                 {
                     //make sure fifth bit isn't already set to 1
-                    if (((input % 0b00010000) / 0b00001000) == 0)
+                    if (((input % 0b00100000) / 0b00010000) == 0)
                         input += 0b00010000;
+                }
+                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+                {
+                    //make sure fifth bit isn't already set to 1
+                    if (((input % 0b01000000) / 0b00100000) == 0)
+                        input += 0b00100000;
                 }
                 if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
                 {
@@ -103,9 +109,15 @@ void Game::run()
                 }
                 if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
                 {
-                    //make sure first bit isn't already set to 1
-                    if (((input % 0b00010000) / 0b00001000) == 1)
+                    //make sure first bit isn't already set to 0
+                    if (((input % 0b00100000) / 0b00010000) == 1)
                         input -= 0b00010000;
+                }
+                if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
+                {
+                    //make sure first bit isn't already set to 0
+                    if (((input % 0b01000000) / 0b00100000) == 1)
+                        input -= 0b00100000;
                 }
             }
         }

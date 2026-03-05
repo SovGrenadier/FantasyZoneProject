@@ -3,18 +3,24 @@
 
 Bottaco::Bottaco() : Enemy()
 {
-	//faceRight = isFaceRight;
+	faceRight = false;
 	ticks = 13;
-	pos = { 840.f, 30.f };
+	pos = { 840.f, 75.f };
 
-	sf::IntRect zone({10, 55}, {63, 20});
+	sf::IntRect zone({ 10, 55}, { 63, 20});
 	Animation* fly = new Animation(1, 3, zone);
 
 	curAction = FLY_RIGHT;
 	animations[curAction] = fly;
 
 	sprite->setTexture(*texture);
-	//sprite->setPosition(pos);
+	sprite->setPosition(pos);
+
+	amplitudeX = 120.f;
+	amplitudeY = 80.f;
+	time = 0.f;
+	centerX = pos.x;
+	centerY = pos.y;
 }
 
 
@@ -25,14 +31,33 @@ Bottaco::~Bottaco()
 
 void Bottaco::spawn()
 {
-	//comes out of spawners
+	//Two different formations
+	/*
+	1st Formation:
+	one enemy enters from both side of ths screen,
+	they come towards the middle following the
+	figure 8 shape, then go off screen
+	2nd Formation:
+	a column of 4 enemy appears from one side of the screen
+	follow the same movement
+	*/
 }
 
 
 void Bottaco::move()
 {
-	//move logic
+	//moves like a figure 8/infinity symbol
+	//parametric equations
+
+	float sine = static_cast<float>(sin(time));
+	float cosine = static_cast<float>(cos(time));
+
+	pos.x = centerX + amplitudeX * sine;
+	pos.y = centerY + amplitudeY * sine * cosine;
+
+	time += 0.05;
 	sprite->setPosition(pos);
+	
 }
 
 

@@ -17,7 +17,7 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn() override;
+	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -27,5 +27,4 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed, amplitude, frequency,time, baseY; 
 };

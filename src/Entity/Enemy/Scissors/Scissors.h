@@ -1,5 +1,10 @@
 #pragma once
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
+#include <unordered_map>
 #include "../Enemy.h"
+#include "../../../Animation/Animation.h"
+
 
 
 class Scissors : public Enemy
@@ -14,7 +19,21 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn() override;
+	enum Formation
+	{
+		VERTICAL,
+		HORIZONTAL
+
+		/*
+		vertical is when there is a 1x3 formation of enemies
+		near the bottom and near the top of the screen.
+
+		horizontal is when near the middle of the screen there 
+		is a 2x3 formation of enemies, like a rectangle
+		*/
+	};
+
+	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -24,4 +43,7 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	float amplitude, frequency, time, baseY;
+	float speed, acceleration;
+	sf::Clock timer;
 };

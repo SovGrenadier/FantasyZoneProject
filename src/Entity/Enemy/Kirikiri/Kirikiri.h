@@ -16,7 +16,7 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn() override;
+	void spawn(sf::Vector2f);
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -26,5 +26,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	sf::Vector2f speed;
 
 };

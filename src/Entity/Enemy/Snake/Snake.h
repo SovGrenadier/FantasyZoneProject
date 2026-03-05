@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
@@ -6,7 +9,7 @@
 class Snake : public Enemy
 {
 public:
-	Snake(bool isFacingRight);
+	Snake(bool isFaceRight);
 	~Snake();
 
 	enum Actions
@@ -15,7 +18,7 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn() override;
+	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -25,4 +28,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	float speed, acceleration;
+	sf::Clock timer;
 };

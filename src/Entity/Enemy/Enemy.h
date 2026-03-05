@@ -13,10 +13,9 @@ public:
 	//takes position of enemy and determines if it is on screen
 	//if returns false, (offscreen), despawn/death
 	bool isOnScreen(sf::View &viewport);
-	
-	virtual void attack();
 
-	virtual void spawn();
+	virtual void attack();
+	virtual void spawn(sf::Vector2f);
 	virtual void move();
 	
 	//inherited methods

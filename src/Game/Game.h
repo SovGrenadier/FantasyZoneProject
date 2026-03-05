@@ -9,6 +9,8 @@
 #include "../Entity/Enemy/Snake/Snake.h"
 #include "../Entity/Enemy/Scissors/Scissors.h"
 #include "../Entity/Enemy/Kirikiri/Kirikiri.h"
+#include "../Entity/Shop/Shop.h"
+
 
 class Game {
 public:
@@ -21,6 +23,7 @@ private:
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
 	sf::View viewport;
+
 	Player player;
 	/*this binary int will represent input
 	* The first bit will represent if w is pressed
@@ -30,19 +33,16 @@ private:
 	* the fifth bit will represent if x is pressed
 	* */
 	int input = 0b00000000;
+
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
-	sf::RectangleShape hitbox = sf::RectangleShape(sf::Vector2f(16.f, 22.f));	
-	void checkCollision(); 
-	//Bullet* bullet = new Bullet(sf::Vector2f(345.f, 290.f), true);
-
-	Moocolon* dummy3 = new Moocolon(true);
+	
 	Snake* dummy1 = new Snake(true);
-	Scissors* dummy2 = new Scissors(true); 
+	Scissors* dummy2 = new Scissors(true);
+	Moocolon* dummy3 = new Moocolon(true);
 	Kirikiri* dummy4 = new Kirikiri(true);
-	Bottaco* dummy5 = new Bottaco(); 
-	Bullet* bullet = new Bullet(pos, true);
-
+	Bottaco* dummy5 = new Bottaco;
+	Shop* shop = new Shop();
 };

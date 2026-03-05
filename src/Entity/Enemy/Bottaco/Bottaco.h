@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 
+
 class Bottaco : public Enemy
 {
 public:
@@ -16,7 +17,7 @@ public:
 		FLY_LEFT
 	};
 
-	void spawn() override;
+	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -26,5 +27,7 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-
+	float centerX, centerY;
+	float amplitudeX, amplitudeY;
+	float time;
 };

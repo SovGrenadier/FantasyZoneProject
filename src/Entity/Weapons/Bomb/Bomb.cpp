@@ -15,7 +15,8 @@ Bomb::~Bomb()
 
 void Bomb::death()
 {
-	//death logic
+	set_active = false;
+	set_visible = false;
 }
 
 void Bomb::update(int input)

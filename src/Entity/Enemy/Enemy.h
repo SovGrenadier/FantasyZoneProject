@@ -21,11 +21,14 @@ public:
 	//inherited methods
 	void update(int input) override;
 	void death() override;
-	
+
+	//methods for spawner counting
+	int spawnerCount = 0;
+	void addSpawner();
+
 	//get methods
 	sf::Sprite* getSprite();
 protected:
 	unsigned int tickRate;
 	unsigned int defeatPoints;
-
 };

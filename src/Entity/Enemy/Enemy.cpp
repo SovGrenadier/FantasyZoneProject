@@ -78,3 +78,8 @@ void Enemy::death()
 	set_visible = false;
 	set_active = false;
 }
+
+void Enemy::addSpawner()
+{
+	spawnerCount++;
+}

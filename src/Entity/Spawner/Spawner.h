@@ -12,7 +12,7 @@ public:
 
 	*/
 
-	void spawnEnemy(int);
+    void spawnEnemy(int);
 	void updateHealth(int); //runs every tick, checks for damage
 	void update();
 	sf::Vector2f position{ 800.f, 25.f };

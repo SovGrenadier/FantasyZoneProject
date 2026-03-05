@@ -122,10 +122,18 @@ void Game::run()
             }
         }
 
+        const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
+        const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
+        bullet->setPosition(mouseCoord); 
+
+        //dummy4->setPosition(mouseCoord); 
+
+		checkCollision();
+   
         //viewport.move({ 2.0f,0.0f });
         window.clear();
         window.setView(viewport);
-        window.draw(*backgroundSprite1);
+        //window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
         //window.draw(&(test), 1, sf::PrimitiveType::Points);
         updateEntities();
@@ -150,5 +158,50 @@ void Game::drawEntities()
     for (int i{}; i < entities->size(); i++)
     {
         window.draw(*((entities->at(i))->getSprite()));
+    }
+}
+
+void Game::checkCollision()
+{
+    sf::FloatRect entity1, entity2;
+
+
+    for (int i = 0; i < entities->size(); i++)
+    {
+
+        for(int x=0; x<entities->size(); x++)
+        {
+			if (i != x && entities->at(x)->alive && entities->at(i)->alive)   
+            {
+                //Check for collisions between player and enemies
+                if (!entities->at(x)->ownWeapon &&
+                    dynamic_cast<Player*>(entities->at(i)) != nullptr)
+                {
+                    entity1 = entities->at(i)->getSprite()->getGlobalBounds();
+                    entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+                }
+                else if (entities->at(i)->ownWeapon &&
+                    dynamic_cast<Enemy*>(entities->at(x)) != nullptr)
+                {
+                    entity1 = entities->at(i)->getSprite()->getGlobalBounds();
+                    entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+                }
+
+
+                if (entity1.findIntersection(entity2).has_value())
+                {
+                    entities->at(x)->takeDamage(entities->at(i)->getDamage());
+                    entities->at(i)->takeDamage(entities->at(x)->getDamage());
+			
+                }
+            }
+		}
+
+        //Remove any enemies that are dead 
+        if (!entities->at(i)->alive)
+        {
+            entities->at(i)->death();
+            entities->erase(entities->begin() + i);
+        }
     }
 }

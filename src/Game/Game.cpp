@@ -149,6 +149,7 @@ void Game::updateEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
+        //implement check if entity is active before updating
         (entities->at(i))->update(input);
     }
 }
@@ -157,6 +158,7 @@ void Game::drawEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
+        //implement check if entity is visible before drawing
         window.draw(*((entities->at(i))->getSprite()));
     }
 }

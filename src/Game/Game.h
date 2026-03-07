@@ -45,7 +45,7 @@ private:
 	Scissors* dummy2 = new Scissors(true);
 	Moocolon* dummy3 = new Moocolon(true);
 	//Kirikiri* dummy4 = new Kirikiri(true);
-	Bottaco* dummy5 = new Bottaco(true);
+	Bottaco* dummy5 = new Bottaco;
 	Spawner* spawner1 = new Spawner();
-	Shop* shop = new Shop();
+	//Shop* shop = new Shop();
 };

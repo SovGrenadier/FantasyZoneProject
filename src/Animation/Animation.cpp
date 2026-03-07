@@ -55,3 +55,10 @@ sf::IntRect* Animation::nextFrame()
 	else
 		return &frames.at(curFrame - 1);
 }
+
+
+void Animation::addFrame(const sf::IntRect& frame)
+{
+	frames.push_back(frame);
+	frameNum = frames.size();
+}

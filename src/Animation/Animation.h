@@ -15,6 +15,7 @@ public:
 	sf::IntRect* nextFrame();
 	//when cycling frames use this method to set the start frame
 	void setFrame(int frame) { curFrame = frame; }
+	void addFrame(const sf::IntRect& frame);
 private:
 	unsigned int curFrame,frameNum;
 	//holds all frames

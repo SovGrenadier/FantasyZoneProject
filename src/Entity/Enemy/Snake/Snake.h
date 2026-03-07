@@ -18,6 +18,7 @@ public:
 		FLY_LEFT
 	};
 
+
 	void spawn();
 	void move() override;
 	void update(int) override;
@@ -25,9 +26,12 @@ public:
 
 	sf::Sprite* getSprite() { return sprite; }
 	std::unordered_map<Actions, Animation*> animations;
+	std::vector <sf::IntRect> deathFrames;
 private:
 	Actions curAction;
 	bool faceRight;
 	float speed, acceleration;
-	sf::Clock timer;
+	sf::Clock timer; //after time, charge off screen
+	int curDeathFrame;
+	sf::Vector2f deathPos; 
 };

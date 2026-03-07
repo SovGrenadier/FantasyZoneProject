@@ -8,18 +8,24 @@ class Entity
 public:
 	Entity();
 	~Entity();
+	
+	void takeDamage(int); 
+	
+	//getter methods
 	std::vector<Entity*>* getEntities() { return &entities; }
 	sf::Sprite* getSprite() { return sprite; }
-	virtual void update(int input) = 0;
-	bool ownWeapon = false;
-	void takeDamage(int); 
 	int getDamage() { return damage;}
-	bool alive = true;
+	bool getVisible() { return set_visible; }
 
-	virtual void death();
+	//bools
+	bool alive = true;
+	bool ownWeapon = false;
+
+	//abstract methods
+	virtual void update(int input) = 0;
+	virtual void death() = 0;
 
 	int ticks = 0;
-	
 protected:
 	int health=1;
 	sf::Vector2f pos, velocity;

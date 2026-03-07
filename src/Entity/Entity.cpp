@@ -28,8 +28,3 @@ void Entity::takeDamage(int damage)
 	if (health <= 0)
 		alive = false;
 }
- void Entity::death()
-{
-	 set_visible = false;
-	 set_active = false;
-}

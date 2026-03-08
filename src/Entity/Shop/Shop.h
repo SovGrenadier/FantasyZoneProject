@@ -23,4 +23,5 @@ private:
 	sf::Sprite* cursorSprite; 
 	sf::Sprite* shopSprite;
 	sf::Sprite* exitSprite;
+	bool usedThisLevel;
 };

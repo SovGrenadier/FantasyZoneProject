@@ -3,6 +3,8 @@
 
 Shop::Shop()
 {
+	curState = NOT_ACTIVE;
+	
 	//appears on screen after two destroyed spawners
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Shop.png"))
@@ -16,19 +18,23 @@ Shop::Shop()
 	//the exit button
 	exitSprite = new sf::Sprite(*texture);
 	exitSprite->setTextureRect({ {30,169},{40,16} });
+	sf::FloatRect bounds = exitSprite->getLocalBounds();
+	exitSprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y });
+
 	sprite->setPosition({ 790.f, 25.f });
+	exitSprite->setPosition({ 790.f, 180.f });
+
+	usedThisLevel = false;
+	set_visible = false;
 }
 
 
 Shop::~Shop()
 {
-
-
-
-
-	delete shopSprite;
+	delete sprite;
 	delete cursorSprite;
 	delete exitSprite;
+	delete texture;
 }
 
 
@@ -37,23 +43,33 @@ void Shop::update(int input)
 	switch (curState)
 	{
 	case NOT_ACTIVE:
-
+		if(/*player has enough money &&*/ !usedThisLevel)
+			curState = FLYING;
 		break;
 	case FLYING:
-
+		set_visible = true;
+		//if collision with player
+		//curState = BUY_PHASE;
+		//else player never collides and shop despawns
+		//curState = NOT_ACTIVE;
+		//usedThisLevel = true;
 		break;
 	case BUY_PHASE:
-		cursorPos = {};
+		
 		switch(input)
 		{
 
 		}
 
 
-
+		//when exit button is pressed
+		//go to parts select
+		curState = PARTS_SELECT;
 		break;
 	case PARTS_SELECT:
-
+		
+		//after selecting parts and exit
+		curState = NOT_ACTIVE;
 		break;
 	}
 }

@@ -53,17 +53,52 @@ void Kirikiri::move()
 void Kirikiri::update(int) 
 {
 	ticks++;
+	if (!alive)
+	{
+		if (ticks >= tickRate)
+		{
+			ticks = 0;
+
+			if (curDeathFrame >= deathFrames.size())
+				set_visible = false;
+
+			else
+			{
+				//change sprite
+				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				//set origin
+				sf::FloatRect bounds = sprite->getLocalBounds();
+				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+				//set position back regardless of change due to origin
+				sprite->setPosition(deathPos);
+				//advance to next death frame
+				curDeathFrame++;
+			}
+		}
+		return;
+		//exit method so sprite doesn't get updated further
+	}
 	move();
 	if (ticks >= tickRate)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
-
+		
+		sf::FloatRect bounds = sprite->getLocalBounds();
+		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
+
+	if (faceRight)
+		sprite->setScale({ 1.f,1.f });
+	else
+		sprite->setScale({ -1.f,1.f });
+
+	sprite->setPosition(pos);
 }
 
 
 void Kirikiri::death()
 {
-
+	alive = false;
+	deathPos = pos;
 }

@@ -4,10 +4,12 @@
 
 Moocolon::Moocolon(bool isFaceRight) : Enemy()
 {
+	timer.restart();
 	faceRight = isFaceRight;
 	ticks = 13;
 	pos = sf::Vector2f{ 840.f,100.f };
-	//840 is center of screen
+	speed = 0.6f;
+	
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
 	Animation* fly = new Animation(1, 2, zone);
@@ -20,8 +22,8 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 
 	//set sprite
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(*fly->getFrame(0));
 	sprite->setPosition(pos);
-
 }
 
 
@@ -46,15 +48,50 @@ void Moocolon::spawn()
 
 void Moocolon::move()
 {
-	
+	if (faceRight)
+		pos.x += speed;
+	else
+		pos.x -= speed;
 }
 
 
 void Moocolon::update(int input)
 {
 	ticks++;
-	move();
+	if (!alive)
+	{
+		if (ticks >= tickRate)
+		{
+			ticks = 0;
 
+			if (curDeathFrame >= deathFrames.size())
+				set_visible = false;
+
+			else
+			{
+				//change sprite
+				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				//set origin
+				sf::FloatRect bounds = sprite->getLocalBounds();
+				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+				//set position back regardless of change due to origin
+				sprite->setPosition(deathPos);
+				//advance to next death frame
+				curDeathFrame++;
+			}
+		}
+		return;
+		//exit method so sprite doesn't get updated further
+	}
+	move();
+	if (ticks >= tickRate)
+	{
+		ticks = 0;
+		sprite->setTextureRect(*animations[curAction]->nextFrame());
+
+		sf::FloatRect bounds = sprite->getLocalBounds();
+		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+	}
 	if (faceRight)
 	{
 		//flip sprite so its facing right
@@ -75,12 +112,11 @@ void Moocolon::update(int input)
 
 	sprite->setPosition(pos);
 
-
-	
 }
 
 
 void Moocolon::death()
 {
-	set_visible = false;
+	alive = false;
+	deathPos = pos;
 }

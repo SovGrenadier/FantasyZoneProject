@@ -39,13 +39,15 @@ private:
 	std::vector<Entity*>* entities;
 	void updateEntities();
 	void drawEntities();
+	void checkCollision();
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	
-	Snake* dummy1 = new Snake(true);
-	Scissors* dummy2 = new Scissors(true);
-	Moocolon* dummy3 = new Moocolon(true);
-	//Kirikiri* dummy4 = new Kirikiri(true);
-	Bottaco* dummy5 = new Bottaco;
+	Snake* snakeDummy = new Snake(true);
+	Snake* snakeDummy2 = new Snake(false);
+	Scissors* scissorsDummy= new Scissors(true);
+	Moocolon* moocolonDummy = new Moocolon(true);
+	//Kirikiri* kiriDummy = new Kirikiri(true);
+	Bottaco* bottacoDummy = new Bottaco;
 	Spawner* spawner1 = new Spawner();
 	//Shop* shop = new Shop();
 };

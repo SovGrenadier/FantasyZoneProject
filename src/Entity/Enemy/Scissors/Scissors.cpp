@@ -9,9 +9,9 @@ Scissors::Scissors(bool isFaceRight) : Enemy()
 	pos = { 840.f, 60.f };
 	acceleration = 1.05f;
 
-
 	sf::IntRect zone({ 9, 4 }, { 80, 16 });
 	Animation* fly = new Animation(1,4,zone);
+
 
 	if (faceRight)
 		curAction = FLY_RIGHT;
@@ -21,9 +21,8 @@ Scissors::Scissors(bool isFaceRight) : Enemy()
 	animations[curAction] = fly;
 
 	//needed for movement
-	speed = .5f;
+	speed = .6f;
 	amplitude = 10.f;
-	frequency = 1.f;
 	time = 0.f;
 	baseY = pos.y;
 
@@ -56,7 +55,6 @@ void Scissors::move()
 	* and horizontal movement increases by 5% every tick
 	*/
 
-	
 	float wave = static_cast<float>(sin(time));
 	
 	sf::Time lifeSpan = sf::seconds(7.f);
@@ -91,8 +89,39 @@ void Scissors::move()
 void Scissors::update(int input)
 {
 	ticks++;
-	move();
+	if (!alive)
+	{
+		if (ticks >= tickRate)
+		{
+			ticks = 0;
 
+			if (curDeathFrame >= deathFrames.size())
+				set_visible = false;
+			else
+			{
+				//change sprite
+				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				//setOrigin
+				sf::FloatRect bounds = sprite->getLocalBounds();
+				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+				//set position back regardless of change due to origin
+				sprite->setPosition(deathPos);
+				//advance to next death frame
+				curDeathFrame++;
+			}
+		}
+		return;
+		//exit method so sprite doesn't get updated further
+	}
+	move();
+	if (ticks >= tickRate)
+	{
+		ticks = 0;
+		sprite->setTextureRect(*animations[curAction]->nextFrame());
+		
+		sf::FloatRect bounds = sprite->getLocalBounds();
+		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+	}
 	if (faceRight)
 	{
 		//flip sprite so its facing right
@@ -103,17 +132,14 @@ void Scissors::update(int input)
 		//flip sprite so its facing left
 		sprite->setScale({ -1.f,1.f });
 	}
-	if (ticks >= tickRate)
-	{
-		ticks = 0;
-		sprite->setTextureRect(*animations[curAction]->nextFrame());
-	}
-
+	
 	sprite->setPosition(pos);
 }
 
 
 void Scissors::death()
 {
-
+	alive = false;
+	deathPos = pos;
+	
 }

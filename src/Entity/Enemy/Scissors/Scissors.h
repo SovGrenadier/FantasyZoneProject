@@ -43,7 +43,7 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float amplitude, frequency, time, baseY;
+	float amplitude, time, baseY;
 	float speed, acceleration;
 	sf::Clock timer;
 };

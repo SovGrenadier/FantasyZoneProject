@@ -33,5 +33,5 @@ protected:
 	unsigned int tickRate;
 	unsigned int curDeathFrame;
 	unsigned int defeatPoints;
-	
+	sf::Vector2f deathPos;
 };

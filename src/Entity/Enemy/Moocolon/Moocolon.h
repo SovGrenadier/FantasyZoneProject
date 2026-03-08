@@ -1,4 +1,6 @@
 #pragma once
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 #include <unordered_map>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
@@ -27,4 +29,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
+	float speed;
+	sf::Clock timer;
 };

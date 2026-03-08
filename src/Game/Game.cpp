@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
+    window = sf::RenderWindow(sf::VideoMode({ 1920, 1080 }), "Fantasy Zone", sf::State::Fullscreen);
     background1.loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png");
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
@@ -124,6 +124,7 @@ void Game::run()
 
         const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
+        std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
         bullet->setPosition(mouseCoord); 
 
         //dummy4->setPosition(mouseCoord); 

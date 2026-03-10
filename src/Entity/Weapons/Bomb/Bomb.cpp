@@ -22,7 +22,7 @@ void Bomb::death()
 	set_active = false;
 	set_visible = false;
 }
-
+//equation to get bomb motion is 25*0.5x^2
 void Bomb::update(int input)
 {
 	sprite->move({ 0, 1.5 });

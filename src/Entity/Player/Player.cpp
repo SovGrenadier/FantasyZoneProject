@@ -331,6 +331,8 @@ void Player::update(int input)
 	}
 }
 
+
+//to-do: Fix viewport catchup after 1 catchup
 void Player::updateView(int input)
 {
 	//std::cout <<"Sprite:"<< sprite->getPosition().x<<' '<< sprite->getPosition().y<< std::endl;

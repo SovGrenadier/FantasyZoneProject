@@ -4,7 +4,7 @@
 Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 {
 
-	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{14,28},sf::Vector2i{6,7}});
+	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,26},sf::Vector2i{7,9}});
 
 	if (faceRight)
 	{

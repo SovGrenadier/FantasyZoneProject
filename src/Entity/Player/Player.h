@@ -11,7 +11,6 @@ class Player : public Entity
 public:
 	Player();
 	~Player();
-	//void getView(sf::View* view) { viewport = view; }
 	enum class Actions
 	{
 		GLIDE_LEFT,
@@ -36,7 +35,6 @@ private:
 	int speed;
 	bool faceRight = true;
 	Actions curAction = Actions::GLIDE_RIGHT;
-	//sf::View* viewport;
 	void shoot();
 	void bomb();
 	void updateView(int input);

@@ -430,7 +430,7 @@ void Player::death()
 //to-do: need to come up with away to delete bullets when created
 void Player::shoot()
 {
-	new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y }, faceRight);
+	new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y+4 }, faceRight);
 	std::cout << "shoot" << std::endl;
 }
 

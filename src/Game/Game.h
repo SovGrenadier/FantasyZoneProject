@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include<string>
 #include<iostream>
+#include"../Entity/Entity.h"
 #include "../Entity/Player/Player.h"
 #include"../Entity/Weapons/Bullet/Bullet.h"
 #include"../Entity/Weapons/Bomb/Bomb.h"

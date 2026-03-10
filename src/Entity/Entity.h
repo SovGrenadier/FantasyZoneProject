@@ -16,7 +16,7 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
-
+	void getView(sf::View* view);
 	//bools
 	bool alive = true;
 	bool ownWeapon = false;
@@ -34,6 +34,7 @@ protected:
 	int damage = 1; 
 	bool set_visible; //if false, the entity does not show on screen
 	bool set_active; //if false, the entity does not update
+	static sf::View* viewport;
 
 private:
 	static std::vector<Entity*> entities;

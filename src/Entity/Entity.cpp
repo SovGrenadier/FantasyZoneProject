@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <iostream>
 std::vector<Entity*> Entity::entities;
+sf::View* Entity::viewport;
 
 Entity::Entity()
 {
@@ -27,4 +28,9 @@ void Entity::takeDamage(int damage)
 	health -= damage;
 	if (health <= 0)
 		alive = false;
+}
+
+void Entity::getView(sf::View* view) 
+{ 
+	viewport = view;
 }

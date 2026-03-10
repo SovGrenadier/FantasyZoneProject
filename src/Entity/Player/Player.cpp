@@ -75,22 +75,34 @@ void Player::update(int input)
 	if (((input % 0b00010000) / 0b00001000) == 1)
 		faceRight = true;
 
-	if (((input % 0b01000000) / 0b00100000) == 1 && bombingTicks >= 8)
+	if (((input % 0b01000000) / 0b00100000) == 1)
 	{
-		bomb();
-		bombingTicks = 0;
+		if (bombingTicks >= 36)
+		{
+			bomb();
+			bombingTicks = 0;
+		}
+		else
+			bombingTicks++;
+		input -= 0b00100000;
 	}
-	else if (bombingTicks < 8)
-		bombingTicks++;
+	else if (bombingTicks < 36)
+		bombingTicks=36;
 
 
-	if (((input % 0b00100000) / 0b00010000) == 1 && shootingTicks >= 12)
+	if (((input % 0b00100000) / 0b00010000) == 1)
 	{
-		shoot();
-		shootingTicks = 0;
+		if (shootingTicks >= 6)
+		{
+			shoot();
+			shootingTicks = 0;
+		}
+		else
+			shootingTicks++;
+		input -= 0b00010000;
 	}
-	else if (shootingTicks < 12)
-		shootingTicks++;
+	else if (shootingTicks < 6)
+		shootingTicks=6;
 
 	
 
@@ -430,11 +442,18 @@ void Player::death()
 //to-do: need to come up with away to delete bullets when created
 void Player::shoot()
 {
-	new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y+4 }, faceRight);
+	if(faceRight)
+		new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y+4 }, faceRight);
+	else
+		new Bullet({ sprite->getPosition().x+5,   sprite->getPosition().y + 4 }, faceRight);
 	std::cout << "shoot" << std::endl;
 }
 
 void Player::bomb()
 {
+	if (faceRight)
+		new Bomb({ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+	else
+		new Bomb({ sprite->getPosition().x + 5,   sprite->getPosition().y + 4 }, faceRight);
 	std::cout << "bomb" << std::endl;
 }

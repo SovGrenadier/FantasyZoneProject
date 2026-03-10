@@ -2,6 +2,7 @@
 #include"../Entity.h"
 #include"../../Animation/Animation.h"
 #include"../Weapons/Bullet/Bullet.h"
+#include"../Weapons/Bomb/Bomb.h"
 #include<unordered_map>
 #include<iostream>
 
@@ -10,7 +11,7 @@ class Player : public Entity
 public:
 	Player();
 	~Player();
-	void getView(sf::View* view) { viewport = view; }
+	//void getView(sf::View* view) { viewport = view; }
 	enum class Actions
 	{
 		GLIDE_LEFT,
@@ -35,7 +36,7 @@ private:
 	int speed;
 	bool faceRight = true;
 	Actions curAction = Actions::GLIDE_RIGHT;
-	sf::View* viewport;
+	//sf::View* viewport;
 	void shoot();
 	void bomb();
 	void updateView(int input);

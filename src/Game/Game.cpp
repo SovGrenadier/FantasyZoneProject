@@ -21,7 +21,7 @@ Game::~Game()
 void Game::run()
 {
     
-    window.setFramerateLimit(50);
+    window.setFramerateLimit(60);
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())

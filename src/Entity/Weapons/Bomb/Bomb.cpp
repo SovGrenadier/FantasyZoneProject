@@ -1,10 +1,14 @@
 #include "Bomb.h"
 
 
-Bomb::Bomb(sf::Vector2f playerPos) : Weapons(playerPos)	
+Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)	
 {
 	damage = 5;
-	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{62,6},sf::Vector2i{6,6} });
+	direction = faceRight;
+	if(direction)
+		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{62,28},sf::Vector2i{9,7} });
+	else
+		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{43,141},sf::Vector2i{9,7} });
 }
 
 

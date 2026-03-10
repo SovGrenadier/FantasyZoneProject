@@ -49,6 +49,6 @@ private:
 	Moocolon* moocolonDummy = new Moocolon(true);
 	//Kirikiri* kiriDummy = new Kirikiri(true);
 	Bottaco* bottacoDummy = new Bottaco;
-	Spawner* spawner1 = new Spawner();
+
 	//Shop* shop = new Shop();
 };

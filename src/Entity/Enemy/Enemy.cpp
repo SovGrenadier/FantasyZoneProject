@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "../Spawner/Spawner.h"
 #include <iostream>
 
 
@@ -78,6 +79,10 @@ void Enemy::update(int input)
 {
 	move();
 	ticks += 1;
+	if (!(spawnerCount >= 5))
+	{
+		addSpawner();
+	}
 }
 
 
@@ -89,5 +94,6 @@ void Enemy::death()
 
 void Enemy::addSpawner()
 {
+	Spawner* spawner = new Spawner();
 	spawnerCount++;
 }

@@ -150,8 +150,8 @@ void Game::updateEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
-        //implement check if entity is active before updating
-        (entities->at(i))->update(input);
+		if ((entities->at(i))->getActive())
+            (entities->at(i))->update(input);
     }
 }
 
@@ -159,15 +159,14 @@ void Game::drawEntities()
 {
     for (int i{}; i < entities->size(); i++)
     {
-        //implement check if entity is visible before drawing
-        window.draw(*((entities->at(i))->getSprite()));
+		if ((entities->at(i))->getVisible())
+            window.draw(*((entities->at(i))->getSprite()));
     }
 }
 
 void Game::checkCollision()
 {
     sf::FloatRect entity1, entity2;
-
 
     for (int i = 0; i < entities->size(); i++)
     {
@@ -201,7 +200,7 @@ void Game::checkCollision()
 		}
 
         //Remove any enemies that are dead 
-        if (!entities->at(i)->alive)
+        if (!entities->at(i)->getActive())
         {
             entities->at(i)->death();
             entities->erase(entities->begin() + i);

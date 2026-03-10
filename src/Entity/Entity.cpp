@@ -26,5 +26,5 @@ void Entity::takeDamage(int damage)
 {
 	health -= damage;
 	if (health <= 0)
-		alive = false;
+		set_active = false;
 }

@@ -22,8 +22,7 @@ public:
 	void update(int input) override;
 	void death() override;
 
-	//methods for spawner counting
-	int spawnerCount = 0;
+	//method for spawner counting
 	void addSpawner();
 
 	//get methods
@@ -33,5 +32,6 @@ protected:
 	unsigned int tickRate;
 	unsigned int curDeathFrame;
 	unsigned int defeatPoints;
+	int spawnerCount = 0;
 	sf::Vector2f deathPos;
 };

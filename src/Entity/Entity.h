@@ -16,6 +16,7 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
+	bool getActive() { return set_active; }
 
 	//bools
 	bool alive = true;

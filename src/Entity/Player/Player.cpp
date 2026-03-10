@@ -2,6 +2,9 @@
 
 Player::Player()
 {
+	set_active = true;
+	set_visible = true;
+
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
@@ -84,15 +87,14 @@ void Player::update(int input)
 		bombingTicks++;
 
 
-	if (((input % 0b00100000) / 0b00010000) == 1 && shootingTicks >= 12)
+	if (((input % 0b00100000) / 0b00010000) == 1 && shootingTicks >= 6)
 	{
 		shoot();
 		shootingTicks = 0;
 	}
-	else if (shootingTicks < 12)
+	else if (shootingTicks < 6)
 		shootingTicks++;
 
-	
 
 	switch (input)
 	{

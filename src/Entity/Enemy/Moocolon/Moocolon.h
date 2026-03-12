@@ -26,9 +26,15 @@ public:
 
 	sf::Sprite* getSprite() { return sprite; }
 	std::unordered_map<Actions, Animation*> animations;
+	sf::Vector2f getPosition() { return pos; }
 private:
 	Actions curAction;
 	bool faceRight;
+	float amplitude, centerY, time;
 	float speed;
 	sf::Clock timer;
+	bool bounce, bounceTwice;
+	unsigned int bounceIndex, bounceCount;
+	float previousY;
+
 };

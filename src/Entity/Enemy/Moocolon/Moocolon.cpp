@@ -8,7 +8,6 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 	faceRight = isFaceRight;
 	ticks = 13;
 	pos = sf::Vector2f{ 840.f,100.f };
-	speed = 0.6f;
 	
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
@@ -18,6 +17,17 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 	else
 		curAction = FLY_LEFT;
 	animations[curAction] = fly;
+
+
+	centerY = pos.y;
+	speed = 0.6f;
+	amplitude = 25.f;
+	time = 0.f;
+	bounceIndex = 0;
+	previousY = pos.y;
+	bounce = false;
+	bounceTwice == false;
+	bounceCount = 0;
 
 
 	//set sprite
@@ -48,10 +58,53 @@ void Moocolon::spawn()
 
 void Moocolon::move()
 {
+	if (bounceCount == 2)
+	{
+		if ((previousY < centerY + 0.5f) && (previousY > centerY - 0.5f))
+			if (faceRight)
+				pos.x += speed;
+			else
+				pos.x -= speed;
+		return;
+	}
+	float wave = static_cast<float>(sin(time));
+
 	if (faceRight)
 		pos.x += speed;
 	else
 		pos.x -= speed;
+
+
+	if(previousY < (centerY + amplitude * wave)) //if moocolon y pos decreasing
+		if ((previousY < centerY + 0.5f) && (previousY > centerY - 0.5f)) 
+		{ // if moocolon pos y is in range of centerY
+			bounceIndex++;
+			if (bounceIndex % 2 == 0)
+			{
+				bounce = true;
+				bounceCount++;
+			}
+		}
+
+	if (bounce)
+		time *= -1.f;
+	else
+		time *= 1.f;
+
+	pos.y = centerY + amplitude * wave;
+	bounce = false;
+
+	if (time == 0.f)
+		if (faceRight)
+			time += 0.05f;
+		else
+			time -= 0.05f;
+	else if (time > 0.f)
+		time += 0.05f;
+	else if (time < 0.f)
+		time -= 0.05f;
+	sprite->setPosition(pos);
+	previousY = pos.y;
 }
 
 

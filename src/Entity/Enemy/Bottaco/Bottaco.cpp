@@ -69,7 +69,6 @@ void Bottaco::update(int input)
 		if (ticks >= tickRate)
 		{
 			ticks = 0;
-			death();
 
 			if (curDeathFrame >= deathFrames.size())
 				set_visible = false;
@@ -102,7 +101,5 @@ void Bottaco::update(int input)
 void Bottaco::death()
 {
 	alive = false;
-	set_active = false;
-	set_visible = false;
 	deathPos = pos;
 }

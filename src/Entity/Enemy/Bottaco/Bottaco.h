@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 
-
 class Bottaco : public Enemy
 {
 public:

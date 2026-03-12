@@ -22,9 +22,6 @@ public:
 	void update(int input) override;
 	void death() override;
 
-	//method for spawner counting
-	void addSpawner();
-
 	//get methods
 	sf::Sprite* getSprite();
 protected:

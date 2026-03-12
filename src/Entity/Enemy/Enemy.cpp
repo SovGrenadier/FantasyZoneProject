@@ -79,10 +79,6 @@ void Enemy::update(int input)
 {
 	move();
 	ticks += 1;
-	if (!(spawnerCount >= 5))
-	{
-		addSpawner();
-	}
 }
 
 
@@ -90,10 +86,4 @@ void Enemy::death()
 {
 	set_visible = false;
 	set_active = false;
-}
-
-void Enemy::addSpawner()
-{
-	Spawner* spawner = new Spawner();
-	spawnerCount++;
 }

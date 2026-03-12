@@ -450,7 +450,6 @@ void Player::shoot()
 		new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y+4 }, faceRight);
 	else
 		new Bullet({ sprite->getPosition().x+5,   sprite->getPosition().y + 4 }, faceRight);
-	std::cout << "shoot" << std::endl;
 }
 
 void Player::bomb()
@@ -459,5 +458,4 @@ void Player::bomb()
 		new Bomb({ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
 	else
 		new Bomb({ sprite->getPosition().x + 5,   sprite->getPosition().y + 4 }, faceRight);
-	std::cout << "bomb" << std::endl;
 }

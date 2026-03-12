@@ -20,9 +20,3 @@ Weapons::~Weapons()
 {
 
 }
-
-void Weapons::update(int input)
-{
-	sprite->move({1.5, 0});
-}
-

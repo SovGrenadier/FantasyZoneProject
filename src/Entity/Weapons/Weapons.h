@@ -8,5 +8,5 @@ class Weapons : public Entity
 public: 
 	Weapons(sf::Vector2f);
 	~Weapons();
-	void update(int input) override;
+	void update(int input) = 0;
 };

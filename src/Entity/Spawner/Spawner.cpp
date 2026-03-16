@@ -6,8 +6,8 @@ Spawner::Spawner(int spawnerCount) : Enemy()
 {
 	std::cout << "Test";
 	health = 20;
-	//sf::Vector2f spawnerLocs[5] = { { 800, 32 },{ 800, 150 },{ 800, 275 },{ 800, 400 },{ 800, 500 } };
-	//position = spawnerLocs[spawnerCount];
+	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 800, 150 },{ 800, 275 },{ 800, 400 },{ 800, 500 } };
+	position = spawnerLocs[spawnerCount];
 
 	set_visible = true;
 	set_active = true;
@@ -18,10 +18,9 @@ Spawner::Spawner(int spawnerCount) : Enemy()
 		std::cout << "Fail loading Enemies.png\n";
 	sprite = new sf::Sprite(*texture);
 
-	sf::IntRect zone({ 135, 365 }, { 182, 389 });
-	sprite->setTextureRect(zone);
-
+	sf::IntRect zone({ 75, 406 }, { 48, 25 });
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(zone);
 	sprite->setPosition(position);
 
 	std::cout << "Spawner created at " << position.x << ", " << position.y << "\n";

@@ -133,6 +133,7 @@ void Game::run()
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
+        checkCollision();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
@@ -205,6 +206,13 @@ void Game::checkCollision()
             entities->at(i)->death();
             entities->erase(entities->begin() + i);
             i--;
+        }
+
+        if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
+        {
+            std::cout << (entities->at(i)->getSprite())->getPosition().x<< std::endl;
+            std::cout << (entities->at(i)->getSprite())->getPosition().y << std::endl;
+            std::cout << "break" << std::endl;
         }
     }
 }

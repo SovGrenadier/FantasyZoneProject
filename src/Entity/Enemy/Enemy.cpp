@@ -77,7 +77,6 @@ void Enemy::move()
 
 void Enemy::update(int input)
 {
-	move();
 	ticks += 1;
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../src/Entity/Weapons/Bullet/Bullet.h"
+#include "../Entity/Weapons/Bullet/Bullet.h"
 
 class Leaf : public Bullet
 {

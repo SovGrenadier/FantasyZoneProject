@@ -12,7 +12,7 @@
 #include "../Entity/Enemy/Kirikiri/Kirikiri.h"
 #include "../Entity/Spawner/Spawner.h"
 #include "../Entity/Shop/Shop.h"
-//#include "../Entity/Weapons/Bullet/Leaf.h"
+#include "../Entity/Weapons/Bullet/Leaf.h"
 
 class Game {
 public:
@@ -49,11 +49,13 @@ private:
 	Moocolon* moocolonDummy = new Moocolon(true);
 	Kirikiri* kiriDummy = new Kirikiri(true, pos);
 	Bottaco* bottacoDummy = new Bottaco;
+	/*
 	Spawner* spawnerDummy = new Spawner(0);
 	Spawner* spawnerDummy2 = new Spawner(1);
 	Spawner* spawnerDummy3 = new Spawner(2);
 	Spawner* spawnerDummy4 = new Spawner(3);
 	Spawner* spawnerDummy5 = new Spawner(4);
-	//Leaf 
+	*/
+	Leaf* leafDummy = new Leaf(pos);
 	//Shop* shop = new Shop();
 };

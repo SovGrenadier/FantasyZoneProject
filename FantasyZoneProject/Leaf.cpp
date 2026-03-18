@@ -1,5 +1,4 @@
 #include "Leaf.h"
-#include "../res/Levels/Round 1 wrapped with spawner locs.png"
 #include <iostream>
 #include <time.h>
 

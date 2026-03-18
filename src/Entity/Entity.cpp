@@ -27,7 +27,7 @@ void Entity::takeDamage(int damage)
 {
 	health -= damage;
 	if (health <= 0)
-		alive = false;
+		death();
 }
 
 void Entity::getView(sf::View* view) 

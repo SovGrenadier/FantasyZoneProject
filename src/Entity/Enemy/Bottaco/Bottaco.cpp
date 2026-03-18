@@ -71,7 +71,10 @@ void Bottaco::update(int input)
 			ticks = 0;
 
 			if (curDeathFrame >= deathFrames.size())
+			{
+				set_active = false;
 				set_visible = false;
+			}
 			else
 			{
 				//change sprite

@@ -66,23 +66,7 @@ void Enemy::spawn(sf::Vector2f spawnpos)
 }
 
 
-void Enemy::move()
-{
-	pos += velocity;
-	sprite->setPosition(pos);
-
-	
-}
-
-
 void Enemy::update(int input)
 {
 	ticks += 1;
-}
-
-
-void Enemy::death()
-{
-	set_visible = false;
-	set_active = false;
 }

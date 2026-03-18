@@ -14,7 +14,6 @@
 #include "../Entity/Shop/Shop.h"
 //#include "../Entity/Weapons/Bullet/Leaf.h"
 
-
 class Game {
 public:
 	Game();

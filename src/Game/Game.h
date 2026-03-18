@@ -47,7 +47,7 @@ private:
 	Snake* snakeDummy2 = new Snake(false);
 	Scissors* scissorsDummy = new Scissors(true);
 	Moocolon* moocolonDummy = new Moocolon(true);
-	//Kirikiri* kiriDummy = new Kirikiri(true);
+	Kirikiri* kiriDummy = new Kirikiri(true);
 	Bottaco* bottacoDummy = new Bottaco;
 	Spawner* spawnerDummy = new Spawner(0);
 	//Shop* shop = new Shop();

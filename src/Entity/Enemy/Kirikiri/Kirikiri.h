@@ -7,7 +7,7 @@
 class Kirikiri : public Enemy
 {
 public:
-	Kirikiri(bool isFaceRight);
+	Kirikiri(bool isFaceRight, sf::Vector2f pos);
 	~Kirikiri();
 
 	enum Actions

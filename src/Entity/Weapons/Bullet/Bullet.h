@@ -11,4 +11,5 @@ public:
 	void death() override;
 private:
 	float speed; 
+	float viewPos;
 };

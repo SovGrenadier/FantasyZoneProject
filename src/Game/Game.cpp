@@ -1,9 +1,11 @@
 #include<../../src/Game/Game.h>
+#include <iostream>
 
 Game::Game()
 {
     window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
-    background1.loadFromFile("../res/Levels/Round 1 Wrapped.png");
+    if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
+        std::cout << "Error loading Round 1 Wrapped.png";
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
@@ -128,7 +130,7 @@ void Game::run()
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
-        //checkCollision();
+        checkCollision();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };

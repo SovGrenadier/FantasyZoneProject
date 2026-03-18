@@ -61,7 +61,10 @@ void Kirikiri::update(int)
 			ticks = 0;
 
 			if (curDeathFrame >= deathFrames.size())
+			{
+				set_active = false;
 				set_visible = false;
+			}
 
 			else
 			{

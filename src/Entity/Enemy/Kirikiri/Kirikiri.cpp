@@ -10,10 +10,12 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f pos) : Enemy()
 	
 	
 	sf::IntRect zone({ 8, 20 }, { 51, 15 });
-	Animation* fly = new Animation(1, 3, zone);
+	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
+	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
 
 	curAction = FLY_RIGHT;
-	animations[curAction] = fly;
+	animations[curAction] = flyRight;
+	animations[FLY_LEFT] = flyLeft;
 
 	sprite->setTexture(*texture);
 	sprite->setPosition(pos);

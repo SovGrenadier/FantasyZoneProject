@@ -13,7 +13,6 @@
 #include "../Entity/Spawner/Spawner.h"
 #include "../Entity/Shop/Shop.h"
 
-
 class Game {
 public:
 	Game();

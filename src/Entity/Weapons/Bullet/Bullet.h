@@ -9,6 +9,6 @@ public:
 	~Bullet();
 	void update(int input) override; 
 	void death() override;
-private:
+protected:
 	float speed; 
 };

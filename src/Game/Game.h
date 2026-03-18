@@ -12,6 +12,7 @@
 #include "../Entity/Enemy/Kirikiri/Kirikiri.h"
 #include "../Entity/Spawner/Spawner.h"
 #include "../Entity/Shop/Shop.h"
+//#include "../Entity/Weapons/Bullet/Leaf.h"
 
 
 class Game {
@@ -54,5 +55,6 @@ private:
 	Spawner* spawnerDummy3 = new Spawner(2);
 	Spawner* spawnerDummy4 = new Spawner(3);
 	Spawner* spawnerDummy5 = new Spawner(4);
+	//Leaf 
 	//Shop* shop = new Shop();
 };

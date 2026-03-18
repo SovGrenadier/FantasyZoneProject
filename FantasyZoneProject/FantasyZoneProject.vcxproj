@@ -36,6 +36,7 @@
     <ClCompile Include="..\src\Entity\Weapons\Weapons.cpp" />
     <ClCompile Include="..\src\Game\Game.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="Leaf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="..\src\Entity\Weapons\Bullet\Bullet.h" />
     <ClInclude Include="..\src\Entity\Weapons\Weapons.h" />
     <ClInclude Include="..\src\Game\Game.h" />
+    <ClInclude Include="Leaf.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\Bosses.png" />

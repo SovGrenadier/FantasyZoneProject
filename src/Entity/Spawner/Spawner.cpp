@@ -2,7 +2,7 @@
 #include "../Enemy/Kirikiri/Kirikiri.h"
 #include <iostream>
 
-Spawner::Spawner(int spawnerCount) : Enemy()
+Spawner::Spawner(int spawnerCount)
 {
 	std::cout << "Test";
 	health = 20;
@@ -49,8 +49,13 @@ void Spawner::spawnEnemy(int tick)
 	}
 }
 
-void Spawner::update()
+void Spawner::update(int input)
 {
 	updateHealth(ticks);
 	spawnEnemy(ticks);
+}
+
+void Spawner::death()
+{
+	set_active = false;
 }

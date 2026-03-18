@@ -2,7 +2,7 @@
 #include <vector>
 #include "../Enemy/Enemy.h"
 
-class Spawner : public Enemy
+class Spawner : public Entity
 {
 public:
 	Spawner(int);
@@ -14,7 +14,8 @@ public:
 
     void spawnEnemy(int);
 	void updateHealth(int); //runs every tick, checks for damage
-	void update();
+	void update(int input) override;
+	void death();
 	sf::Vector2f position;
 
 private:

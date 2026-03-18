@@ -42,10 +42,10 @@ void Spawner::updateHealth(int tick)
 
 void Spawner::spawnEnemy(int tick)
 {
-	Kirikiri kirikiri = new Kirikiri(true);
+	Kirikiri* kirikiri = new Kirikiri(true, this->position);
 	if (tick % spawn_rate == 0 && set_active == true) //every 300 frames, spawn an enemy
 	{
-		kirikiri.spawn(position);
+		kirikiri->spawn(position);
 	}
 }
 

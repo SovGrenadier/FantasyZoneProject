@@ -128,7 +128,7 @@ void Game::run()
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
-        //checkCollision();
+        checkCollision();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };

@@ -6,7 +6,6 @@
 
 Weapons::Weapons(sf::Vector2f playerPos) 
 {
-	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Opa-Opa.png"))
 		std::cout << "Error Loading Image"; 
 

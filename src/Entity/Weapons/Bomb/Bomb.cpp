@@ -50,6 +50,5 @@ void Bomb::update(int input)
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
 		set_active = false;
-		std::cout << "Test" << std::endl;
 	}
 }

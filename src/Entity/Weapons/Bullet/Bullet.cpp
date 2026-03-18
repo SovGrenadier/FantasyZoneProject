@@ -14,6 +14,7 @@ Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 	{
 		speed = -7.5f;
 	}
+	viewPos = viewport->getCenter().x;
 }
 
 
@@ -29,6 +30,14 @@ void Bullet::death()
 
 void Bullet::update(int input)
 {
-	sprite->move({ speed, 0 });
+	sprite->move({ speed+(viewport->getCenter().x-viewPos), 0});
+	//Move sprite and ensure movement works if a bullet is shot at the edge
+	//of the viewport (need to move the viewport to the other end)
+
+	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
+		set_active = false;
+	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
+		set_active = false;
+	viewPos = viewport->getCenter().x;
 }
 

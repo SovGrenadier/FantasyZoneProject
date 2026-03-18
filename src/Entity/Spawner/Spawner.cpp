@@ -6,7 +6,7 @@ Spawner::Spawner(int spawnerCount) : Enemy()
 {
 	std::cout << "Test";
 	health = 20;
-	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 800, 150 },{ 800, 275 },{ 800, 400 },{ 800, 500 } };
+	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 1011.f, 60.f },{ 1094, 120.f },{ 1281,50.f },{ 471, 102.f } };
 	position = spawnerLocs[spawnerCount];
 
 	set_visible = true;

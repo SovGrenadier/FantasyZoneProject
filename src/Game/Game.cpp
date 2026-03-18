@@ -3,7 +3,7 @@
 Game::Game()
 {
     window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
-    background1.loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png");
+    background1.loadFromFile("../res/Levels/Round 1 Wrapped.png");
     backgroundSprite1 = new sf::Sprite(background1);
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
@@ -20,7 +20,6 @@ Game::~Game()
 
 void Game::run()
 {
-    
     window.setFramerateLimit(60);
     while (window.isOpen())
     {
@@ -124,12 +123,12 @@ void Game::run()
 
         const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-        //std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
+        std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
         //bullet->setPosition(mouseCoord); 
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
-        checkCollision();
+        //checkCollision();
         window.setView(viewport);
         window.draw(*backgroundSprite1);
         //sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
@@ -164,7 +163,7 @@ void Game::drawEntities()
 void Game::checkCollision()
 {
     sf::FloatRect entity1, entity2;
-
+    std::cout << entities->size() << std::endl;
     for (int i = 0; i < entities->size(); i++)
     {
 
@@ -202,12 +201,13 @@ void Game::checkCollision()
             entities->erase(entities->begin() + i);
             i--;
         }
-
+        /* for testing 
         if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
         {
             std::cout << (entities->at(i)->getSprite())->getPosition().x<< std::endl;
             std::cout << (entities->at(i)->getSprite())->getPosition().y << std::endl;
             std::cout << "break" << std::endl;
         }
+        */
     }
 }

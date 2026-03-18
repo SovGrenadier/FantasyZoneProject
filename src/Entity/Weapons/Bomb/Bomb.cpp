@@ -49,6 +49,6 @@ void Bomb::update(int input)
 	sprite->setPosition({ start.x+xPos+(viewport->getCenter().x-viewStart.x),yPos});
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
-		active = false;
+		set_active = false;
 	}
 }

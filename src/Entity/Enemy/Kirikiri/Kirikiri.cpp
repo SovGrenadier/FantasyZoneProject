@@ -1,12 +1,11 @@
 #include "Kirikiri.h"
 
 
-Kirikiri::Kirikiri(bool isFaceRight) : Enemy()
+Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f pos) : Enemy()
 {
 	//same speed as player
 	faceRight = isFaceRight;
 	ticks = 12;
-	pos = { 700.f, 25.f };
 	speed.x = 0.6f;
 	
 	

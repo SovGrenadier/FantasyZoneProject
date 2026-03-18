@@ -26,7 +26,7 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 	bounceIndex = 0;
 	previousY = pos.y;
 	bounce = false;
-	bounceTwice == false;
+	bounceTwice = false;
 	bounceCount = 0;
 
 
@@ -48,6 +48,8 @@ Moocolon::~Moocolon()
 
 void Moocolon::spawn()
 {
+	set_active = true;
+	set_visible = true;
 	/*two different ways to spawn
 	1. a group of 4 will form a square and move that way
 	2. a column of 4 will move horizontally
@@ -58,7 +60,7 @@ void Moocolon::spawn()
 
 void Moocolon::move()
 {
-	if (bounceCount == 2)
+	if (bounceCount == 1)
 	{
 		if ((previousY < centerY + 0.5f) && (previousY > centerY - 0.5f))
 			if (faceRight)
@@ -118,7 +120,10 @@ void Moocolon::update(int input)
 			ticks = 0;
 
 			if (curDeathFrame >= deathFrames.size())
+			{
+				set_active = false;
 				set_visible = false;
+			}
 
 			else
 			{

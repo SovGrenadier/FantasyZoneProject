@@ -16,11 +16,11 @@ public:
 
 	virtual void attack();
 	virtual void spawn(sf::Vector2f);
-	virtual void move();
+	virtual void move() = 0;
 	
 	//inherited methods
 	void update(int input) override;
-	void death() override;
+	virtual void death() = 0;
 
 	//get methods
 	sf::Sprite* getSprite();

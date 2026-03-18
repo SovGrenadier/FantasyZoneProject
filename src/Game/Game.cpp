@@ -126,10 +126,6 @@ void Game::run()
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
         //std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
         //bullet->setPosition(mouseCoord); 
-
-        //dummy4->setPosition(mouseCoord); 
-
-		//checkCollision();
    
         //viewport.move({ 2.0f,0.0f });
         window.clear();
@@ -203,7 +199,6 @@ void Game::checkCollision()
         //Remove any enemies that are dead 
         if (!(entities->at(i)->getActive()))
         {
-            entities->at(i)->death();
             entities->erase(entities->begin() + i);
             i--;
         }

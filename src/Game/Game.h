@@ -49,13 +49,12 @@ private:
 	Moocolon* moocolonDummy = new Moocolon(true);
 	Kirikiri* kiriDummy = new Kirikiri(true, pos);
 	Bottaco* bottacoDummy = new Bottaco;
-	/*
 	Spawner* spawnerDummy = new Spawner(0);
 	Spawner* spawnerDummy2 = new Spawner(1);
 	Spawner* spawnerDummy3 = new Spawner(2);
 	Spawner* spawnerDummy4 = new Spawner(3);
 	Spawner* spawnerDummy5 = new Spawner(4);
-	*/
-	Leaf* leafDummy = new Leaf(pos);
+	
+	Leaf* leafDummy;
 	//Shop* shop = new Shop();
 };

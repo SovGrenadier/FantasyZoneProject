@@ -13,8 +13,6 @@ Leaf::Leaf(sf::Vector2f mouthPos) : Bullet(sf::Vector2f(0.f, 0.f), false)
 	set_active = true;
 	alive = true;
 	position = mouthPos;
-
-	texture = new sf::Texture();
 	
 	if (!texture->loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png"))
 		std::cout << "Fail loading Round 1 wrapped with spawner locs.png\n";

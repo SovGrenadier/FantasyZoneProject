@@ -6,10 +6,11 @@
 
 Weapons::Weapons(sf::Vector2f playerPos) 
 {
+	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Opa-Opa.png"))
 		std::cout << "Error Loading Image"; 
-
 	sprite = new sf::Sprite(*texture);
+	sprite->setTexture(*texture);
 	sprite->setPosition(playerPos);	
 	damage = 1;
 	ownWeapon = true;

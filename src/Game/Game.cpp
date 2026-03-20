@@ -13,6 +13,7 @@ Game::Game()
     player.getView(&viewport);
     tick = 0;
     entities = player.getEntities();
+    leafDummy = new Leaf(pos);
 }
 
 Game::~Game()

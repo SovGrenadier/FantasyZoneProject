@@ -13,12 +13,16 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f pos) : Enemy()
 	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
 	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
 
-	curAction = FLY_RIGHT;
-	animations[curAction] = flyRight;
+	animations[FLY_RIGHT] = flyRight;
 	animations[FLY_LEFT] = flyLeft;
 
+	if(faceRight)
+		curAction = FLY_RIGHT;
+	else
+		curAction = FLY_LEFT;
+
 	sprite->setTexture(*texture);
-	sprite->setPosition(pos);
+	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
 
 }
 
@@ -26,12 +30,6 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f pos) : Enemy()
 Kirikiri::~Kirikiri()
 {
 
-}
-
-
-void Kirikiri::spawn(sf::Vector2f spawnpos)
-{
-	pos = spawnpos;
 }
 
 

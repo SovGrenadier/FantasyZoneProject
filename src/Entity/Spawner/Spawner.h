@@ -20,4 +20,5 @@ public:
 
 private:
 	int spawn_rate = 5 * 60; //5 seconds between each spawn sequence, 60 fps
+	int spawnerDist;
 };

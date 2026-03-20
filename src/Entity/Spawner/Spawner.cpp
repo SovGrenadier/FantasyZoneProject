@@ -23,6 +23,7 @@ Spawner::Spawner(int spawnerCount)
 	sprite->setTextureRect(zone);
 	sprite->setPosition(position);
 
+	ticks = 1;
 	std::cout << "Spawner created at " << position.x << ", " << position.y << "\n";
 }
 
@@ -42,11 +43,12 @@ void Spawner::updateHealth(int tick)
 
 void Spawner::spawnEnemy(int tick)
 {
-	Kirikiri* kirikiri = new Kirikiri(true, position);
-	if (tick % spawn_rate == 0 && set_active == true) //every 300 frames, spawn an enemy
+	spawnerDist = viewport->getCenter().x - position.x;
+	if (tick% spawn_rate == 0 && set_active == true /* && 125 >= spawnerDist >= -125*/) //every 300 frames, spawn an enemy
 	{
-		kirikiri->spawn(position);
+		Kirikiri* kirikiri = new Kirikiri(true, position);
 	}
+	ticks++;
 }
 
 void Spawner::update(int input)

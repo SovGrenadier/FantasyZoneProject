@@ -9,6 +9,9 @@ public:
 
 	void attack() override;
 	void death() override;
+	void move() override; 
+	void update(int) override; 
+
 private:
 
 };

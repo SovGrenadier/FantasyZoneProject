@@ -231,4 +231,6 @@ void Game::initialize()
     spawnerDummy3->initialize();
     spawnerDummy4->initialize();
     spawnerDummy5->initialize();
+
+    stumpalon->initialize(); 
 }

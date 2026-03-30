@@ -1,11 +1,13 @@
 #include "Entity.h"
 #include <iostream>
-std::vector<Entity*> Entity::entities;
+//std::vector<Entity*> Entity::entities;
+std::vector<std::shared_ptr<Entity>> Entity::entities;
+
 sf::View* Entity::viewport;
 
 Entity::Entity()
 {
-	entities.push_back(this);
+	//entities.push_back(this);
 
 	//temporary values
 	health = 1;
@@ -33,4 +35,10 @@ void Entity::takeDamage(int damage)
 void Entity::getView(sf::View* view) 
 { 
 	viewport = view;
+}
+
+
+void Entity::initialize()
+{
+	entities.push_back(shared_from_this());
 }

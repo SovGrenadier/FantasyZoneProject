@@ -10,9 +10,11 @@ Game::Game()
     //backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
     viewport.setSize(sf::Vector2f{ 250.f,175.f });
     viewport.setCenter(sf::Vector2f{840.f,101.5f});
-    player.getView(&viewport);
+    initialize(); 
+    player->initialize(); 
+    player->getView(&viewport);
     tick = 0;
-    entities = player.getEntities();
+    entities = player->getEntities();
     leafDummy = new Leaf(pos);
 }
 
@@ -176,13 +178,13 @@ void Game::checkCollision()
             {
                 //Check for collisions between player and enemies
                 if (!entities->at(x)->ownWeapon &&
-                    dynamic_cast<Player*>(entities->at(i)) != nullptr)
+                    std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
                 {
                     entity1 = entities->at(i)->getSprite()->getGlobalBounds();
                     entity2 = entities->at(x)->getSprite()->getGlobalBounds();
                 }
                 else if (entities->at(i)->ownWeapon &&
-                    dynamic_cast<Enemy*>(entities->at(x)) != nullptr)
+                    std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
                 {
                     entity1 = entities->at(i)->getSprite()->getGlobalBounds();
                     entity2 = entities->at(x)->getSprite()->getGlobalBounds();
@@ -213,4 +215,20 @@ void Game::checkCollision()
         }
         */
     }
+}
+
+void Game::initialize()
+{
+    snakeDummy->initialize(); 
+    snakeDummy2->initialize(); 
+    scissorsDummy->initialize();
+    moocolonDummy->initialize(); 
+    kiriDummy->initialize(); 
+    bottacoDummy->initialize();
+    
+    spawnerDummy->initialize();
+    spawnerDummy2->initialize();
+    spawnerDummy3->initialize();
+    spawnerDummy4->initialize();
+    spawnerDummy5->initialize();
 }

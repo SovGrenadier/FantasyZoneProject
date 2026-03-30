@@ -3,7 +3,7 @@
 #include <vector>
 #include "../Animation/Animation.h"
 
-class Entity
+class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
 	Entity();
@@ -12,7 +12,8 @@ public:
 	void takeDamage(int); 
 	
 	//getter methods
-	std::vector<Entity*>* getEntities() { return &entities; }
+	//std::vector<Entity*>* getEntities() { return &entities; }
+	std::vector<std::shared_ptr<Entity>>* getEntities() { return &entities; }
 	sf::Sprite* getSprite() { return sprite; }
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
@@ -26,6 +27,7 @@ public:
 	//abstract methods
 	virtual void update(int input) = 0;
 	virtual void death() = 0;
+	void initialize(); 
 
 	int ticks = 0;
 protected:
@@ -39,6 +41,7 @@ protected:
 	static sf::View* viewport;
 
 private:
-	static std::vector<Entity*> entities;
+	//static std::vector<Entity*> entities;
+	static std::vector<std::shared_ptr<Entity>> entities;
 	
 };

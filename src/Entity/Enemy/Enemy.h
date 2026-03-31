@@ -24,6 +24,7 @@ public:
 
 	//get methods
 	sf::Sprite* getSprite();
+	sf::Vector2f getPosition() { return pos; }
 protected:
 	std::vector <sf::IntRect> deathFrames;
 	unsigned int tickRate;

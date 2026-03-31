@@ -57,12 +57,12 @@ void Moocolon::spawn()
 
 }
 
-
+//to-do: fix not moving at all after reaching centerY
 void Moocolon::move()
 {
 	if (bounceCount == 1)
 	{
-		if ((previousY < centerY + 0.5f) && (previousY > centerY - 0.5f))
+		if ((previousY < centerY + 1.f) && (previousY > centerY - 1.f))
 			if (faceRight)
 				pos.x += speed;
 			else
@@ -78,7 +78,7 @@ void Moocolon::move()
 
 
 	if(previousY < (centerY + amplitude * wave)) //if moocolon y pos decreasing
-		if ((previousY < centerY + 0.5f) && (previousY > centerY - 0.5f)) 
+		if ((previousY < centerY + 1.f) && (previousY > centerY - 1.f)) 
 		{ // if moocolon pos y is in range of centerY
 			bounceIndex++;
 			if (bounceIndex % 2 == 0)

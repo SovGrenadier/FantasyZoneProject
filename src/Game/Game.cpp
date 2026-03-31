@@ -166,7 +166,7 @@ void Game::drawEntities()
 void Game::checkCollision()
 {
     sf::FloatRect entity1, entity2;
-    //std::cout << entities->size() << std::endl;
+    std::cout << entities->size() << std::endl;
     for (int i = 0; i < entities->size(); i++)
     {
 

@@ -60,9 +60,11 @@ void Spawner::spawnEnemy(int tick)
 	if (tick % spawn_rate == 0 && set_active == true &&
 		125 >= spawnerDist && spawnerDist >= -125) 
 	{
+		ticks = 0;
 		Kirikiri* kirikiri = new Kirikiri(true, pos);
 	}
-	ticks++;
+	if(ticks<spawn_rate)
+		ticks++;
 }
 
 void Spawner::update(int input)

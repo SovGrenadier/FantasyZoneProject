@@ -18,7 +18,8 @@ Enemy::Enemy() : Entity()
 	deathFrames.push_back(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathFrames.push_back(sf::IntRect({ 35,415 }, { 16,16 }));
 	deathFrames.push_back(sf::IntRect({ 11,419 }, { 8,8 }));
-
+	set_active = true;
+	set_visible = true;
 
 	tickRate = 12;
 }

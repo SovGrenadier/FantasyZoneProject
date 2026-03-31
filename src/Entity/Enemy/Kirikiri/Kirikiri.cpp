@@ -1,13 +1,14 @@
 #include "Kirikiri.h"
+#include<iostream>
 
 
-Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f pos) : Enemy()
+Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 {
 	//same speed as player
 	faceRight = isFaceRight;
 	ticks = 12;
 	speed.x = 0.6f;
-	
+	pos = newPos;
 	
 	sf::IntRect zone({ 8, 20 }, { 51, 15 });
 	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
@@ -86,16 +87,9 @@ void Kirikiri::update(int)
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
 		
-		sf::FloatRect bounds = sprite->getLocalBounds();
-		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+		//sf::FloatRect bounds = sprite->getLocalBounds();
+		//sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
-
-	if (faceRight)
-		sprite->setScale({ 1.f,1.f });
-	else
-		sprite->setScale({ -1.f,1.f });
-
-	sprite->setPosition(pos);
 }
 
 

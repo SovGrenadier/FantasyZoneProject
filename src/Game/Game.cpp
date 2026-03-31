@@ -126,7 +126,7 @@ void Game::run()
 
         const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
         const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-        std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
+        //std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
         //bullet->setPosition(mouseCoord); 
    
         //viewport.move({ 2.0f,0.0f });

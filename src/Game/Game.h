@@ -43,12 +43,12 @@ private:
 	void checkCollision();
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
-	Snake* snakeDummy = new Snake(true);
-	Snake* snakeDummy2 = new Snake(false);
-	Scissors* scissorsDummy = new Scissors(true);
-	Moocolon* moocolonDummy = new Moocolon(true);
-	Kirikiri* kiriDummy = new Kirikiri(true, pos);
-	Bottaco* bottacoDummy = new Bottaco;
+	//Snake* snakeDummy = new Snake(true);
+	//Snake* snakeDummy2 = new Snake(false);
+	//Scissors* scissorsDummy = new Scissors(true);
+	//Moocolon* moocolonDummy = new Moocolon(true);
+	//Kirikiri* kiriDummy = new Kirikiri(false, {840.f, 101.5f});
+	//Bottaco* bottacoDummy = new Bottaco;
 	Spawner* spawnerDummy = new Spawner(0);
 	Spawner* spawnerDummy2 = new Spawner(1);
 	Spawner* spawnerDummy3 = new Spawner(2);

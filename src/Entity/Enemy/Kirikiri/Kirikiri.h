@@ -7,7 +7,7 @@
 class Kirikiri : public Enemy
 {
 public:
-	Kirikiri(bool isFaceRight, sf::Vector2f pos);
+	Kirikiri(bool isFaceRight, sf::Vector2f newPos);
 	~Kirikiri();
 
 	enum Actions
@@ -25,5 +25,7 @@ private:
 	Actions curAction;
 	bool faceRight;
 	sf::Vector2f speed;
-
+	float disTraveled = 0.0f;
+	//this will be used to determine when kirikiri should fly off the screen
+	sf::Vector2f spawnPos;
 };

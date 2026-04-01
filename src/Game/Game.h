@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include<string>
 #include<iostream>
+#include<random>
 #include"../Entity/Entity.h"
 #include "../Entity/Player/Player.h"
 #include"../Entity/Weapons/Bullet/Bullet.h"
@@ -41,19 +42,21 @@ private:
 	void updateEntities();
 	void drawEntities();
 	void checkCollision();
+	void enemyWave();
+	static int getRandomInt(int min, int max);
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
 	//Snake* snakeDummy = new Snake(true);
 	//Snake* snakeDummy2 = new Snake(false);
 	//Scissors* scissorsDummy = new Scissors(true);
-	//Moocolon* moocolonDummy = new Moocolon(true);
+	Moocolon* moocolonDummy = new Moocolon(true, &viewport);
 	//Kirikiri* kiriDummy = new Kirikiri(false, {840.f, 101.5f});
 	//Bottaco* bottacoDummy = new Bottaco;
-	Spawner* spawnerDummy = new Spawner(0);
-	Spawner* spawnerDummy2 = new Spawner(1);
-	Spawner* spawnerDummy3 = new Spawner(2);
-	Spawner* spawnerDummy4 = new Spawner(3);
-	Spawner* spawnerDummy5 = new Spawner(4);
+	//Spawner* spawnerDummy = new Spawner(0);
+	//Spawner* spawnerDummy2 = new Spawner(1);
+	//Spawner* spawnerDummy3 = new Spawner(2);
+	//Spawner* spawnerDummy4 = new Spawner(3);
+	//Spawner* spawnerDummy5 = new Spawner(4);
 	
 	Leaf* leafDummy;
 	//Shop* shop = new Shop();

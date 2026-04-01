@@ -7,7 +7,7 @@ class Entity
 {
 public:
 	Entity();
-	~Entity();
+	virtual ~Entity();
 	
 	void takeDamage(int); 
 	

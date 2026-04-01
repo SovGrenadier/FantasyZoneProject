@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-Moocolon::Moocolon(bool isFaceRight) : Enemy()
+Moocolon::Moocolon(bool isFaceRight, sf::View* view) : Enemy()
 {
 	timer.restart();
 	faceRight = isFaceRight;
@@ -29,7 +29,7 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 	bounceTwice = false;
 	bounceCount = 0;
 
-
+	viewport = view;
 	//set sprite
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*fly->getFrame(0));
@@ -39,10 +39,7 @@ Moocolon::Moocolon(bool isFaceRight) : Enemy()
 
 Moocolon::~Moocolon()
 {
-	delete sprite;
-	delete texture;
-	sprite = nullptr;
-	texture = nullptr;
+	std::cout << "Moocolon destroyed\n";
 }
 
 
@@ -112,6 +109,12 @@ void Moocolon::move()
 
 void Moocolon::update(int input)
 {
+	if (!isOnScreen(*viewport))
+	{
+		set_active = false;
+		set_visible = false;
+		return;
+	}
 	ticks++;
 	if (!alive)
 	{
@@ -142,14 +145,6 @@ void Moocolon::update(int input)
 		//exit method so sprite doesn't get updated further
 	}
 	move();
-	if (ticks >= tickRate)
-	{
-		ticks = 0;
-		sprite->setTextureRect(*animations[curAction]->nextFrame());
-
-		sf::FloatRect bounds = sprite->getLocalBounds();
-		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
-	}
 	if (faceRight)
 	{
 		//flip sprite so its facing right
@@ -166,10 +161,10 @@ void Moocolon::update(int input)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
+		sf::FloatRect bounds = sprite->getLocalBounds();
+		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
-
 	sprite->setPosition(pos);
-
 }
 
 

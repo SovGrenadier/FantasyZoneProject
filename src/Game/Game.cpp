@@ -166,7 +166,7 @@ void Game::drawEntities()
 void Game::checkCollision()
 {
     sf::FloatRect entity1, entity2;
-    std::cout << entities->size() << std::endl;
+    //std::cout << entities->size() << std::endl;
     for (int i = 0; i < entities->size(); i++)
     {
 
@@ -213,4 +213,36 @@ void Game::checkCollision()
         }
         */
     }
+}
+
+
+void Game::enemyWave()
+{
+    //bottaco, snake, scissors, moocolon
+    int randEnemy = getRandomInt(1, 4);
+
+    switch (randEnemy)
+    {
+    case 1:
+        //bottaco wave spawn logic
+        break;
+    case 2:
+        //snake wave spawn logic
+        break;
+    case 3:
+        //scissors wave spawn logic
+        break;
+    case 4:
+        //moocolon wave spawn logic
+        break;
+    }
+}
+
+
+int Game::getRandomInt(int min, int max)
+{
+    //min and max are included, therefore values for (1,3): 1, 2, 3
+    static std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<> dist(min, max);
+    return dist(gen);
 }

@@ -41,15 +41,20 @@ bool Enemy::isOnScreen(sf::View &viewport)
 	center.x = center.x - size.x * 0.5f;
 	center.y = center.y - size.y * 0.5f;
 	
+	//give leeway a little bit off screen
+	float padding = 75.f;
+
+	sf::Vector2f expandedPos;
+	expandedPos.x = center.x - padding;
+	expandedPos.y = center.y;
+
+	sf::Vector2f expandedSize({size.x + padding * 2.f, size.y});
+
 	//make rectangle of viewport
-	sf::FloatRect viewBox(center, size);
-	
+	sf::FloatRect viewBox(expandedPos, expandedSize);
 	
 	//check if enemy's position is on screen
-	if (viewBox.findIntersection(sprite->getGlobalBounds()))
-		return true;
-	else
-		return false;
+	return viewBox.findIntersection(sprite->getGlobalBounds()).has_value();
 }
 
 

@@ -10,7 +10,7 @@
 class Scissors : public Enemy
 {
 public:
-	Scissors(bool isFaceRight);
+	Scissors(bool isFaceRight, sf::View*);
 	~Scissors();
 
 	enum Actions

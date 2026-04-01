@@ -10,7 +10,7 @@
 class Moocolon : public Enemy
 {
 public:
-	Moocolon(bool isFaceRight);
+	Moocolon(bool isFaceRight,sf::View*);
 	~Moocolon();
 
 	enum Actions

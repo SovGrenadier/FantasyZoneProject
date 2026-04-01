@@ -7,7 +7,7 @@ class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
 	Entity();
-	~Entity();
+	virtual ~Entity();
 	
 	void takeDamage(int); 
 	

@@ -1,13 +1,14 @@
 #include "Scissors.h"
 
 
-Scissors::Scissors(bool isFaceRight) : Enemy()
+Scissors::Scissors(bool isFaceRight, sf::View* view) : Enemy()
 {
 	timer.restart();
 	faceRight = isFaceRight;
 	ticks = 13;
 	pos = { 840.f, 60.f };
 	acceleration = 1.05f;
+	viewport = view;
 
 	sf::IntRect zone({ 9, 4 }, { 80, 16 });
 	Animation* fly = new Animation(1,4,zone);
@@ -88,6 +89,12 @@ void Scissors::move()
 
 void Scissors::update(int input)
 {
+	if (!isOnScreen(*viewport))
+	{
+		set_active = false;
+		set_visible = false;
+		return;
+	}
 	ticks++;
 	if (!alive)
 	{

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include<string>
 #include<iostream>
+#include<random>
 #include"../Entity/Entity.h"
 #include "../Entity/Player/Player.h"
 #include"../Entity/Weapons/Bullet/Bullet.h"
@@ -45,6 +46,8 @@ private:
 	void updateEntities();
 	void drawEntities();
 	void checkCollision();
+	void enemyWave();
+	static int getRandomInt(int min, int max);
 	void initialize(); 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 

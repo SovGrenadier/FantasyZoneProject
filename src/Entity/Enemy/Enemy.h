@@ -8,7 +8,7 @@ class Enemy : public Entity
 {
 public:
 	Enemy();
-	~Enemy();
+	virtual ~Enemy();
 
 	//takes position of enemy and determines if it is on screen
 	//if returns false, (offscreen), despawn/death
@@ -24,6 +24,7 @@ public:
 
 	//get methods
 	sf::Sprite* getSprite();
+	sf::Vector2f getPosition() { return pos; }
 protected:
 	std::vector <sf::IntRect> deathFrames;
 	unsigned int tickRate;

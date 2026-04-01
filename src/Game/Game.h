@@ -51,22 +51,11 @@ private:
 	void initialize(); 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
-	/*Snake* snakeDummy = new Snake(true);
-	Snake* snakeDummy2 = new Snake(false);
-	Scissors* scissorsDummy = new Scissors(true);
-	Moocolon* moocolonDummy = new Moocolon(true);
-	Kirikiri* kiriDummy = new Kirikiri(true, pos);
-	Bottaco* bottacoDummy = new Bottaco;
-	Spawner* spawnerDummy = new Spawner(0);
-	Spawner* spawnerDummy2 = new Spawner(1);
-	Spawner* spawnerDummy3 = new Spawner(2);
-	Spawner* spawnerDummy4 = new Spawner(3);
-	Spawner* spawnerDummy5 = new Spawner(4);*/ 
-
+	//Temporary for testing 
 	std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
 	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 
-	std::shared_ptr<Scissors> scissorsDummy = std::make_shared<Scissors>(true); 
-	std::shared_ptr<Moocolon> moocolonDummy = std::make_shared<Moocolon>(true);
+	std::shared_ptr<Scissors> scissorsDummy = std::make_shared<Scissors>(true, &viewport); 
+	std::shared_ptr<Moocolon> moocolonDummy = std::make_shared<Moocolon>(true,&viewport);
 	std::shared_ptr<Kirikiri> kiriDummy = std::make_shared<Kirikiri>(true, pos);
 	std::shared_ptr<Bottaco> bottacoDummy = std::make_shared<Bottaco>(); 
 	std::shared_ptr<Spawner> spawnerDummy = std::make_shared<Spawner>(0); 
@@ -74,16 +63,6 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
 	std::shared_ptr<Spawner> spawnerDummy4 = std::make_shared<Spawner>(3);
 	std::shared_ptr<Spawner> spawnerDummy5 = std::make_shared<Spawner>(4);
-
-	std::shared_ptr<Boss> stumpalon = std::make_shared<Boss>();
-	
-	
-
-
-
-
-
-
 	
 	Leaf* leafDummy;
 	//Shop* shop = new Shop();

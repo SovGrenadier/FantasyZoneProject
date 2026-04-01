@@ -16,6 +16,7 @@ Game::Game()
     tick = 0;
     entities = player->getEntities();
     leafDummy = new Leaf(pos);
+    std::make_shared<Boss>()->initialize(); 
 }
 
 Game::~Game()
@@ -248,7 +249,7 @@ int Game::getRandomInt(int min, int max)
     std::uniform_int_distribution<> dist(min, max);
     return dist(gen);
 }
-}
+
 
 void Game::initialize()
 {
@@ -264,6 +265,4 @@ void Game::initialize()
     spawnerDummy3->initialize();
     spawnerDummy4->initialize();
     spawnerDummy5->initialize();
-
-    stumpalon->initialize(); 
 }

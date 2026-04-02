@@ -16,6 +16,8 @@ Entity::Entity()
 	set_active = true;
 	sprite = nullptr;
 	texture = nullptr;
+
+	initialized = false; 
 }
 
 Entity::~Entity()
@@ -40,5 +42,9 @@ void Entity::getView(sf::View* view)
 
 void Entity::initialize()
 {
-	entities.push_back(shared_from_this());
+	if (!initialized)
+	{
+		entities.push_back(shared_from_this());
+		initialized = true; 
+	}
 }

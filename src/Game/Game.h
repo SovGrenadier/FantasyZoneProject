@@ -52,12 +52,12 @@ private:
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
 	//Temporary for testing 
-	std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
+	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
 	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 
 	std::shared_ptr<Scissors> scissorsDummy = std::make_shared<Scissors>(true, &viewport); 
 	std::shared_ptr<Moocolon> moocolonDummy = std::make_shared<Moocolon>(true,&viewport);
 	std::shared_ptr<Kirikiri> kiriDummy = std::make_shared<Kirikiri>(true, pos);
-	std::shared_ptr<Bottaco> bottacoDummy = std::make_shared<Bottaco>(); 
+	std::shared_ptr<Bottaco> bottacoDummy = std::make_shared<Bottaco>();*/
 	std::shared_ptr<Spawner> spawnerDummy = std::make_shared<Spawner>(0); 
 	std::shared_ptr<Spawner> spawnerDummy2 = std::make_shared<Spawner>(1);
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);

@@ -81,12 +81,36 @@ void Kirikiri::update(int)
 		return;
 		//exit method so sprite doesn't get updated further
 	}
-	move();
 	if (ticks >= tickRate)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
-		
+		if (disTraveled < 10.f)
+		{
+			sprite->move({ 0.0f,1.0f });
+			disTraveled += 1.0f;
+		}
+		else if (disTraveled < 300.f)
+		{
+			if (faceRight)
+			{
+				sprite->move({ 1.0f,0.0f });
+			}
+			else
+			{
+				sprite->move({ -1.0f,0.0f });
+			}
+		}
+		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)
+		{
+			set_active = false;
+			set_visible = false;
+		}
+		if (sprite->getPosition().x > viewport->getCenter().x + 125.f)
+		{
+			set_active = false;
+			set_visible = false;
+		}
 		//sf::FloatRect bounds = sprite->getLocalBounds();
 		//sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}

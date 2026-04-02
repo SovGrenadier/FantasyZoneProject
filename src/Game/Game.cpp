@@ -229,7 +229,7 @@ void Game::enemyWave()
     
     int randEnemy = getRandomInt(1, 4);
     bool rightSide = true;
-    float playerPos = player.getPosition().x;
+    float playerPos = player->getPosition().x;
     if (playerPos < (window.getSize().x / 2))
         rightSide = false;
     bool formation = getRandomInt(0, 1);

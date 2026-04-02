@@ -2,10 +2,9 @@
 #include <iostream>
 #include <cmath>
 
-Moocolon::Moocolon(sf::Vector2f position, sf::View* view) : Enemy()
+Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
-	sf::Vector2f viewCenter = view->getCenter();
+	sf::Vector2f viewCenter = viewport->getCenter();
 
 	if (position.x < viewCenter.x)
 		faceRight = true;

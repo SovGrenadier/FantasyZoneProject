@@ -10,7 +10,7 @@
 class Moocolon : public Enemy
 {
 public:
-	Moocolon(sf::Vector2f pos, sf::View* viewport);
+	Moocolon(sf::Vector2f pos);
 	~Moocolon();
 
 	enum Actions

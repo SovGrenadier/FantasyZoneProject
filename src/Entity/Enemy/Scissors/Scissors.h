@@ -10,7 +10,7 @@
 class Scissors : public Enemy
 {
 public:
-	Scissors(sf::Vector2f pos, sf::View*);
+	Scissors(sf::Vector2f pos);
 	~Scissors();
 
 	enum Actions

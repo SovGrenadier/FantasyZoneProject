@@ -1,10 +1,9 @@
 #include "Snake.h"
 
 
-Snake::Snake(sf::Vector2f position, sf::View* view) : Enemy()
+Snake::Snake(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
-	float viewportCenterX = view->getCenter().x;
+	float viewportCenterX = viewport->getCenter().x;
 	if (position.x < viewportCenterX)
 		faceRight = true;
 	else

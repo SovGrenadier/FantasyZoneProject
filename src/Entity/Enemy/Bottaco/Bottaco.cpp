@@ -1,9 +1,8 @@
 #include "Bottaco.h"
 
 
-Bottaco::Bottaco(sf::Vector2f position, sf::View* view) : Enemy()
+Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
 	ticks = 13;
 	//pos = { 840.f, 75.f };
 	pos = position;

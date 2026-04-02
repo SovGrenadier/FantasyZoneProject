@@ -17,6 +17,7 @@ public:
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }
+	sf::Vector2f getPosition() { return pos; }
 
 	void getView(sf::View* view);
 	//bools

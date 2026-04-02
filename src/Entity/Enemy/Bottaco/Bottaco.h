@@ -7,7 +7,7 @@
 class Bottaco : public Enemy
 {
 public:
-	Bottaco();
+	Bottaco(sf::Vector2f pos, sf::View* view);
 	~Bottaco();
 	        
 	enum Actions

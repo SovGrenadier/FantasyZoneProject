@@ -1,12 +1,19 @@
 #include "Snake.h"
 
 
-Snake::Snake(bool isFaceRight) : Enemy()
+Snake::Snake(sf::Vector2f position, sf::View* view) : Enemy()
 {
+	viewport = view;
+	float viewportCenterX = view->getCenter().x;
+	if (position.x < viewportCenterX)
+		faceRight = true;
+	else
+		faceRight = false;
+
 	timer.restart();
-	faceRight = isFaceRight;
 	ticks = 13;
-	pos = { 840.f, 120.f };
+	//pos = { 840.f, 120.f };
+	pos = position;
 	speed = .6f;
 	acceleration = 1.05f;
 

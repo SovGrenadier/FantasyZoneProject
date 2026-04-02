@@ -9,7 +9,7 @@
 class Snake : public Enemy
 {
 public:
-	Snake(bool isFaceRight);
+	Snake(sf::Vector2f pos, sf::View* view);
 	~Snake();
 
 	enum Actions

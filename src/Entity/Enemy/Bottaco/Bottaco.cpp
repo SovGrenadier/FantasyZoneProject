@@ -1,11 +1,12 @@
 #include "Bottaco.h"
 
 
-Bottaco::Bottaco() : Enemy()
+Bottaco::Bottaco(sf::Vector2f position, sf::View* view) : Enemy()
 {
-	faceRight = false;
+	viewport = view;
 	ticks = 13;
-	pos = { 840.f, 75.f };
+	//pos = { 840.f, 75.f };
+	pos = position;
 
 	sf::IntRect zone({ 10, 55}, { 63, 20});
 	Animation* fly = new Animation(1, 3, zone);

@@ -49,7 +49,7 @@ private:
 	//Snake* snakeDummy = new Snake(true);
 	//Snake* snakeDummy2 = new Snake(false);
 	//Scissors* scissorsDummy = new Scissors(true);
-	Moocolon* moocolonDummy = new Moocolon(true, &viewport);
+	//Moocolon* moocolonDummy = new Moocolon({ 840.f,100.f }, true, &viewport);
 	//Kirikiri* kiriDummy = new Kirikiri(false, {840.f, 101.5f});
 	//Bottaco* bottacoDummy = new Bottaco;
 	//Spawner* spawnerDummy = new Spawner(0);

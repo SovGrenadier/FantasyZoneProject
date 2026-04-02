@@ -10,13 +10,14 @@
 class Moocolon : public Enemy
 {
 public:
-	Moocolon(bool isFaceRight,sf::View*);
+	Moocolon(sf::Vector2f pos, sf::View* viewport);
 	~Moocolon();
 
 	enum Actions
 	{
 		FLY_RIGHT,
-		FLY_LEFT
+		FLY_LEFT,
+		DEATH
 	};
 
 	void spawn();

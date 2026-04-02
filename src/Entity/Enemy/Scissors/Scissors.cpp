@@ -1,14 +1,20 @@
 #include "Scissors.h"
 
 
-Scissors::Scissors(bool isFaceRight, sf::View* view) : Enemy()
+Scissors::Scissors(sf::Vector2f position, sf::View* view) : Enemy()
 {
-	timer.restart();
-	faceRight = isFaceRight;
-	ticks = 13;
-	pos = { 840.f, 60.f };
-	acceleration = 1.05f;
 	viewport = view;
+	float viewportCenterX = view->getCenter().x;
+	if (position.x < viewportCenterX)
+		faceRight = true;
+	else
+		faceRight = false;
+
+	timer.restart();
+	ticks = 13;
+	//pos = { 840.f, 60.f };
+	pos = position;
+	acceleration = 1.05f;
 
 	sf::IntRect zone({ 9, 4 }, { 80, 16 });
 	Animation* fly = new Animation(1,4,zone);

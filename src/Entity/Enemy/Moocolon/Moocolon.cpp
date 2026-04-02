@@ -2,21 +2,41 @@
 #include <iostream>
 #include <cmath>
 
-Moocolon::Moocolon(bool isFaceRight, sf::View* view) : Enemy()
+Moocolon::Moocolon(sf::Vector2f position, sf::View* view) : Enemy()
 {
+	viewport = view;
+	sf::Vector2f viewCenter = view->getCenter();
+
+	if (position.x < viewCenter.x)
+		faceRight = true;
+	else
+		faceRight = false;
+
 	timer.restart();
-	faceRight = isFaceRight;
 	ticks = 13;
-	pos = sf::Vector2f{ 840.f,100.f };
-	
+	//pos = sf::Vector2f{ 840.f,100.f };
+	pos = position;
+
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
-	Animation* fly = new Animation(1, 2, zone);
+	Animation* flyRight = new Animation(1, 2, zone);
+	
+	zone = sf::IntRect({ 148,39 }, { 34, 17});
+	Animation* flyLeft = new Animation(1, 2, zone);
+
+	Animation* deathAnim = new Animation;
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+
 	if (faceRight)
 		curAction = FLY_RIGHT;
 	else
 		curAction = FLY_LEFT;
-	animations[curAction] = fly;
+	animations[FLY_RIGHT] = flyRight;
+	animations[FLY_LEFT] = flyLeft;
+	animations[DEATH] = deathAnim;
 
 
 	centerY = pos.y;
@@ -29,10 +49,10 @@ Moocolon::Moocolon(bool isFaceRight, sf::View* view) : Enemy()
 	bounceTwice = false;
 	bounceCount = 0;
 
-	viewport = view;
+	
 	//set sprite
 	sprite->setTexture(*texture);
-	sprite->setTextureRect(*fly->getFrame(0));
+	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	sprite->setPosition(pos);
 }
 
@@ -131,7 +151,7 @@ void Moocolon::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*animations[curAction]->nextFrame());
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -144,32 +164,25 @@ void Moocolon::update(int input)
 		return;
 		//exit method so sprite doesn't get updated further
 	}
-	move();
-	if (faceRight)
-	{
-		//flip sprite so its facing right
-		sprite->setScale({ 1.f,1.f });
-	}
 	else
 	{
-		//flip sprite so its facing left
-		sprite->setScale(sf::Vector2f(-1.f, 1.f));
+		move();
 
+		if (ticks >= tickRate)
+		{
+			ticks = 0;
+			sprite->setTextureRect(*animations[curAction]->nextFrame());
+			sf::FloatRect bounds = sprite->getLocalBounds();
+			sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+		}
+		sprite->setPosition(pos);
 	}
-
-	if (ticks >= tickRate)
-	{
-		ticks = 0;
-		sprite->setTextureRect(*animations[curAction]->nextFrame());
-		sf::FloatRect bounds = sprite->getLocalBounds();
-		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
-	}
-	sprite->setPosition(pos);
 }
 
 
 void Moocolon::death()
 {
+	curAction = DEATH;
 	alive = false;
 	deathPos = pos;
 }

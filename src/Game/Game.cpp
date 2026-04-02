@@ -140,6 +140,10 @@ void Game::run()
         drawEntities();
         window.display();
         tick += 1;
+        if (tick % 100 == 0)
+        {
+            enemyWave();
+        }
 		//std::cout << "Tick: " << tick << std::endl;
     }
 }
@@ -218,21 +222,75 @@ void Game::checkCollision()
 
 void Game::enemyWave()
 {
-    //bottaco, snake, scissors, moocolon
+    //snake, bottaco, scissors, moocolon
+    
     int randEnemy = getRandomInt(1, 4);
+    bool rightSide = true;
+    float playerPos = player.getPosition().x;
+    if (playerPos < (window.getSize().x / 2))
+        rightSide = false;
+    bool formation = getRandomInt(0, 1);
 
+    float middleY = window.getSize().y / 2;
     switch (randEnemy)
     {
     case 1:
-        //bottaco wave spawn logic
-        break;
-    case 2:
+        float distanceY = 40.f;
+        if (rightSide)
+        {
+            entities->push_back(new Moocolon({ 1920, middleY }, &viewport));
+            entities->push_back(new Moocolon({ 1920 + distanceY, middleY }, &viewport));
+        }
+        else
+        {
+            entities->push_back(new Moocolon({ 0, middleY }, &viewport));
+            entities->push_back(new Moocolon({ distanceY, middleY }, &viewport));
+        }
+
         //snake wave spawn logic
         break;
+    case 2:
+        if (formation) // one from each side
+        {
+            entities->push_back(new Bottaco({}, &viewport));
+            entities->push_back(new Bottaco({}, &viewport));
+        }
+        else // four row formation from one side
+        {
+            entities->push_back(new Bottaco({ 0 ,middleY + (distanceY * 2) }, &viewport));
+            entities->push_back(new Bottaco({ 0 ,middleY + distanceY }, &viewport));
+            entities->push_back(new Bottaco({ 0 ,middleY }, &viewport));
+            entities->push_back(new Bottaco({ 0 ,middleY - distanceY }, &viewport));
+        }
+        //bottaco wave spawn logic
+        break;
     case 3:
+        if (formation)
+        {
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+        }
+        else
+        {
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+            entities->push_back(new Scissors({}, &viewport));
+        }
         //scissors wave spawn logic
         break;
     case 4:
+        if (formation)
+        {
+
+        }
+        else
+        {
+
+        }
         //moocolon wave spawn logic
         break;
     }

@@ -143,10 +143,12 @@ void Game::run()
         drawEntities();
         window.display();
         tick += 1;
+        /*
         if (tick % 100 == 0)
         {
             enemyWave();
         }
+        */
 		//std::cout << "Tick: " << tick << std::endl;
     }
 }
@@ -176,7 +178,7 @@ void Game::checkCollision()
     //std::cout << entities->size() << std::endl;
     for (int i = 0; i < entities->size(); i++)
     {
-
+        //std::cout << entities->size() << std::endl;
         for(int x=i+1; x<entities->size(); x++)
         {
 			if (i != x && entities->at(x)->alive && entities->at(i)->alive)   
@@ -312,5 +314,9 @@ int Game::getRandomInt(int min, int max)
 
 void Game::initialize()
 {
-  
+    spawnerDummy->initialize();
+    spawnerDummy2->initialize();
+    spawnerDummy3->initialize();
+    spawnerDummy4->initialize();
+    spawnerDummy5->initialize();
 }

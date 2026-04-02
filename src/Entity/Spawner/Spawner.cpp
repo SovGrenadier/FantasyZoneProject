@@ -61,7 +61,8 @@ void Spawner::spawnEnemy(int tick)
 		125 >= spawnerDist && spawnerDist >= -125) 
 	{
 		ticks = 0;
-		Kirikiri* kirikiri = new Kirikiri(true, pos);
+		std::shared_ptr<Kirikiri> dummy = std::make_shared<Kirikiri>(true, position);
+		dummy->initialize();
 	}
 	if(ticks<spawn_rate)
 		ticks++;

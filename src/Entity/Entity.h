@@ -44,5 +44,6 @@ protected:
 private:
 	//static std::vector<Entity*> entities;
 	static std::vector<std::shared_ptr<Entity>> entities;
+	bool initialized; 
 	
 };

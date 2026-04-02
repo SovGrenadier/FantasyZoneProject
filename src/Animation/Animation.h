@@ -16,6 +16,7 @@ public:
 	//when cycling frames use this method to set the start frame
 	void setFrame(int frame) { curFrame = frame; }
 	void addFrame(const sf::IntRect& frame);
+	unsigned getFrameCount() { return frames.size(); }
 private:
 	unsigned int curFrame,frameNum;
 	//holds all frames

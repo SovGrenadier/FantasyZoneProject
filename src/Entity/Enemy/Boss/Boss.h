@@ -9,6 +9,10 @@ public:
 
 	void attack() override;
 	void death() override;
-private:
+	void move() override; 
+	void update(int) override;
 
+private:
+	int ticks; 
+	Animation* glideRight; 
 };

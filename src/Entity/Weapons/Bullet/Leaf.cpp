@@ -23,6 +23,7 @@ Leaf::Leaf(sf::Vector2f mouthPos) : Bullet(sf::Vector2f(0.f, 0.f), false)
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(zone);
 	sprite->setPosition(position);
+	ownWeapon = false; 
 }
 
 Leaf::~Leaf()

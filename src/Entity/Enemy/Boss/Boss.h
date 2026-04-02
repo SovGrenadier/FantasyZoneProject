@@ -1,6 +1,5 @@
 #include "../Enemy.h"
 
-
 class Boss : public Enemy
 {
 public:

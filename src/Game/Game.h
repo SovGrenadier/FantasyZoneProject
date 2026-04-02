@@ -49,7 +49,7 @@ private:
 	void enemyWave();
 	static int getRandomInt(int min, int max);
 	void initialize(); 
-	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
+	sf::Vector2f pos = sf::Vector2f(790.f, 109.f);//player position + offset
 
 	//Temporary for testing 
 	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);

@@ -16,7 +16,7 @@ Game::Game()
     tick = 0;
     entities = player->getEntities();
     leafDummy = new Leaf(pos);
-    std::make_shared<Boss>()->initialize(); 
+    //std::make_shared<Boss>()->initialize(); 
 }
 
 Game::~Game()
@@ -227,28 +227,37 @@ void Game::enemyWave()
 {
     //snake, bottaco, scissors, moocolon
     
-    int randEnemy = getRandomInt(1, 4);
+    //int randEnemy = getRandomInt(1, 4);
+    int randEnemy = 1; 
     bool rightSide = true;
     float playerPos = player->getPosition().x;
-    if (playerPos < (window.getSize().x / 2))
+    if (playerPos < (viewport.getSize().x / 2))
         rightSide = false;
     bool formation = getRandomInt(0, 1);
 
-    float middleY = window.getSize().y / 2;
+    float middleY = 50.f;
     float distanceY = 40.f;
+
+    viewport.getViewport().position.x;
+    //entities->push_back(std::make_shared<Boss>());
 
     switch (randEnemy)
     {
     case 1:
         if (rightSide)
         {
-            entities->push_back(std::make_shared<Moocolon>(sf::Vector2f{ 1920, middleY }, &viewport));
-            entities->push_back(std::make_shared<Moocolon>(sf::Vector2f{ 1920 + distanceY, middleY }, &viewport));
+            //std::make_shared<Moocolon>(pos, &viewport)->initialize();
+            //std::make_shared<Moocolon>(pos, &viewport)->initialize();
+            std::make_shared<Moocolon>(sf::Vector2f{viewport.getViewport().position.x, middleY}, &viewport)->initialize();
+            std::cout << "Moocolon Created\n";
+         
         }
         else
         {
-            entities->push_back(std::make_shared<Moocolon>(sf::Vector2f{ 0, middleY }, &viewport));
+            entities->push_back(std::make_shared<Moocolon>( sf::Vector2f{ viewport.getViewport().position.x, middleY }, &viewport));
             entities->push_back(std::make_shared<Moocolon>(sf::Vector2f{ distanceY, middleY }, &viewport));
+        
+
         }
 
         //snake wave spawn logic
@@ -258,6 +267,7 @@ void Game::enemyWave()
         {
             entities->push_back(std::make_shared<Bottaco>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Bottaco>(sf::Vector2f{}, &viewport));
+
         }
         else // four row formation from one side
         {
@@ -265,6 +275,7 @@ void Game::enemyWave()
             entities->push_back(std::make_shared<Bottaco>(sf::Vector2f{ 0 ,middleY + distanceY }, &viewport));
             entities->push_back(std::make_shared<Bottaco>(sf::Vector2f{ 0 ,middleY }, &viewport));
             entities->push_back(std::make_shared<Bottaco>(sf::Vector2f{ 0 ,middleY - distanceY }, &viewport));
+
         }
         //bottaco wave spawn logic
         break;
@@ -274,15 +285,18 @@ void Game::enemyWave()
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
+
+
         }
         else
         {
+           std::make_shared<Scissors>(sf::Vector2f{}, &viewport)->initialize();
+           std::make_shared<Scissors>(sf::Vector2f{}, &viewport)->initialize();
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
             entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
-            entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
-            entities->push_back(std::make_shared<Scissors>(sf::Vector2f{}, &viewport));
+
         }
         //scissors wave spawn logic
         break;
@@ -298,6 +312,9 @@ void Game::enemyWave()
         //moocolon wave spawn logic
         break;
     }
+
+    for (int i = 0; i < entities->size(); i++)
+        entities->at(i)->initialize();
 }
 
 

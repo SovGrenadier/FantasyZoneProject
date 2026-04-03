@@ -14,7 +14,7 @@ public:
 	//getter methods
 	//std::vector<Entity*>* getEntities() { return &entities; }
 	std::vector<std::shared_ptr<Entity>>* getEntities() { return &entities; }
-	sf::Sprite* getSprite() { return sprite; }
+	virtual sf::Sprite* getSprite() { return sprite; }
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }

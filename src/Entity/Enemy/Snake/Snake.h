@@ -15,7 +15,8 @@ public:
 	enum Actions
 	{
 		FLY_RIGHT,
-		FLY_LEFT
+		FLY_LEFT,
+		DEATH
 	};
 
 

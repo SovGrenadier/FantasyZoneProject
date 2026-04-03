@@ -13,7 +13,8 @@ public:
 	enum Actions
 	{
 		FLY_RIGHT,
-		FLY_LEFT
+		FLY_LEFT,
+		DEATH
 	};
 	void move() override;
 	void update(int) override;

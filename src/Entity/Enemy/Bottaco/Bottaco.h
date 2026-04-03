@@ -12,8 +12,8 @@ public:
 	        
 	enum Actions
 	{
-		FLY_RIGHT,
-		FLY_LEFT
+		FLY,
+		DEATH
 	};
 
 	void spawn();

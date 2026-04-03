@@ -26,7 +26,6 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	sf::Vector2f getPosition() { return pos; }
 protected:
-	std::vector <sf::IntRect> deathFrames;
 	unsigned int tickRate;
 	unsigned int curDeathFrame;
 	unsigned int defeatPoints;

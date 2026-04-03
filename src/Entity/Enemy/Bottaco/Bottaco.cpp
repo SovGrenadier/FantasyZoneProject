@@ -7,13 +7,21 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 	//pos = { 840.f, 75.f };
 	pos = position;
 
-	sf::IntRect zone({ 10, 55}, { 63, 20});
-	Animation* fly = new Animation(1, 3, zone);
+	Animation* fly = new Animation(1, 3, sf::IntRect({ 10,55 }, { 63,20 }));
 
-	curAction = FLY_RIGHT;
-	animations[curAction] = fly;
+	Animation* deathAnim = new Animation();
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+
+	animations[FLY] = fly;
+	animations[DEATH] = deathAnim;
+
+	curAction = FLY;
 
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition(pos);
 
 	amplitudeX = 120.f;
@@ -57,7 +65,6 @@ void Bottaco::move()
 
 	time += 0.05;
 	sprite->setPosition(pos);
-	
 }
 
 
@@ -70,7 +77,7 @@ void Bottaco::update(int input)
 		{
 			ticks = 0;
 
-			if (curDeathFrame >= deathFrames.size())
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -78,7 +85,7 @@ void Bottaco::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -96,12 +103,15 @@ void Bottaco::update(int input)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
+		sf::FloatRect bounds = sprite->getLocalBounds();
+		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
 }
 
 
 void Bottaco::death()
 {
+	curAction = DEATH;
 	alive = false;
 	deathPos = pos;
 }

@@ -10,12 +10,17 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	speed.x = 0.6f;
 	pos = newPos;
 	
-	sf::IntRect zone({ 8, 20 }, { 51, 15 });
 	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
 	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
+	Animation* deathAnim = new Animation();
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 
 	animations[FLY_RIGHT] = flyRight;
 	animations[FLY_LEFT] = flyLeft;
+	animations[DEATH] = deathAnim;
 
 	if(faceRight)
 		curAction = FLY_RIGHT;
@@ -23,6 +28,7 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 		curAction = FLY_LEFT;
 
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
 	std::cout << "Kirikiri created" << std::endl;
 }
@@ -59,7 +65,7 @@ void Kirikiri::update(int)
 		{
 			ticks = 0;
 
-			if (curDeathFrame >= deathFrames.size())
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -68,7 +74,7 @@ void Kirikiri::update(int)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -153,6 +159,7 @@ void Kirikiri::update(int)
 
 void Kirikiri::death()
 {
+	curAction = DEATH;
 	alive = false;
-	deathPos = pos;
+	deathPos = sprite->getPosition();
 }

@@ -143,12 +143,12 @@ void Game::run()
 		drawEntities();
 		window.display();
 		tick += 1;
-		/*
-		if (tick % 100 == 0)
+	
+		if (tick % 500 == 0)
 		{
 			enemyWave();
 		}
-		*/
+
 		//std::cout << "Tick: " << tick << std::endl;
 	}
 }
@@ -228,35 +228,57 @@ void Game::checkCollision()
 void Game::enemyWave()
 {
 	//moocolon, bottaco, scissors, snake
+	//ALL VALUES ARE SUBJECT TO CHANGE
 	int randEnemy = getRandomInt(1, 4);
 	bool rightSide = true;
-	float playerPos = player->getPosition().x;
-	if (playerPos < (window.getSize().x / 2))
+	sf::Vector2f playerPos = player->getSprite()->getPosition();
+	if (playerPos.x < (window.getSize().x / 2))
 		rightSide = false;
 	bool formation = getRandomInt(0, 1);
 
 	float middleY = window.getSize().y / 2;
-	float distanceY = 40.f;
+	float padding = 0;
 
-	switch (randEnemy)
+	//testing
+	playerPos.x += 120.f;
+	rightSide = getRandomInt(0,1);
+	formation = getRandomInt(0,1);
+	randEnemy = 1;
+	sf::Vector2f spawnPosRight = playerPos;
+	playerPos.x -= 240.f;
+	sf::Vector2f spawnPosLeft = playerPos;
+	switch (randEnemy) 
 	{
 	case 1: //moocolon wave spawn logic
-		if (formation && rightSide)
+		if (formation && rightSide)// 2x2 square, right side
 		{
-			//std::make_shared<Moocolon>(sf::Vector2f{ 1920, middleY })->initialize();
-			//std::make_shared<Moocolon>(sf::Vector2f{ 1920 + distanceY, middleY })->initialize();
+			padding = 16.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y})->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x + padding, spawnPosRight.y + padding  })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y + padding})->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x + padding, spawnPosRight.y})->initialize();
 		}
-		else if (formation && !rightSide)
+		else if (formation && !rightSide)// 2x2 square, left side
 		{
-
+			padding = 16.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x + padding, spawnPosLeft.y + padding })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y + padding })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x + padding, spawnPosLeft.y })->initialize();
 		}
 		else if (!formation && rightSide)
 		{
-
+			padding = 40.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y + padding })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y  })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y - padding })->initialize();
 		}
 		else if (!formation && !rightSide)
 		{
-
+			padding = 40.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y + padding })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y - padding })->initialize();
 		}
 		break;
 	case 2: //bottaco wave spawn logic

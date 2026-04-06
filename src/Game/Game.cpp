@@ -16,7 +16,7 @@ Game::Game()
 	tick = 0;
 	entities = player->getEntities();
 	leafDummy = new Leaf(pos);
-	std::make_shared<Boss>()->initialize();
+	//std::make_shared<Boss>()->initialize();
 }
 
 Game::~Game()
@@ -144,9 +144,11 @@ void Game::run()
 		window.display();
 		tick += 1;
 	
-		if (tick % 500 == 0)
+		if (tick % 200 == 0)
 		{
 			enemyWave();
+			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
+			//std::cout << "\nPAUSE\n";
 		}
 
 		//std::cout << "Tick: " << tick << std::endl;
@@ -230,58 +232,71 @@ void Game::enemyWave()
 	//moocolon, bottaco, scissors, snake
 	//ALL VALUES ARE SUBJECT TO CHANGE
 	int randEnemy = getRandomInt(1, 4);
-	bool rightSide = true;
-	sf::Vector2f playerPos = player->getSprite()->getPosition();
-	if (playerPos.x < (window.getSize().x / 2))
-		rightSide = false;
-	bool formation = getRandomInt(0, 1);
+	bool formation = getRandomInt(0, 1); // true or false
+	bool rightSide = getRandomInt(0,1); // true or false
+	sf::Vector2f padding = {0.f,0.f};
+	float edgePositionX = 0.f;
 
-	float middleY = window.getSize().y / 2;
-	float padding = 0;
+	if (rightSide)
+	{
+		float sizeX = viewport.getSize().x;
+		sizeX /= 2.f;
+		edgePositionX = viewport.getCenter().x + sizeX + 20.f; // extra 20 so it appears off screen
+
+	}
+	else //left side
+	{
+		float sizeX = viewport.getSize().x;
+		sizeX /= 2.f;
+		edgePositionX = viewport.getCenter().x + sizeX + 20.f; // extra 20 so it appears off screen
+	}
+
+	sf::Vector2f playerPos = player->getSprite()->getPosition();
+	if (playerPos.x < (viewport.getCenter().x))
+		rightSide = false;
+
 
 	//testing
-	playerPos.x += 120.f;
-	rightSide = getRandomInt(0,1);
-	formation = getRandomInt(0,1);
-	randEnemy = 1;
-	sf::Vector2f spawnPosRight = playerPos;
-	playerPos.x -= 240.f;
-	sf::Vector2f spawnPosLeft = playerPos;
+	formation = true;
+	randEnemy = 4;
+	rightSide = true;
 	switch (randEnemy) 
 	{
-	case 1: //moocolon wave spawn logic
+	case 1: { //moocolon wave spawn logic
+		float spawnPositionY = viewport.getCenter().y - 30.f;
 		if (formation && rightSide)// 2x2 square, right side
 		{
-			padding = 16.f;
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y})->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x + padding, spawnPosRight.y + padding  })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y + padding})->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x + padding, spawnPosRight.y})->initialize();
+			padding = { 16.f, 16.f };
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX + padding.x, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX + padding.x, spawnPositionY })->initialize();
 		}
 		else if (formation && !rightSide)// 2x2 square, left side
 		{
-			padding = 16.f;
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x + padding, spawnPosLeft.y + padding })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y + padding })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x + padding, spawnPosLeft.y })->initialize();
+			padding = { 16.f, 16.f };
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX + padding.x, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX + padding.x, spawnPositionY })->initialize();
 		}
-		else if (!formation && rightSide)
+		else if (!formation && rightSide) // column
 		{
-			padding = 40.f;
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y + padding })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y  })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosRight.x, spawnPosRight.y - padding })->initialize();
+			padding.y = 40.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY - padding.y })->initialize();
 		}
-		else if (!formation && !rightSide)
+		else if (!formation && !rightSide) // column
 		{
-			padding = 40.f;
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y + padding })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosLeft.x, spawnPosLeft.y - padding })->initialize();
+			padding.y = 40.f;
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ edgePositionX, spawnPositionY - padding.y })->initialize();
 		}
 		break;
-	case 2: //bottaco wave spawn logic
+	}
+	case 2: { //bottaco wave spawn logic
 		if (formation && rightSide) // one from each side
 		{
 			//std::make_shared<Bottaco>(sf::Vector2f{})->initialize();
@@ -303,12 +318,19 @@ void Game::enemyWave()
 			std::make_shared<Bottaco>(sf::Vector2f{ 0 ,middleY - distanceY })->initialize();*/
 		}
 		break;
-	case 3://scissors wave spawn logic
+	}
+	case 3: {//scissors wave spawn logic
+		float spawnPositionY = 0.f;
 		if (formation && rightSide)
 		{
-			/*std::make_shared<Scissors>(sf::Vector2f{})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{})->initialize();*/
+			padding = { 20.f, 12.f };
+			spawnPositionY = viewport.getCenter().y;
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX - padding.x, spawnPositionY})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX, spawnPositionY})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX + padding.x, spawnPositionY})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX - padding.x, spawnPositionY - padding.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX, spawnPositionY - padding.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{edgePositionX + padding.x, spawnPositionY - padding.y})->initialize();
 		}
 		else if (formation && !rightSide)
 		{
@@ -328,10 +350,18 @@ void Game::enemyWave()
 
 		}
 		break;
-	case 4: //snake wave spawn logic
+	}
+	case 4: {//snake wave spawn logic
+		float spawnPositionY = viewport.getCenter().y;
 		if (formation && rightSide)
 		{
-
+			padding = { 30.f, 35.f };
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX + 45.f + padding.x, spawnPositionY - 40.f})->initialize();
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX + 45.f, spawnPositionY - 40.f})->initialize();
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX, spawnPositionY })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX + padding.x, spawnPositionY })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX - 45.f, spawnPositionY + 40.f})->initialize();
+			std::make_shared<Snake>(sf::Vector2f{edgePositionX - 45.f + padding.x, spawnPositionY + 40.f})->initialize();
 		}
 		else if (formation && !rightSide)
 		{
@@ -346,6 +376,10 @@ void Game::enemyWave()
 
 		}
 		break;
+	}
+	default:	
+		break;	
+
 	}
 }
 

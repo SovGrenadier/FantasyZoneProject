@@ -42,6 +42,8 @@ Snake::Snake(sf::Vector2f position) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction])->getFrame(0));
 	sprite->setPosition(pos);
+
+	std::cout << "Snake created\n";
 }
 
 

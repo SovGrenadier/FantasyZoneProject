@@ -84,7 +84,6 @@ void Game::run()
                 }
                 if(event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
                     window.close();
-				
             }
             if (event->is<sf::Event::KeyReleased>())
             {

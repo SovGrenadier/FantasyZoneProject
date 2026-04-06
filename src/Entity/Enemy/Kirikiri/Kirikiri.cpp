@@ -7,7 +7,8 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	//same speed as player
 	faceRight = isFaceRight;
 	ticks = 12;
-	speed.x = 0.6f;
+	viewPos = viewport->getCenter().x;
+	speed = -1.f;
 	pos = newPos;
 	
 	sf::IntRect zone({ 8, 20 }, { 51, 15 });
@@ -24,7 +25,6 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 
 	sprite->setTexture(*texture);
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
-	std::cout << "Kirikiri created" << std::endl;
 }
 
 
@@ -52,6 +52,8 @@ void Kirikiri::move()
 
 void Kirikiri::update(int) 
 {
+	if (speed == -1&& viewport->getCenter().x!=viewPos)
+		speed = viewport->getCenter().x - viewPos;
 	ticks++;
 	if (!alive)
 	{
@@ -93,42 +95,43 @@ void Kirikiri::update(int)
 	}
 	else if (disTraveled < 300.f)
 	{
-		if (sprite->getPosition().x > viewport->getCenter().x + 105.f&&faceRight)
-		{
+		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x > viewport->getCenter().x + 105.f && faceRight)
 			switchLeft = true;
-		}
-		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 105.f&&!faceRight)
-		{
+		else
+			switchLeft = false;
+
+		if (sprite->getPosition().x < viewport->getCenter().x - 105.f && !faceRight)
 			switchRight = true;
-		}
+		else
+			switchRight = false;
 
 		
 		if (switchRight)
 		{
-
+			std::cout << "test"<<std::endl;
 		}
 		else if (switchLeft)
 		{
-
+			std::cout << "test2" << std::endl;
 		}
 		else if (faceRight)
 		{
-			sprite->move({ 1.0f,0.0f });
+			sprite->move({ speed,0.0f });
 		}
 		else
 		{
-			sprite->move({ -1.0f,0.0f });
+			sprite->move({ -1*speed,0.0f });
 		}
 	}
 	else
 	{
 		if (faceRight)
 		{
-			sprite->move({ 3.5f,0.0f });
+			sprite->move({3*speed,0.0f });
 		}
 		else
 		{
-			sprite->move({ -3.5f,0.0f });
+			sprite->move({ -3*speed,0.0f });
 		}
 	}
 	if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)

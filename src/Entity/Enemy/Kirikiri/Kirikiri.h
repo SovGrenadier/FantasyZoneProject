@@ -29,6 +29,8 @@ private:
 	//used for switch direction animation
 	float disTravelTemp = 0.0f;
 	//this will be used to determine when kirikiri should fly off the screen
+	float speed;//speed will be equivalent to the viewport speed when the kirikiri is created
+	float viewPos;
 	sf::Vector2f spawnPos;
 	//when player hits the edge of the viewport and we want to switch movement to the right
 	bool switchRight;

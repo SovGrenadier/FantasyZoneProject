@@ -53,6 +53,8 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	sprite->setPosition(pos);
+	
+	std::cout << "Moocolon created\n";
 }
 
 
@@ -66,10 +68,6 @@ void Moocolon::spawn()
 {
 	set_active = true;
 	set_visible = true;
-	/*two different ways to spawn
-	1. a group of 4 will form a square and move that way
-	2. a column of 4 will move horizontally
-	*/
 
 }
 

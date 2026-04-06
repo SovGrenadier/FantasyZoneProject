@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
+#include<memory>
 #include "../Enemy/Enemy.h"
+#include"../Player/Player.h"
 
 class Spawner : public Entity
 {
@@ -24,6 +26,7 @@ public:
 	void updateHealth(int); //runs every tick, checks for damage
 	void update(int input) override;
 	void death();
+	void getPlayer(std::shared_ptr<Player> newPlayer) { player = newPlayer; }
 	sf::Vector2f position;
 	sf::Sprite* getSprite() override;
 private:
@@ -40,4 +43,5 @@ private:
 	std::unordered_map<Actions, Animation*> animations;
 	unsigned int tickRate;
 	sf::Vector2f deathPos;
+	static inline std::shared_ptr<Player> player = std::make_shared<Player>();
 };

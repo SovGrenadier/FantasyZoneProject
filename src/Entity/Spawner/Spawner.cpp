@@ -9,7 +9,8 @@ Spawner::Spawner(int spawnerCount)
 	alive = true;
 	health = 20;
 	curDeathFrame = 0;
-	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 1011.f, 60.f },{ 1094.f, 120.f },{ 1281.f,50.f },{ 471.f, 102.f } };
+	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 1011.f, 60.f },
+		{ 1094.f, 120.f },{ 1281.f,50.f },{ 471.f, 102.f } };
 	if (spawnerCount >= 0 && spawnerCount < 5) //ensure no out of bounds access
 		position = spawnerLocs[spawnerCount];
 	else
@@ -20,7 +21,7 @@ Spawner::Spawner(int spawnerCount)
 	if (!texture->loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png"))
 		std::cerr << "Fail loading Round 1 wrapped with spawner locs.png\n";
 	if (!deathTexture->loadFromFile("../res/Enemies.png"))
-			std::cerr << "Failed loading Enemies.png in spawner\n";
+		std::cerr << "Failed loading Enemies.png in spawner\n";
 	sprite = new sf::Sprite(*texture);
 	deathSprite = new sf::Sprite(*deathTexture);
 

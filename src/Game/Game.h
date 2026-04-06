@@ -15,6 +15,7 @@
 #include "../Entity/Shop/Shop.h"
 #include "../Entity/Weapons/Bullet/Leaf.h"
 #include "../Entity/Enemy/Boss/Boss.h"
+#include "../Entity/UI/UI.h"
 
 class Game {
 public:
@@ -63,6 +64,7 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
 	std::shared_ptr<Spawner> spawnerDummy4 = std::make_shared<Spawner>(3);
 	std::shared_ptr<Spawner> spawnerDummy5 = std::make_shared<Spawner>(4);
+	std::shared_ptr<UI> UIelements = std::make_shared<UI>();
 	
 	Leaf* leafDummy;
 	//Shop* shop = new Shop();

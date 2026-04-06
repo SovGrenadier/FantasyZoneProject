@@ -136,7 +136,9 @@ void Game::run()
 		window.clear();
 		checkCollision();
 		window.setView(viewport);
+		window.draw(*UIelements->getText());
 		window.draw(*backgroundSprite1);
+
 		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
 		//window.draw(&(test), 1, sf::PrimitiveType::Points);
 		updateEntities();

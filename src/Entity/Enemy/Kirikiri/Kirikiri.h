@@ -24,7 +24,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	sf::Vector2f speed;
 	float disTraveled = 0.0f;
 	//used for switch direction animation
 	float disTravelTemp = 0.0f;

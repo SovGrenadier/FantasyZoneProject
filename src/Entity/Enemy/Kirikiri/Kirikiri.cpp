@@ -52,7 +52,7 @@ void Kirikiri::move()
 
 void Kirikiri::update(int) 
 {
-	if (speed == -1&& viewport->getCenter().x!=viewPos)
+	if (speed == -1.f&& viewport->getCenter().x!=viewPos)
 		speed = viewport->getCenter().x - viewPos;
 	ticks++;
 	if (!alive)
@@ -120,18 +120,18 @@ void Kirikiri::update(int)
 		}
 		else
 		{
-			sprite->move({ -1*speed,0.0f });
+			sprite->move({ -1.f*speed,0.0f });
 		}
 	}
 	else
 	{
 		if (faceRight)
 		{
-			sprite->move({3*speed,0.0f });
+			sprite->move({3.f*speed,0.0f });
 		}
 		else
 		{
-			sprite->move({ -3*speed,0.0f });
+			sprite->move({ -3.f*speed,0.0f });
 		}
 	}
 	if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)

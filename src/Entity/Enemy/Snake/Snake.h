@@ -9,13 +9,14 @@
 class Snake : public Enemy
 {
 public:
-	Snake(sf::Vector2f pos, sf::View* view);
+	Snake(sf::Vector2f pos);
 	~Snake();
 
 	enum Actions
 	{
 		FLY_RIGHT,
-		FLY_LEFT
+		FLY_LEFT,
+		DEATH
 	};
 
 

@@ -2,12 +2,11 @@
 #include <iostream>
 #include <cmath>
 
-Moocolon::Moocolon(sf::Vector2f position, sf::View* view) : Enemy()
+Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
-	sf::Vector2f viewCenter = view->getCenter();
+	float viewCenterX = viewport->getCenter().x;
 
-	if (position.x < viewCenter.x)
+	if (position.x < viewCenterX)
 		faceRight = true;
 	else
 		faceRight = false;
@@ -142,7 +141,7 @@ void Moocolon::update(int input)
 		{
 			ticks = 0;
 
-			if (curDeathFrame >= deathFrames.size())
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -151,7 +150,7 @@ void Moocolon::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(*animations[curAction]->nextFrame());
+				sprite->setTextureRect(*animations[DEATH]->nextFrame());
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });

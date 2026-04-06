@@ -16,9 +16,13 @@ Spawner::Spawner(int spawnerCount)
 		position = { 0.f,0.f };
 
 	texture = new sf::Texture();
+	deathTexture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png"))
-		std::cout << "Fail loading Round 1 wrapped with spawner locs.png\n";
+		std::cerr << "Fail loading Round 1 wrapped with spawner locs.png\n";
+	if (!deathTexture->loadFromFile("../res/Enemies.png"))
+			std::cerr << "Failed loading Enemies.png in spawner\n";
 	sprite = new sf::Sprite(*texture);
+	deathSprite = new sf::Sprite(*deathTexture);
 
 	sf::IntRect flyZone({ 76,433 }, { 46, 23 });
 	sf::IntRect groundZone({ 75, 406 }, { 48,25 });
@@ -39,6 +43,10 @@ Spawner::Spawner(int spawnerCount)
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(position);
+	
+	deathSprite->setTexture(*deathTexture);
+	deathSprite->setTextureRect(*(animations[DEATH]->getFrame(0)));
+	deathSprite->setPosition(position);
 
 	ticks = 1;
 	tickRate = 12;
@@ -76,7 +84,6 @@ void Spawner::spawnEnemy(int tick)
 
 void Spawner::update(int input)
 {
-	ticks++;
 	if (alive)
 	{
 		updateHealth(ticks);
@@ -84,6 +91,7 @@ void Spawner::update(int input)
 	}
 	else if (!alive)
 	{
+		ticks++;
 		if (ticks >= tickRate)
 		{
 			ticks = 0;
@@ -95,12 +103,12 @@ void Spawner::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(*animations[DEATH]->getFrame(curDeathFrame));
+				deathSprite->setTextureRect(*animations[DEATH]->getFrame(curDeathFrame));
 				//set origin
-				sf::FloatRect bounds = sprite->getLocalBounds();
-				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+				sf::FloatRect bounds = deathSprite->getLocalBounds();
+				deathSprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 				//set position back regardless of change due to origin
-				sprite->setPosition(deathPos);
+				deathSprite->setPosition(deathPos);
 				//advance to next death frame
 				curDeathFrame++;
 			}
@@ -114,5 +122,14 @@ void Spawner::death()
 {
 	curAction = DEATH;
 	alive = false;
-	deathPos = position;
+	deathPos = sprite->getGlobalBounds().getCenter();
+}
+
+
+sf::Sprite* Spawner::getSprite()
+{
+	if (alive)
+		return sprite;
+	else
+		return deathSprite;
 }

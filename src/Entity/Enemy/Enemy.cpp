@@ -10,14 +10,10 @@ Enemy::Enemy() : Entity()
 	defeatPoints = 100;
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Enemies.png"))
-		std::cout << "Fail loading Enemies.png\n";
+		std::cerr << "Fail loading Enemies.png\n";
 	sprite = new sf::Sprite(*texture);
 
 	//add 4 death frames
-	deathFrames.push_back(sf::IntRect({ 11,419 }, { 8,8 }));
-	deathFrames.push_back(sf::IntRect({ 21,417 }, { 12,12 }));
-	deathFrames.push_back(sf::IntRect({ 35,415 }, { 16,16 }));
-	deathFrames.push_back(sf::IntRect({ 11,419 }, { 8,8 }));
 	set_active = true;
 	set_visible = true;
 

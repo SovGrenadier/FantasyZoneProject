@@ -1,10 +1,9 @@
 #include "Scissors.h"
 
 
-Scissors::Scissors(sf::Vector2f position, sf::View* view) : Enemy()
+Scissors::Scissors(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
-	float viewportCenterX = view->getCenter().x;
+	float viewportCenterX = viewport->getCenter().x;
 	if (position.x < viewportCenterX)
 		faceRight = true;
 	else
@@ -16,16 +15,26 @@ Scissors::Scissors(sf::Vector2f position, sf::View* view) : Enemy()
 	pos = position;
 	acceleration = 1.05f;
 
-	sf::IntRect zone({ 9, 4 }, { 80, 16 });
-	Animation* fly = new Animation(1,4,zone);
+	sf::IntRect zoneRight({ 9, 4 }, { 80, 16 });
+	Animation* flyRight = new Animation(1, 4, zoneRight);
 
+	sf::IntRect zoneLeft({ 103,6 }, { 80,16 });
+	Animation* flyLeft = new Animation(1, 4, zoneLeft);
+
+	Animation* deathAnim = new Animation;
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 
 	if (faceRight)
 		curAction = FLY_RIGHT;
 	else
 		curAction = FLY_LEFT;
 
-	animations[curAction] = fly;
+	animations[FLY_RIGHT] = flyRight;
+	animations[FLY_LEFT] = flyLeft;
+	animations[DEATH] = deathAnim;
 
 	//needed for movement
 	speed = .6f;
@@ -34,6 +43,7 @@ Scissors::Scissors(sf::Vector2f position, sf::View* view) : Enemy()
 	baseY = pos.y;
 
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(pos);
 }
 
@@ -47,7 +57,7 @@ Scissors::~Scissors()
 }
 
 
-void Scissors::spawn() 
+void Scissors::spawn()
 {
 
 }
@@ -63,10 +73,10 @@ void Scissors::move()
 	*/
 
 	float wave = static_cast<float>(sin(time));
-	
+
 	sf::Time lifeSpan = sf::seconds(7.f);
 	bool isAlive = true;
-	
+
 	if (timer.getElapsedTime() >= lifeSpan)
 	{
 		isAlive = false;
@@ -86,8 +96,8 @@ void Scissors::move()
 		pos.x += speed;
 	else if (!faceRight && !isAlive)
 		pos.x -= speed;
-	 
-	
+
+
 	time += 0.05f;
 	sprite->setPosition(pos);
 }
@@ -108,7 +118,7 @@ void Scissors::update(int input)
 		{
 			ticks = 0;
 
-			if (curDeathFrame >= deathFrames.size())
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -116,7 +126,7 @@ void Scissors::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//setOrigin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -134,28 +144,16 @@ void Scissors::update(int input)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
-		
+
 		sf::FloatRect bounds = sprite->getLocalBounds();
 		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
-	if (faceRight)
-	{
-		//flip sprite so its facing right
-		sprite->setScale({ 1.f,1.f });
-	}
-	else
-	{
-		//flip sprite so its facing left
-		sprite->setScale({ -1.f,1.f });
-	}
-	
-	sprite->setPosition(pos);
 }
 
 
 void Scissors::death()
 {
+	curAction = DEATH;
 	alive = false;
 	deathPos = pos;
-	
 }

@@ -38,7 +38,7 @@ bool Enemy::isOnScreen(sf::View &viewport)
 	center.y = center.y - size.y * 0.5f;
 	
 	//give leeway a little bit off screen
-	float padding = 75.f;
+	float padding = 125.f;
 
 	sf::Vector2f expandedPos;
 	expandedPos.x = center.x - padding;

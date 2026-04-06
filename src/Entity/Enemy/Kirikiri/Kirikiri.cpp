@@ -1,5 +1,7 @@
 #include "Kirikiri.h"
 #include<iostream>
+#include<algorithm>
+#include<cmath>
 
 
 Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
@@ -31,6 +33,7 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
+	std::cout << "kirikiri created: " << faceRight << std::endl;
 }
 
 
@@ -59,7 +62,8 @@ void Kirikiri::move()
 void Kirikiri::update(int) 
 {
 	if (speed == -1.f&& viewport->getCenter().x!=viewPos)
-		speed = viewport->getCenter().x - viewPos;
+		speed = std::abs(viewport->getCenter().x - viewPos);
+	speed = std::max(speed, 1.f);
 	ticks++;
 	if (!alive)
 	{
@@ -102,31 +106,47 @@ void Kirikiri::update(int)
 	else if (disTraveled < 300.f)
 	{
 		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x > viewport->getCenter().x + 105.f && faceRight)
+		{
 			switchLeft = true;
+			disTravelTemp = disTraveled;
+		}
 		else
 			switchLeft = false;
 
 		if (sprite->getPosition().x < viewport->getCenter().x - 105.f && !faceRight)
+		{
 			switchRight = true;
+			disTravelTemp = disTraveled;
+		}
 		else
 			switchRight = false;
 
 		
 		if (switchRight)
 		{
-			std::cout << "test"<<std::endl;
+			if (disTraveled > disTravelTemp + 5)
+			{
+				switchRight = false;
+			}
+			//std::cout << "test"<<std::endl;
 		}
 		else if (switchLeft)
 		{
-			std::cout << "test2" << std::endl;
+			if (disTraveled > disTravelTemp + 5)
+			{
+				switchLeft = false;
+			}
+			//std::cout << "test2" << std::endl;
 		}
 		else if (faceRight)
 		{
 			sprite->move({ speed,0.0f });
+			disTraveled += speed;
 		}
 		else
 		{
 			sprite->move({ -1.f*speed,0.0f });
+			disTraveled += speed;
 		}
 	}
 	else

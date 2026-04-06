@@ -15,6 +15,11 @@ Game::Game()
 	player->getView(&viewport);
 	tick = 0;
 	entities = player->getEntities();
+	spawnerDummy->getPlayer(player);
+	spawnerDummy2->getPlayer(player);
+	spawnerDummy3->getPlayer(player);
+	spawnerDummy4->getPlayer(player);
+	spawnerDummy5->getPlayer(player);
 	leafDummy = new Leaf(pos);
 	std::make_shared<Boss>()->initialize();
 }

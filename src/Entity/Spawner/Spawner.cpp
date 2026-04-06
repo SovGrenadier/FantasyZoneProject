@@ -2,6 +2,7 @@
 #include "../Enemy/Kirikiri/Kirikiri.h"
 #include <iostream>
 
+
 Spawner::Spawner(int spawnerCount)
 {
 	set_visible = true;
@@ -69,13 +70,18 @@ void Spawner::updateHealth(int tick)
 
 void Spawner::spawnEnemy(int tick)
 {
+	bool kirikiriDir;
+	float playerCenter, spawnerCenter;
 	spawnerDist = viewport->getCenter().x - position.x;
 	//every 300 frames, spawn an enemy
 	if (tick % spawn_rate == 0 && set_active == true &&
 		125 >= spawnerDist && spawnerDist >= -125) 
 	{
+		playerCenter = player->getSprite()->getPosition().x + (player->getSprite()->getGlobalBounds().size.x * 0.5f);
+		spawnerCenter = sprite->getPosition().x + (0.5f * sprite->getGlobalBounds().size.x);
+		kirikiriDir = playerCenter > spawnerCenter;
 		ticks = 0;
-		std::shared_ptr<Kirikiri> dummy = std::make_shared<Kirikiri>(true, position);
+		std::shared_ptr<Kirikiri> dummy = std::make_shared<Kirikiri>(kirikiriDir, position);
 		dummy->initialize();
 	}
 	if(ticks<spawn_rate)

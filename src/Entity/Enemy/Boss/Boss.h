@@ -1,4 +1,5 @@
 #include "../Enemy.h"
+#include "../../src/Entity/Weapons/Bullet/Leaf.h"
 
 class Boss : public Enemy
 {
@@ -11,7 +12,17 @@ public:
 	void move() override; 
 	void update(int) override;
 
+	enum IntRect
+	{
+		OPEN_MOUTH,
+		CLOSED_MOUTH
+	};
+
 private:
 	int ticks; 
 	Animation* glideRight; 
+	int attacks = 0; 
+	int frame = 0; 
+	const double PI = 4.0 * std::atan(1.0); 
+	bool mouthOpen; 
 };

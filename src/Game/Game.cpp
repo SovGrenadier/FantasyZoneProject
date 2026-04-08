@@ -3,6 +3,7 @@
 
 Game::Game()
 {
+    srand(time(NULL));
     window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
     if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
         std::cerr << "Error loading Round 1 Wrapped.png";
@@ -16,7 +17,7 @@ Game::Game()
     tick = 0;
     entities = player->getEntities();
     leafDummy = new Leaf(pos);
-    //std::make_shared<Boss>()->initialize(); 
+    std::make_shared<Boss>()->initialize(); 
 }
 
 Game::~Game()

@@ -14,6 +14,7 @@ Game::Game()
 	player->initialize();
 	player->getView(&viewport);
 	tick = 0;
+	offset = { -120.f,-88.f };
 	entities = player->getEntities();
 	spawnerDummy->getPlayer(player);
 	spawnerDummy2->getPlayer(player);
@@ -138,12 +139,12 @@ void Game::run()
 		//bullet->setPosition(mouseCoord); 
 
 		//viewport.move({ 2.0f,0.0f });
+		UIelements->setPosition(viewport.getCenter() + offset);
 		window.clear();
 		checkCollision();
 		window.setView(viewport);
-		window.draw(*UIelements->getText());
 		window.draw(*backgroundSprite1);
-
+		window.draw(*UIelements->getText());
 		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
 		//window.draw(&(test), 1, sf::PrimitiveType::Points);
 		updateEntities();

@@ -54,13 +54,13 @@ void Game::run()
 					if (((input % 0b01000000) / 0b00100000) == 0)
 						input += 0b00100000;
 				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Down)
 				{
 					//make sure third bit isn't already set to 1
 					if (((input % 0b00001000) / 0b00000100) == 0)
 						input += 0b00000100;
 				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::D)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Right)
 				{
 					//ensure that a isn't already pressed
 					if (((input % 0b00000100) / 0b00000010) == 0)
@@ -70,7 +70,7 @@ void Game::run()
 							input += 0b00001000;
 					}
 				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::A)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Left)
 				{
 					//make sure second bit isn't already set to 1
 					if (((input % 0b00000100) / 0b00000010) == 0)
@@ -79,7 +79,7 @@ void Game::run()
 					if (((input % 0b00010000) / 0b00001000) == 1)
 						input -= 0b00001000;
 				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::W)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Up)
 				{
 					//make sure first bit isn't already set to 1
 					if (((input % 0b00000010) / 0b00000001) == 0)
@@ -94,25 +94,25 @@ void Game::run()
 			}
 			if (event->is<sf::Event::KeyReleased>())
 			{
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::W)
+				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Up)
 				{
 					//make sure first bit isn't already set to 0
 					if (((input % 0b00000010) / 0b00000001) == 1)
 						input -= 0b00000001;
 				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::A)
+				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Left)
 				{
 					//make sure first bit isn't already set to 0
 					if (((input % 0b00000100) / 0b00000010) == 1)
 						input -= 0b00000010;
 				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::S)
+				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Down)
 				{
 					//make sure first bit isn't already set to 0
 					if (((input % 0b00001000) / 0b00000100) == 1)
 						input -= 0b00000100;
 				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::D)
+				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Right)
 				{
 					//make sure first bit isn't already set to 0
 					if (((input % 0b00010000) / 0b00001000) == 1)
@@ -191,8 +191,30 @@ void Game::checkCollision()
 		//std::cout << entities->size() << std::endl;
 		for (int x = i + 1; x < entities->size(); x++)
 		{
-			if (i != x && entities->at(x)->alive && entities->at(i)->alive)
+			if (entities->at(x)->alive && entities->at(i)->alive)
 			{
+				/*
+				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
+				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+				if (entity1.findIntersection(entity2).has_value())
+				{
+					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+						else if(std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+						}
+						else if (std::dynamic_pointer_cast<Bomb>(entities->at(i)) != nullptr)
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+						}
+					}
+				}
+				*/
 				//Check for collisions between player and enemies
 				if (!entities->at(x)->ownWeapon &&
 					std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)

@@ -8,7 +8,8 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 {
 	//same speed as player
 	faceRight = isFaceRight;
-	ticks = 12;
+	ticks = 6;
+	tickRate = 6;
 	viewPos = viewport->getCenter().x;
 	speed = -1.f;
 	pos = newPos;
@@ -122,37 +123,59 @@ void Kirikiri::update(int)
 		
 		if (switchRight)
 		{
-			std::cout << disTraveled << ' ' << disTravelTemp << std::endl;
-			if (disTraveled > disTravelTemp + 10*speed)
+			//ticks = 0;
+			//for testing and debugging
+			//std::cout << disTraveled << ' ' << disTravelTemp << std::endl;
+			//std::cout << "xPos:" << sprite->getPosition().x << ' ' << "yPos:" << sprite->getPosition().y << std::endl;
+			//std::cout << "xMov:" << (float)(-1 * (1 / 2.0) * speed) << std::endl;
+			if (disTraveled > disTravelTemp + 12*speed)
 			{
 				switchRight = false;
 			}
 			else
 			{
-				if (disTraveled < disTravelTemp + 6*speed)
+				if (disTraveled < disTravelTemp + 7*speed)
 				{
 					//moves along hypotenuse of length speed, 30,60,90 right triangle
-					sprite->move({ (float)(-1 * (1 / 2)*speed), (float)(-1 * (sqrt(3) / 2)*speed) });
+					sprite->move({ (float)(-1 * (1 / 2.0)*speed), (float)(-1 * (sqrt(3) / 2)*speed) });
 					disTraveled += speed;
+					faceRight = true;
+					curAction = FLY_RIGHT;
+					ticks = 6;
 				}
 				else
 				{
 					//moves along hypotenuse of length speed, 30,60,90 right triangle
-					sprite->move({ (float)(1 * (1 / 2) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					sprite->move({ (float)(1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
 					disTraveled += speed;
-					faceRight = true;
-					curAction = FLY_RIGHT;
 				}
 			}
 			//std::cout << "test"<<std::endl;
 		}
 		else if (switchLeft)
 		{
-			if (disTraveled > disTravelTemp + 5)
+			if (disTraveled > disTravelTemp + 12 * speed)
 			{
 				switchLeft = false;
 			}
-			//std::cout << "test2" << std::endl;
+			else
+			{
+				if (disTraveled < disTravelTemp + 7 * speed)
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+					faceRight = false;
+					curAction = FLY_LEFT;
+					ticks = 6;
+				}
+				else
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(-1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+				}
+			}
 		}
 		else if (faceRight)
 		{

@@ -33,7 +33,7 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
-	std::cout << "kirikiri created: " << faceRight << std::endl;
+	//std::cout << "kirikiri created: " << faceRight << std::endl;
 }
 
 
@@ -61,9 +61,11 @@ void Kirikiri::move()
 
 void Kirikiri::update(int) 
 {
+	/*
 	if (speed == -1.f&& viewport->getCenter().x!=viewPos)
 		speed = std::abs(viewport->getCenter().x - viewPos);
-	speed = std::max(speed, 1.f);
+	speed = std::max(speed, 1.f);*/
+	speed = 1.5;
 	ticks++;
 	if (!alive)
 	{
@@ -103,30 +105,44 @@ void Kirikiri::update(int)
 		sprite->move({ 0.0f,1.0f });
 		disTraveled += 1.0f;
 	}
-	else if (disTraveled < 300.f)
+	else if (disTraveled < 600.f)
 	{
-		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x > viewport->getCenter().x + 105.f && faceRight)
+		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x > viewport->getCenter().x + 105.f && faceRight && !switchLeft)
 		{
 			switchLeft = true;
 			disTravelTemp = disTraveled;
 		}
-		else
-			switchLeft = false;
 
-		if (sprite->getPosition().x < viewport->getCenter().x - 105.f && !faceRight)
+		if (sprite->getPosition().x < viewport->getCenter().x - 105.f && !faceRight&&!switchRight)
 		{
 			switchRight = true;
 			disTravelTemp = disTraveled;
 		}
-		else
-			switchRight = false;
 
 		
 		if (switchRight)
 		{
-			if (disTraveled > disTravelTemp + 5)
+			std::cout << disTraveled << ' ' << disTravelTemp << std::endl;
+			if (disTraveled > disTravelTemp + 10*speed)
 			{
 				switchRight = false;
+			}
+			else
+			{
+				if (disTraveled < disTravelTemp + 6*speed)
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(-1 * (1 / 2)*speed), (float)(-1 * (sqrt(3) / 2)*speed) });
+					disTraveled += speed;
+				}
+				else
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(1 * (1 / 2) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+					faceRight = true;
+					curAction = FLY_RIGHT;
+				}
 			}
 			//std::cout << "test"<<std::endl;
 		}
@@ -162,16 +178,16 @@ void Kirikiri::update(int)
 	}
 	if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)
 	{
-		std::cout << '1' << std::endl;
-		std::cout << sprite->getPosition().x + sprite->getGlobalBounds().size.x << std::endl;
-		std::cout << viewport->getCenter().x - 125.f << std::endl;
+		//std::cout << '1' << std::endl;
+		//std::cout << sprite->getPosition().x + sprite->getGlobalBounds().size.x << std::endl;
+		//std::cout << viewport->getCenter().x - 125.f << std::endl;
 		set_active = false;
 		set_visible = false;
 	}
 	if (sprite->getPosition().x > viewport->getCenter().x + 125.f)
 	{
-		std::cout << sprite->getPosition().x << std::endl;
-		std::cout << viewport->getCenter().x + 125.f << std::endl;
+		//std::cout << sprite->getPosition().x << std::endl;
+		//std::cout << viewport->getCenter().x + 125.f << std::endl;
 		set_active = false;
 		set_visible = false;
 	}

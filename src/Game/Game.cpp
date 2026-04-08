@@ -15,6 +15,7 @@ Game::Game()
 	player->getView(&viewport);
 	tick = 0;
 	offset = { -120.f,-88.f };
+	score = 0;
 	entities = player->getEntities();
 	spawnerDummy->getPlayer(player);
 	spawnerDummy2->getPlayer(player);
@@ -139,6 +140,7 @@ void Game::run()
 		//bullet->setPosition(mouseCoord); 
 
 		//viewport.move({ 2.0f,0.0f });
+		UIelements->setText("Score: " + std::to_string(score));
 		UIelements->setPosition(viewport.getCenter() + offset);
 		window.clear();
 		checkCollision();
@@ -234,7 +236,7 @@ void Game::checkCollision()
 				{
 					entities->at(x)->takeDamage(entities->at(i)->getDamage());
 					entities->at(i)->takeDamage(entities->at(x)->getDamage());
-
+					score += 100;
 				}
 			}
 		}

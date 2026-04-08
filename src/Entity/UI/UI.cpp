@@ -9,9 +9,11 @@ UI::UI()
     font = new sf::Font();
     if (!font->openFromFile("../res/Fonts/determination.ttf"))
 		std::cerr << "Failed to load font in UI\n";
+	font->setSmooth(false);
     text = new sf::Text(*font, "BING BONG", 25);
-	text->setCharacterSize(25);
-	text->setPosition({ 800.f, 32.f });//temp value
+	text->setFillColor(sf::Color::Black);
+	text->setCharacterSize(12);
+	text->setScale(sf::Vector2f(.75f, .5f));
 }
 
 UI::~UI()

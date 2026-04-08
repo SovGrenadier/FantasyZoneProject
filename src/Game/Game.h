@@ -52,6 +52,7 @@ private:
 	void initialize(); 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 
+	sf::Vector2f offset;
 	//Temporary for testing 
 	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
 	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 

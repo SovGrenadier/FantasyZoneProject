@@ -1,5 +1,5 @@
 #include "../Enemy.h"
-
+#pragma once
 
 class Boss : public Enemy
 {

@@ -144,6 +144,11 @@ void Game::run()
 		UIelements->setPosition(viewport.getCenter() + offset);
 		window.clear();
 		checkCollision();
+		if (!(player->alive))
+		{
+			window.close();
+			std::cout << "Game over" << std::endl;
+		}
 		window.setView(viewport);
 		window.draw(*backgroundSprite1);
 		window.draw(*UIelements->getText());
@@ -195,7 +200,7 @@ void Game::checkCollision()
 		{
 			if (entities->at(x)->alive && entities->at(i)->alive)
 			{
-				/*
+				
 				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
 				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
 				if (entity1.findIntersection(entity2).has_value())
@@ -209,14 +214,70 @@ void Game::checkCollision()
 						else if(std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 						else if (std::dynamic_pointer_cast<Bomb>(entities->at(i)) != nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Spawner>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+						else if (std::dynamic_pointer_cast<Bomb>(entities->at(i)) != nullptr)
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Player>(entities->at(x)))
+					{
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+						}
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)))
+					{
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Bomb>(entities->at(x)))
+					{
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						{
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 					}
 				}
-				*/
+				/*
 				//Check for collisions between player and enemies
 				if (!entities->at(x)->ownWeapon &&
 					std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
@@ -238,6 +299,7 @@ void Game::checkCollision()
 					entities->at(i)->takeDamage(entities->at(x)->getDamage());
 					score += 100;
 				}
+				*/
 			}
 		}
 

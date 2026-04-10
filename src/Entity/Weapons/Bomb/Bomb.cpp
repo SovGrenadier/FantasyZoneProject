@@ -36,6 +36,12 @@ void Bomb::death()
 //equation to get bomb motion is -(starting height)+0.5x^2
 void Bomb::update(int input)
 {
+	if (health <= 0)
+	{
+		set_active = false;
+		set_visible = false;
+		alive = false;
+	}
 	if (direction)
 	{
 		xPos++;

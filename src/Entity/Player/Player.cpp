@@ -50,13 +50,13 @@ Player::~Player()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	/*
+	
 	if (health <= 0)
 	{
 		set_active = false;
 		set_visible = false;
 		alive = false;
-	}*/
+	}
 	//check if player hit the ceiling
 	if (ceiling.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{

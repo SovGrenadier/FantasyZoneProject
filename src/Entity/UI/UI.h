@@ -13,7 +13,6 @@ public:
 	~UI();
 	void setText(string);
 	void setPosition(sf::Vector2f);
-	//void displayText(sf::RenderTarget, sf::RenderStates) const;
 	void update();
 	sf::Text* getText();
 

@@ -8,6 +8,7 @@ public:
 	Start();
 	~Start();
 	void displayStartScreen();
+	void runGame();
 
 private:
 	sf::RenderWindow window;

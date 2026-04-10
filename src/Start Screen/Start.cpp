@@ -13,9 +13,35 @@ Start::Start()
 	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
 }
 
+Start::~Start()
+{
+	delete backgroundSprite1;
+}
+
 void Start::displayStartScreen()
 {
 	window.setView(viewport);
 	window.draw(*backgroundSprite1);
 	window.display();
+	while (window.isOpen())
+	{
+		while (const std::optional event = window.pollEvent())
+		{
+			if (event->is<sf::Event::Closed>())
+				window.close();
+			if (event->is<sf::Event::KeyPressed>())
+			{
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Enter)
+				{
+					runGame();
+				}
+			}
+		}
+	}
+}
+
+void Start::runGame()
+{
+	Game game;
+	game.run();
 }

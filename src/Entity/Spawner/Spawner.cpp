@@ -10,8 +10,8 @@ Spawner::Spawner(int spawnerCount)
 	alive = true;
 	health = 20;
 	curDeathFrame = 0;
-	sf::Vector2f spawnerLocs[5] = { { 800.f, 32.f },{ 1011.f, 60.f },
-		{ 1094.f, 120.f },{ 1281.f,50.f },{ 471.f, 102.f } };
+	sf::Vector2f spawnerLocs[8] = { { 78.f, 120.f }, { 265.f,50.f }, { 800.f, 32.f },{ 1011.f, 60.f },
+		{ 1094.f, 120.f }, { 1281.f,50.f }, { 471.f, 102.f }, { 641.f, 81.f } };
 	if (spawnerCount >= 0 && spawnerCount < 5) //ensure no out of bounds access
 		position = spawnerLocs[spawnerCount];
 	else
@@ -61,14 +61,6 @@ Spawner::~Spawner()
 	delete sprite;
 }
 
-void Spawner::updateHealth(int tick)
-{
-	if (health <= 0)
-	{
-		death();
-	}
-}
-
 void Spawner::spawnEnemy(int tick)
 {
 	bool kirikiriDir;
@@ -99,7 +91,7 @@ void Spawner::update(int input)
 	}
 	if (alive)
 	{
-		updateHealth(ticks);
+		//updateHealth(ticks);
 		spawnEnemy(ticks);
 	}
 	else if (!alive)

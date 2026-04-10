@@ -23,7 +23,8 @@ public:
 	};
 
     void spawnEnemy(int);
-	void updateHealth(int); //runs every tick, checks for damage
+	void setHeath(int newHealth) { health = newHealth; }
+	int getHeath() { return health; }
 	void update(int input) override;
 	void death();
 	void getPlayer(std::shared_ptr<Player> newPlayer) { player = newPlayer; }

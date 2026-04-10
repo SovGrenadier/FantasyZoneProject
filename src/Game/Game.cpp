@@ -203,8 +203,10 @@ void Game::checkCollision()
 				
 				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
 				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+				//check if two entities are colliding
 				if (entity1.findIntersection(entity2).has_value())
 				{
+					//determine which 2 entities are colliding and determine action that should be taken
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
@@ -215,11 +217,13 @@ void Game::checkCollision()
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							score += 100;
 						}
 						else if (std::dynamic_pointer_cast<Bomb>(entities->at(i)) != nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							score += 100;
 						}
 					}
 					else if (std::dynamic_pointer_cast<Spawner>(entities->at(x)) != nullptr)
@@ -256,11 +260,14 @@ void Game::checkCollision()
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							score += 100;
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							if (!(entities->at(i)->alive))
+								score += 500;
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bomb>(entities->at(x)))
@@ -269,37 +276,17 @@ void Game::checkCollision()
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							score += 100;
 						}
-						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							if(!(entities->at(i)->alive))
+								score += 500;
 						}
 					}
 				}
-				/*
-				//Check for collisions between player and enemies
-				if (!entities->at(x)->ownWeapon &&
-					std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
-				{
-					entity1 = entities->at(i)->getSprite()->getGlobalBounds();
-					entity2 = entities->at(x)->getSprite()->getGlobalBounds();
-				}
-				else if (entities->at(i)->ownWeapon &&
-					std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
-				{
-					entity1 = entities->at(i)->getSprite()->getGlobalBounds();
-					entity2 = entities->at(x)->getSprite()->getGlobalBounds();
-				}
-
-
-				if (entity1.findIntersection(entity2).has_value())
-				{
-					entities->at(x)->takeDamage(entities->at(i)->getDamage());
-					entities->at(i)->takeDamage(entities->at(x)->getDamage());
-					score += 100;
-				}
-				*/
 			}
 		}
 
@@ -351,9 +338,9 @@ void Game::enemyWave()
 
 
 	//testing
-	formation = true;
-	randEnemy = 4;
-	rightSide = true;
+	//formation = true;
+	//randEnemy = 4;
+	//rightSide = true;
 	switch (randEnemy) 
 	{
 	case 1: { //moocolon wave spawn logic

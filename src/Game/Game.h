@@ -16,6 +16,7 @@
 #include "../Entity/Weapons/Bullet/Leaf.h"
 #include "../Entity/Enemy/Boss/Boss.h"
 #include "../Entity/UI/UI.h"
+#pragma once
 
 class Game {
 public:

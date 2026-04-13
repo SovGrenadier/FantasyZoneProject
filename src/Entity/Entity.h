@@ -9,7 +9,7 @@ public:
 	Entity();
 	virtual ~Entity();
 	
-	void takeDamage(int); 
+	virtual void takeDamage(int); 
 	
 	//getter methods
 	//std::vector<Entity*>* getEntities() { return &entities; }

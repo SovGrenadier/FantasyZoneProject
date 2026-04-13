@@ -146,7 +146,7 @@ void Game::run()
 		checkCollision();
 		if (!(player->alive))
 		{
-			window.close();
+			//window.close();
 			std::cout << "Game over" << std::endl;
 		}
 		window.setView(viewport);

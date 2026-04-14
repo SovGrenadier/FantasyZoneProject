@@ -4,7 +4,6 @@
 Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 {
 	ticks = 13;
-	//pos = { 840.f, 75.f };
 	pos = position;
 
 	Animation* fly = new Animation(1, 3, sf::IntRect({ 10,55 }, { 63,20 }));
@@ -24,16 +23,18 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition(pos);
 
-	amplitudeX = 120.f;
-	amplitudeY = 80.f;
+	amplitudeX = 80.f;
+	amplitudeY = 40.f;
 	time = 0.f;
 	centerX = pos.x;
 	centerY = pos.y;
+	std::cout << "Bottaco created\n";
 }
 
 
 Bottaco::~Bottaco()
 {
+	std::cout << "Bottaco destroyed\n";
 }
 
 
@@ -77,7 +78,7 @@ void Bottaco::move()
 	pos.x = centerX + amplitudeX * sine;
 	pos.y = centerY + amplitudeY * sine * cosine;
 
-	time += 0.05;
+	time += 0.015;
 	sprite->setPosition(pos);
 }
 

@@ -48,6 +48,11 @@ Player::~Player()
 	delete standingLeft;
 }
 
+void Player::setHealth()
+{
+	health = 10000000;
+}
+
 //don't try to walk to the left
 void Player::update(int input)
 {

@@ -3,11 +3,14 @@
 
 Scissors::Scissors(sf::Vector2f position) : Enemy()
 {
-	float viewportCenterX = viewport->getCenter().x;
-	if (position.x < viewportCenterX)
+	sf::Vector2f viewportCenter = viewport->getCenter();
+	if (position.x < viewportCenter.x)
 		faceRight = true;
 	else
 		faceRight = false;
+
+	if(position.y <= viewportCenter.y)
+		
 
 	timer.restart();
 	ticks = 13;
@@ -45,6 +48,8 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(pos);
+
+	std::cout << "Scissors created\n";
 }
 
 
@@ -54,6 +59,8 @@ Scissors::~Scissors()
 	delete texture;
 	sprite = nullptr;
 	texture = nullptr;
+
+	std::cout << "Scissors destroyed\n";
 }
 
 

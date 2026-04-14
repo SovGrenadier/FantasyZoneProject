@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "../../src/Entity/Entity.h"
 #include "../../Animation/Animation.h"
 

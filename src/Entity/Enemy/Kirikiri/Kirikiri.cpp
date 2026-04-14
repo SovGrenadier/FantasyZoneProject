@@ -67,6 +67,7 @@ void Kirikiri::update(int)
 		//handled through player
 		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
+		viewportLoop = true;
 	}
 	//viewport goes off right end
 	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
@@ -75,6 +76,7 @@ void Kirikiri::update(int)
 		//std::cout << "test" << std::endl;
 		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		viewportLoop = true;
 	}
 	speed = 1.5;
 	ticks++;
@@ -202,27 +204,33 @@ void Kirikiri::update(int)
 	{
 		if (faceRight)
 		{
-			sprite->move({3.f*speed,0.0f });
+			sprite->move({ 3.f * speed,0.0f });
 		}
 		else
 		{
-			sprite->move({ -3.f*speed,0.0f });
+			sprite->move({ -3.f * speed,0.0f });
 		}
 	}
+
 	if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)
 	{
-		//std::cout << '1' << std::endl;
-		//std::cout << sprite->getPosition().x + sprite->getGlobalBounds().size.x << std::endl;
-		//std::cout << viewport->getCenter().x - 125.f << std::endl;
-		set_active = false;
-		set_visible = false;
+		if (viewportLoop)
+			viewportLoop = false;
+		else
+		{
+			set_active = false;
+			set_visible = false;
+		}
 	}
 	if (sprite->getPosition().x > viewport->getCenter().x + 125.f)
 	{
-		//std::cout << sprite->getPosition().x << std::endl;
-		//std::cout << viewport->getCenter().x + 125.f << std::endl;
-		set_active = false;
-		set_visible = false;
+		if (viewportLoop)
+			viewportLoop = false;
+		else
+		{
+			set_active = false;
+			set_visible = false;
+		}
 	}
 	//sf::FloatRect bounds = sprite->getLocalBounds();
 	//sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });

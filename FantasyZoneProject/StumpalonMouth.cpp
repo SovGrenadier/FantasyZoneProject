@@ -4,6 +4,10 @@
 StumpalonMouth::StumpalonMouth(sf::Vector2f pos)
 {
 	ticks = 24; 
+	frame = 0; 
+	health = 42;
+
+
 	if (!texture->loadFromFile("../res/Bosses.png"))
 		std::cout << "Error Loaing from File";
 	sprite->setTexture(*texture);
@@ -15,11 +19,9 @@ StumpalonMouth::StumpalonMouth(sf::Vector2f pos)
 	sprite->setTextureRect(*changeColor->getFrame(0));
 
 	sprite->setPosition(sf::Vector2f{ pos.x+1, pos.y + 34 }); 
-
-	health = 24; 
 }
 
-StumpalonMouth::StumpalonMouth()
+StumpalonMouth::~StumpalonMouth()
 {
 
 }
@@ -31,7 +33,16 @@ void StumpalonMouth::setVisibility(bool state)
 
 void StumpalonMouth::changeState()
 {
-	sprite->setTextureRect(*changeColor->nextFrame());
+
+	if (frame == 4)
+		frame = 1;
+	else
+		frame += 2;
+
+	if(frame<=5)
+		sprite->setTextureRect(*changeColor->getFrame(frame));
+	else
+		sprite->setTextureRect(sf::IntRect(sf::Vector2i(240, 54), sf::Vector2i(9, 23)));
 }
 
 void StumpalonMouth::update(int input)
@@ -67,11 +78,10 @@ void StumpalonMouth::takeDamage(int damage)
 {
 	health -= damage; 
 
-	if (health == 18)
+	if (health == 36)
 		set_visible = true; 
-
-	if (health % 6 == 0)
+	else if (health % 6 == 0)
 		changeState(); 
-
-	std::cout << "Damage: " << damage << std::endl; 
+	else if (health <= 0)
+		death();
 }

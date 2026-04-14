@@ -3,11 +3,14 @@
 
 Scissors::Scissors(sf::Vector2f position) : Enemy()
 {
-	float viewportCenterX = viewport->getCenter().x;
-	if (position.x < viewportCenterX)
+	sf::Vector2f viewportCenter = viewport->getCenter();
+	if (position.x < viewportCenter.x)
 		faceRight = true;
 	else
 		faceRight = false;
+
+	if(position.y <= viewportCenter.y)
+		
 
 	timer.restart();
 	ticks = 13;
@@ -45,6 +48,8 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(pos);
+
+	std::cout << "Scissors created\n";
 }
 
 
@@ -54,6 +59,8 @@ Scissors::~Scissors()
 	delete texture;
 	sprite = nullptr;
 	texture = nullptr;
+
+	std::cout << "Scissors destroyed\n";
 }
 
 
@@ -80,14 +87,13 @@ void Scissors::move()
 	{
 		//handled through player
 		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
+		viewportLoop = true;
 		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
 	}
 	//viewport goes off right end
 	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
 	{
-		//handled through player
-		//std::cout << "test" << std::endl;
-		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
+		viewportLoop = true;
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
 	if (timer.getElapsedTime() >= lifeSpan)
@@ -120,8 +126,13 @@ void Scissors::update(int input)
 {
 	if (!isOnScreen(*viewport))
 	{
-		set_active = false;
-		set_visible = false;
+		if (viewportLoop)
+			viewportLoop = false;
+		else
+		{
+			set_active = false;
+			set_visible = false;
+		}
 		return;
 	}
 	ticks++;

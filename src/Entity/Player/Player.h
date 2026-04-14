@@ -29,6 +29,7 @@ public:
 
 	void update(int input) override;
 	void death() override;
+	void setHealth();
 
 	std::unordered_map<Actions, Animation*> animations;
 private:

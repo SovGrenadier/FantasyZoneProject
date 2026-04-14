@@ -69,6 +69,9 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
 	std::shared_ptr<Spawner> spawnerDummy4 = std::make_shared<Spawner>(3);
 	std::shared_ptr<Spawner> spawnerDummy5 = std::make_shared<Spawner>(4);
+	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
+	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
+	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
 	std::shared_ptr<UI> UIelements = std::make_shared<UI>();
 	
 	Leaf* leafDummy;

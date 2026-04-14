@@ -1,5 +1,6 @@
 #include<../../src/Game/Game.h>
 #include <iostream>
+#include<algorithm>
 
 Game::Game()
 {
@@ -24,6 +25,9 @@ Game::Game()
 	spawnerDummy3->getPlayer(player);
 	spawnerDummy4->getPlayer(player);
 	spawnerDummy5->getPlayer(player);
+	spawnerDummy6->getPlayer(player);
+	spawnerDummy7->getPlayer(player);
+	spawnerDummy8->getPlayer(player);
 	leafDummy = new Leaf(pos);
 	//std::make_shared<Boss>()->initialize();
 }
@@ -184,7 +188,7 @@ void Game::run()
 		checkCollision();
 		if (!(player->alive))
 		{
-			//window.close();
+			window.close();
 			std::cout << "Game over" << std::endl;
 		}
 		window.setView(viewport);
@@ -216,6 +220,13 @@ void Game::updateEntities()
 		if ((entities->at(i))->getActive())
 			(entities->at(i))->update(input);
 	}
+	//due to viewport loop some spawner are drawn twice on the entrie background
+	//need to make sure these spawners have the same health since they represent the same spawner just on 
+	// different sides of the loop
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
+	spawnerDummy6->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
 }
 
 void Game::drawEntities()
@@ -519,4 +530,7 @@ void Game::initialize()
 	spawnerDummy3->initialize();
 	spawnerDummy4->initialize();
 	spawnerDummy5->initialize();
+	spawnerDummy6->initialize();
+	spawnerDummy7->initialize();
+	spawnerDummy8->initialize();
 }

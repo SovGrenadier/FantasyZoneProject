@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include"../../src/Game/Game.h"
 #include<iostream>
-#include "../../src/Start Screen/Start.h"
 
 int main()
 {

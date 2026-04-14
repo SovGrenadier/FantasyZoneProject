@@ -16,7 +16,6 @@ Boss::Boss()
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
 
 	sprite->setPosition(sf::Vector2f(900.f, 15.f));
-	mouth = std::make_shared<StumpalonMouth>(sf::Vector2f(900.f, 15.f));
 	sprite->setPosition(sf::Vector2f(900.f, 75.f));
  
 }
@@ -52,26 +51,32 @@ void Boss :: move()
 
 	if (ticks % 50 == 0)
 	{
-		frame++;
 		if (frame == 3)
 		{
-			frame=1;
-			sprite->setTextureRect(*glideRight->getFrame(frame));
-			frame = -1; 
+			sprite->setTextureRect(*glideRight->getFrame(1));
+			frame = 0; 
 		}
 		else 
 			sprite->setTextureRect(*glideRight->getFrame(frame));
+
+		frame++;
 	}
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks%7==0)
-		attack();
+		//attack();
+
+	if (sprite->getTextureRect() != *glideRight->getFrame(0))
+		mouth->setVisibility(false); 
  
 }
 
 void Boss::update(int input)
 {
-	if(ticks==24)
-		mouth->initialize(); 
+	if (ticks == 24)
+	{
+		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
+		mouth->initialize();
+	}
 
 	ticks++; 
 	move();

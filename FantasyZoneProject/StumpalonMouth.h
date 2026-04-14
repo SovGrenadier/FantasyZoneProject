@@ -19,5 +19,6 @@ private:
 	sf::IntRect zone; 
 	Animation* changeColor; 
 	int ticks; 
+	const double PI = 4.0 * std::atan(1.0);
 };
 

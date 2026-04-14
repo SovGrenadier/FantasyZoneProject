@@ -13,6 +13,7 @@ StumpalonMouth::StumpalonMouth(sf::Vector2f pos)
 
 	changeColor = new Animation{ 3, 2, zone };
 	sprite->setTextureRect(*changeColor->getFrame(0));
+
 	sprite->setPosition(sf::Vector2f{ pos.x+1, pos.y + 34 }); 
 
 	health = 24; 
@@ -42,9 +43,10 @@ void StumpalonMouth::update(int input)
 void StumpalonMouth::move()
 {
 	float ySpeed;
-	ySpeed = 2 * sin(ticks / 20);
+	ySpeed = -sin((ticks * PI) / 100);
 
 	sprite->move(sf::Vector2f(.7f, ySpeed));
+
 }
 
 void StumpalonMouth::takeDamage(int damage)
@@ -56,4 +58,6 @@ void StumpalonMouth::takeDamage(int damage)
 
 	if (health % 6 == 0)
 		changeState(); 
+
+	std::cout << "Damage: " << damage << std::endl; 
 }

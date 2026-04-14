@@ -2,8 +2,9 @@
 #include <iostream>
 #include <time.h>
 
-Leaf::Leaf(sf::Vector2f mouthPos) : Bullet(sf::Vector2f(0.f, 0.f), false)
+Leaf::Leaf(sf::Vector2f mouthPos) : Weapons(mouthPos)
 {
+	texture = new sf::Texture(); 
 	speedX = -(rand() % 4 + .5); 
 	speedY = rand() % 4 - 2.5; 
 
@@ -38,4 +39,9 @@ void Leaf::update(int input)
 		sprite->setTextureRect(*fly->nextFrame());
 
 	sprite->move(sf::Vector2f{ speedX, speedY });
+}
+
+bool Leaf::onScreen()
+{
+	return true; 
 }

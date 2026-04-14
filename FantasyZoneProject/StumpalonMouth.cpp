@@ -41,6 +41,20 @@ void StumpalonMouth::update(int input)
 
 void StumpalonMouth::move()
 {
+	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
+	{
+		//handled through player
+		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
+		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
+	}
+	//viewport goes off right end
+	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
+	{
+		//handled through player
+		//std::cout << "test" << std::endl;
+		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
+		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+	}
 	float ySpeed;
 	ySpeed = 2 * sin(ticks / 20);
 

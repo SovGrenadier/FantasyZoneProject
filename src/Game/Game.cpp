@@ -1,15 +1,18 @@
 #include<../../src/Game/Game.h>
 #include <iostream>
+#include<algorithm>
 
 Game::Game()
 {
 	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
-	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
-		std::cerr << "Error loading Round 1 Wrapped.png";
+	if (!background1.loadFromFile("../res/Title, Intro and Ending Text.png"))
+		std::cerr << "Error loading Title Screen";
 	backgroundSprite1 = new sf::Sprite(background1);
 	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 	viewport.setSize(sf::Vector2f{ 250.f,175.f });
     viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
+	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
+	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
 	initialize();
 	player->initialize();
 	player->getView(&viewport);
@@ -22,7 +25,11 @@ Game::Game()
 	spawnerDummy3->getPlayer(player);
 	spawnerDummy4->getPlayer(player);
 	spawnerDummy5->getPlayer(player);
-	std::make_shared<Boss>()->initialize();
+	spawnerDummy6->getPlayer(player);
+	spawnerDummy7->getPlayer(player);
+	spawnerDummy8->getPlayer(player);
+	leafDummy = new Leaf(pos);
+	//std::make_shared<Boss>()->initialize();
 }
 
 Game::~Game()
@@ -33,7 +40,35 @@ Game::~Game()
 void Game::run()
 {
 	window.setFramerateLimit(60);
-	while (window.isOpen())
+
+	while (window.isOpen() && !start)
+	{
+		while (const std::optional event = window.pollEvent())
+		{
+			if (event->is<sf::Event::Closed>())
+				window.close();
+			if (event->is<sf::Event::KeyPressed>())
+			{
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					window.close();
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+					start = true;
+			}
+		}
+		window.setView(viewportStart);
+		if (tick > 120 && tick < 480*4)
+			viewportStart.move({ 0.f,0.25f });
+		window.clear();
+		window.draw(*backgroundSprite1);
+		window.display();
+		tick++;
+	}
+	background1.~Texture();
+	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
+		std::cerr << "Error loading Level Background";
+	backgroundSprite1 = new sf::Sprite(background1);
+
+	while (window.isOpen() && start)
 	{
 		while (const std::optional event = window.pollEvent())
 		{
@@ -145,7 +180,7 @@ void Game::run()
 		checkCollision();
 		if (!(player->alive))
 		{
-			//window.close();
+			window.close();
 			std::cout << "Game over" << std::endl;
 		}
 		window.setView(viewport);
@@ -177,6 +212,13 @@ void Game::updateEntities()
 		if ((entities->at(i))->getActive())
 			(entities->at(i))->update(input);
 	}
+	//due to viewport loop some spawner are drawn twice on the entrie background
+	//need to make sure these spawners have the same health since they represent the same spawner just on 
+	// different sides of the loop
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
+	spawnerDummy6->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
 }
 
 void Game::drawEntities()
@@ -487,4 +529,7 @@ void Game::initialize()
 	spawnerDummy3->initialize();
 	spawnerDummy4->initialize();
 	spawnerDummy5->initialize();
+	spawnerDummy6->initialize();
+	spawnerDummy7->initialize();
+	spawnerDummy8->initialize();
 }

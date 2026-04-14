@@ -29,6 +29,7 @@ private:
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
 	sf::View viewport;
+	sf::View viewportStart;
 
 	std::shared_ptr<Player> player = std::make_shared<Player>(); 
 
@@ -42,6 +43,7 @@ private:
 	* the sixth bit will represent if z is pressed
 	* */
 	int input = 0b00000000;
+	bool start = false;
 	//we need to deallocate bullets and bombs from this vector 
 	//std::vector<Entity*>* entities;
 	std::vector<std::shared_ptr<Entity>>* entities;
@@ -66,6 +68,9 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
 	std::shared_ptr<Spawner> spawnerDummy4 = std::make_shared<Spawner>(3);
 	std::shared_ptr<Spawner> spawnerDummy5 = std::make_shared<Spawner>(4);
+	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
+	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
+	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
 	std::shared_ptr<UI> UIelements = std::make_shared<UI>();
 	
 	Leaf* leafDummy;

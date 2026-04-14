@@ -29,7 +29,7 @@ Game::Game()
 	spawnerDummy7->getPlayer(player);
 	spawnerDummy8->getPlayer(player);
 	leafDummy = new Leaf(pos);
-	//std::make_shared<Boss>()->initialize();
+	std::make_shared<Boss>()->initialize();
 }
 
 Game::~Game()

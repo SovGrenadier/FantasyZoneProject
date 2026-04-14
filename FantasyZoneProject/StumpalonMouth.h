@@ -4,7 +4,7 @@ class StumpalonMouth : public Enemy
 {
 public:
 	StumpalonMouth(sf::Vector2f);
-	StumpalonMouth(); 
+	~StumpalonMouth(); 
 	void setVisibility(bool); 
 	void changeState(); 
 	void update(int) override; 
@@ -18,7 +18,7 @@ public:
 private:
 	sf::IntRect zone; 
 	Animation* changeColor; 
-	int ticks; 
+	int ticks, frame; 
 	const double PI = 4.0 * std::atan(1.0);
 };
 

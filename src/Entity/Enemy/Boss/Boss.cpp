@@ -58,6 +58,7 @@ void Boss :: move()
 		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
+
 	float ySpeed;
 	ySpeed =  - sin((ticks * PI) / 100);
 
@@ -70,17 +71,21 @@ void Boss :: move()
 			sprite->setTextureRect(*glideRight->getFrame(1));
 			frame = 0; 
 		}
-		else 
+		else
+		{
 			sprite->setTextureRect(*glideRight->getFrame(frame));
-
-		frame++;
+			frame++;
+		}
 	}
 
-	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks%7==0)
+	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
 		//attack();
 
-	if (sprite->getTextureRect() != *glideRight->getFrame(0))
-		mouth->setVisibility(false); 
+	if (sprite->getTextureRect() == *glideRight->getFrame(0))
+		mouth->setVisibility(true);
+	else
+		//mouth->setVisibility(false);
+		;
  
 }
 

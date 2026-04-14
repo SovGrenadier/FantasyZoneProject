@@ -29,6 +29,7 @@ private:
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
 	sf::View viewport;
+	sf::View viewportStart;
 
 	std::shared_ptr<Player> player = std::make_shared<Player>(); 
 

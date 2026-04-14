@@ -10,6 +10,8 @@ Game::Game()
 	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 	viewport.setSize(sf::Vector2f{ 250.f,175.f });
     viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
+	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
+	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
 	initialize();
 	player->initialize();
 	player->getView(&viewport);
@@ -33,33 +35,36 @@ Game::~Game()
 
 void Game::run()
 {
-	if (!start)
-	{
-		while (window.isOpen())
-		{
-			while (const std::optional event = window.pollEvent())
-			{
-				if (event->is<sf::Event::Closed>())
-					window.close();
-				if (event->is<sf::Event::KeyPressed>())
-				{
-					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
-						window.close();
-					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
-						start = true;
-				}
-			}
-			window.clear();
-			window.draw(*backgroundSprite1);
-			window.display();
-		}
-		background1.~Texture();
-		if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
-			std::cerr << "Error loading Level Background";
-		backgroundSprite1 = new sf::Sprite(background1);
-	}
 	window.setFramerateLimit(60);
-	while (window.isOpen())
+
+	while (window.isOpen() && !start)
+	{
+		while (const std::optional event = window.pollEvent())
+		{
+			if (event->is<sf::Event::Closed>())
+				window.close();
+			if (event->is<sf::Event::KeyPressed>())
+			{
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					window.close();
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+					start = true;
+			}
+		}
+		window.setView(viewportStart);
+		if (tick > 120 && tick < 480*4)
+			viewportStart.move({ 0.f,0.25f });
+		window.clear();
+		window.draw(*backgroundSprite1);
+		window.display();
+		tick++;
+	}
+	background1.~Texture();
+	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
+		std::cerr << "Error loading Level Background";
+	backgroundSprite1 = new sf::Sprite(background1);
+
+	while (window.isOpen() && start)
 	{
 		while (const std::optional event = window.pollEvent())
 		{

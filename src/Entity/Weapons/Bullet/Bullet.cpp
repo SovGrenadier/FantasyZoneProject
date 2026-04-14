@@ -30,6 +30,12 @@ void Bullet::death()
 
 void Bullet::update(int input)
 {
+	if (health <= 0)
+	{
+		set_active = false;
+		set_visible = false;
+		alive = false;
+	}
 	sprite->move({ speed+(viewport->getCenter().x-viewPos), 0});
 	//Move sprite and ensure movement works if a bullet is shot at the edge
 	//of the viewport (need to move the viewport to the other end)

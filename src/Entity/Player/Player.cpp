@@ -1,4 +1,5 @@
 #include"Player.h"
+#include<memory>
 
 Player::Player()
 {
@@ -49,6 +50,13 @@ Player::~Player()
 //don't try to walk to the left
 void Player::update(int input)
 {
+	
+	if (health <= 0)
+	{
+		set_active = false;
+		set_visible = false;
+		alive = false;
+	}
 	//check if player hit the ceiling
 	if (ceiling.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
@@ -446,16 +454,29 @@ void Player::death()
 //to-do: need to come up with away to delete bullets when created
 void Player::shoot()
 {
-	if(faceRight)
-		new Bullet({ sprite->getPosition().x+10,   sprite->getPosition().y+4 }, faceRight);
+	if (faceRight)
+	{
+		//new Bullet({ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+		bulletDummy->initialize();
+	}
 	else
-		new Bullet({ sprite->getPosition().x+5,   sprite->getPosition().y + 4 }, faceRight);
+	{
+		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x,   sprite->getPosition().y + 4 }, faceRight);
+		bulletDummy->initialize();
+	}
 }
 
 void Player::bomb()
 {
 	if (faceRight)
-		new Bomb({ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+	{
+		std::shared_ptr<Bomb> bombDummy = std::make_shared<Bomb>(sf::Vector2f{ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+		bombDummy->initialize();
+	}
 	else
-		new Bomb({ sprite->getPosition().x + 5,   sprite->getPosition().y + 4 }, faceRight);
+	{
+		std::shared_ptr<Bomb> bombDummy = std::make_shared<Bomb>(sf::Vector2f{ sprite->getPosition().x,   sprite->getPosition().y + 4 }, faceRight);
+		bombDummy->initialize();
+	}
 }

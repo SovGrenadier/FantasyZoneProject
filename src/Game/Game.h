@@ -15,6 +15,8 @@
 #include "../Entity/Shop/Shop.h"
 #include "../Entity/Weapons/Bullet/Leaf.h"
 #include "../Entity/Enemy/Boss/Boss.h"
+#include "../Entity/UI/UI.h"
+#pragma once
 
 class Game {
 public:
@@ -49,8 +51,9 @@ private:
 	void enemyWave();
 	static int getRandomInt(int min, int max);
 	void initialize(); 
-	sf::Vector2f pos = sf::Vector2f(790.f, 109.f);//player position + offset
-
+	int score;
+	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
+	sf::Vector2f offset; // offset used for UI position
 	//Temporary for testing 
 	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
 	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 
@@ -63,6 +66,7 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
 	std::shared_ptr<Spawner> spawnerDummy4 = std::make_shared<Spawner>(3);
 	std::shared_ptr<Spawner> spawnerDummy5 = std::make_shared<Spawner>(4);
+	std::shared_ptr<UI> UIelements = std::make_shared<UI>();
 	
 	Leaf* leafDummy;
 	//Shop* shop = new Shop();

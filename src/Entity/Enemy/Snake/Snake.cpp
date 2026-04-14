@@ -1,15 +1,15 @@
 #include "Snake.h"
 
 
-Snake::Snake(sf::Vector2f position, sf::View* view) : Enemy()
+Snake::Snake(sf::Vector2f position) : Enemy()
 {
-	viewport = view;
-	float viewportCenterX = view->getCenter().x;
+	float viewportCenterX = viewport->getCenter().x;
 	if (position.x < viewportCenterX)
 		faceRight = true;
 	else
 		faceRight = false;
 
+	alive = true;
 	timer.restart();
 	ticks = 13;
 	//pos = { 840.f, 120.f };
@@ -18,19 +18,32 @@ Snake::Snake(sf::Vector2f position, sf::View* view) : Enemy()
 	acceleration = 1.05f;
 
 	//flying animation
-	sf::IntRect zone({ 9, 76 }, { 78, 15 });
-	Animation* fly = new Animation(1,3, zone);
+	sf::IntRect zoneRight({ 9, 76 }, { 78, 15 });
+	Animation* flyRight = new Animation(1, 3, zoneRight);
+
+	sf::IntRect zoneLeft({ 104,78 }, { 78, 15 });
+	Animation* flyLeft = new Animation(1, 3, zoneLeft);
+
+	Animation* deathAnim = new Animation();
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 
 	if (faceRight)
 		curAction = FLY_RIGHT;
 	else
 		curAction = FLY_LEFT;
-	
-	animations[curAction] = fly;
+
+	animations[FLY_RIGHT] = flyRight;
+	animations[FLY_LEFT] = flyLeft;
+	animations[DEATH] = deathAnim;
 
 	sprite->setTexture(*texture);
-	sprite->setTextureRect(*fly->getFrame(0));
+	sprite->setTextureRect(*(animations[curAction])->getFrame(0));
 	sprite->setPosition(pos);
+
+	//std::cout << "Snake created\n";
 }
 
 
@@ -57,13 +70,15 @@ void Snake::move()
 		pos.x += speed;
 	else
 		pos.x -= speed;
-	
+
 	if (timer.getElapsedTime() >= lifeSpan)
 		speed *= acceleration;
+
+	sprite->setPosition(pos);
 }
 
 
-void Snake::update(int input) 
+void Snake::update(int input)
 {
 	ticks++;
 	if (!alive)
@@ -71,8 +86,8 @@ void Snake::update(int input)
 		if (ticks >= tickRate)
 		{
 			ticks = 0;
-			
-			if (curDeathFrame >= deathFrames.size())
+
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -81,7 +96,7 @@ void Snake::update(int input)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -95,25 +110,20 @@ void Snake::update(int input)
 		//exit method so sprite doesn't get updated further
 	}
 	move();
-	if(ticks >= tickRate)
+	if (ticks >= tickRate)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
-		
+
 		sf::FloatRect bounds = sprite->getLocalBounds();
 		sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
-	if (faceRight)
-		sprite->setScale({ 1.f,1.f });
-	else
-		sprite->setScale({ -1.f,1.f });
-
-	sprite->setPosition(pos);
 }
 
 
 void Snake::death()
 {
+	curAction = DEATH;
 	alive = false;
 	deathPos = pos;
 }

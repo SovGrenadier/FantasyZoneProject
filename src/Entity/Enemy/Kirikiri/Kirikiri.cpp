@@ -1,21 +1,30 @@
 #include "Kirikiri.h"
 #include<iostream>
+#include<algorithm>
+#include<cmath>
 
 
 Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 {
 	//same speed as player
 	faceRight = isFaceRight;
-	ticks = 12;
-	speed.x = 0.6f;
+	ticks = 6;
+	tickRate = 6;
+	viewPos = viewport->getCenter().x;
+	speed = -1.f;
 	pos = newPos;
 	
-	sf::IntRect zone({ 8, 20 }, { 51, 15 });
 	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
 	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
+	Animation* deathAnim = new Animation();
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
+	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
+	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
+	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 
 	animations[FLY_RIGHT] = flyRight;
 	animations[FLY_LEFT] = flyLeft;
+	animations[DEATH] = deathAnim;
 
 	if(faceRight)
 		curAction = FLY_RIGHT;
@@ -23,8 +32,9 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 		curAction = FLY_LEFT;
 
 	sprite->setTexture(*texture);
+	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
-
+	//std::cout << "kirikiri created: " << faceRight << std::endl;
 }
 
 
@@ -52,6 +62,11 @@ void Kirikiri::move()
 
 void Kirikiri::update(int) 
 {
+	/*
+	if (speed == -1.f&& viewport->getCenter().x!=viewPos)
+		speed = std::abs(viewport->getCenter().x - viewPos);
+	speed = std::max(speed, 1.f);*/
+	speed = 1.5;
 	ticks++;
 	if (!alive)
 	{
@@ -59,7 +74,7 @@ void Kirikiri::update(int)
 		{
 			ticks = 0;
 
-			if (curDeathFrame >= deathFrames.size())
+			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
 				set_visible = false;
@@ -68,7 +83,7 @@ void Kirikiri::update(int)
 			else
 			{
 				//change sprite
-				sprite->setTextureRect(deathFrames.at(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//set origin
 				sf::FloatRect bounds = sprite->getLocalBounds();
 				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
@@ -81,20 +96,132 @@ void Kirikiri::update(int)
 		return;
 		//exit method so sprite doesn't get updated further
 	}
-	move();
 	if (ticks >= tickRate)
 	{
 		ticks = 0;
 		sprite->setTextureRect(*animations[curAction]->nextFrame());
-		
-		//sf::FloatRect bounds = sprite->getLocalBounds();
-		//sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 	}
+	if (disTraveled < 20.f)
+	{
+		sprite->move({ 0.0f,1.0f });
+		disTraveled += 1.0f;
+	}
+	else if (disTraveled < 600.f)
+	{
+		if (sprite->getPosition().x + sprite->getGlobalBounds().size.x > viewport->getCenter().x + 105.f && faceRight && !switchLeft)
+		{
+			switchLeft = true;
+			disTravelTemp = disTraveled;
+		}
+
+		if (sprite->getPosition().x < viewport->getCenter().x - 105.f && !faceRight&&!switchRight)
+		{
+			switchRight = true;
+			disTravelTemp = disTraveled;
+		}
+
+		
+		if (switchRight)
+		{
+			//ticks = 0;
+			//for testing and debugging
+			//std::cout << disTraveled << ' ' << disTravelTemp << std::endl;
+			//std::cout << "xPos:" << sprite->getPosition().x << ' ' << "yPos:" << sprite->getPosition().y << std::endl;
+			//std::cout << "xMov:" << (float)(-1 * (1 / 2.0) * speed) << std::endl;
+			if (disTraveled > disTravelTemp + 12*speed)
+			{
+				switchRight = false;
+			}
+			else
+			{
+				if (disTraveled < disTravelTemp + 7*speed)
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(-1 * (1 / 2.0)*speed), (float)(-1 * (sqrt(3) / 2)*speed) });
+					disTraveled += speed;
+					faceRight = true;
+					curAction = FLY_RIGHT;
+					ticks = 6;
+				}
+				else
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+				}
+			}
+			//std::cout << "test"<<std::endl;
+		}
+		else if (switchLeft)
+		{
+			if (disTraveled > disTravelTemp + 12 * speed)
+			{
+				switchLeft = false;
+			}
+			else
+			{
+				if (disTraveled < disTravelTemp + 7 * speed)
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+					faceRight = false;
+					curAction = FLY_LEFT;
+					ticks = 6;
+				}
+				else
+				{
+					//moves along hypotenuse of length speed, 30,60,90 right triangle
+					sprite->move({ (float)(-1 * (1 / 2.0) * speed), (float)(-1 * (sqrt(3) / 2) * speed) });
+					disTraveled += speed;
+				}
+			}
+		}
+		else if (faceRight)
+		{
+			sprite->move({ speed,0.0f });
+			disTraveled += speed;
+		}
+		else
+		{
+			sprite->move({ -1.f*speed,0.0f });
+			disTraveled += speed;
+		}
+	}
+	else
+	{
+		if (faceRight)
+		{
+			sprite->move({3.f*speed,0.0f });
+		}
+		else
+		{
+			sprite->move({ -3.f*speed,0.0f });
+		}
+	}
+	if (sprite->getPosition().x + sprite->getGlobalBounds().size.x < viewport->getCenter().x - 125.f)
+	{
+		//std::cout << '1' << std::endl;
+		//std::cout << sprite->getPosition().x + sprite->getGlobalBounds().size.x << std::endl;
+		//std::cout << viewport->getCenter().x - 125.f << std::endl;
+		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x > viewport->getCenter().x + 125.f)
+	{
+		//std::cout << sprite->getPosition().x << std::endl;
+		//std::cout << viewport->getCenter().x + 125.f << std::endl;
+		set_active = false;
+		set_visible = false;
+	}
+	//sf::FloatRect bounds = sprite->getLocalBounds();
+	//sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 }
 
 
 void Kirikiri::death()
 {
+	curAction = DEATH;
 	alive = false;
-	deathPos = pos;
+	deathPos = sprite->getPosition();
 }

@@ -7,13 +7,13 @@
 class Bottaco : public Enemy
 {
 public:
-	Bottaco(sf::Vector2f pos, sf::View* view);
+	Bottaco(sf::Vector2f pos);
 	~Bottaco();
 	        
 	enum Actions
 	{
-		FLY_RIGHT,
-		FLY_LEFT
+		FLY,
+		DEATH
 	};
 
 	void spawn();

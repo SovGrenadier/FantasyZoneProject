@@ -15,6 +15,8 @@ Boss::Boss()
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
 
+	sprite->setPosition(sf::Vector2f(900.f, 15.f));
+	mouth = std::make_shared<StumpalonMouth>(sf::Vector2f(900.f, 15.f));
 	sprite->setPosition(sf::Vector2f(900.f, 75.f));
  
 }
@@ -41,7 +43,7 @@ void Boss::death()
 	//death logic
 }
 
-void Boss::move()
+void Boss :: move()
 {
 	float ySpeed;
 	ySpeed =  - sin((ticks * PI) / 100);
@@ -63,11 +65,14 @@ void Boss::move()
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks%7==0)
 		attack();
-
+ 
 }
 
 void Boss::update(int input)
 {
+	if(ticks==24)
+		mouth->initialize(); 
+
 	ticks++; 
 	move();
 }

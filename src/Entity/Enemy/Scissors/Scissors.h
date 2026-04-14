@@ -10,28 +10,16 @@
 class Scissors : public Enemy
 {
 public:
-	Scissors(sf::Vector2f pos, sf::View*);
+	Scissors(sf::Vector2f pos);
 	~Scissors();
 
 	enum Actions
 	{
 		FLY_RIGHT,
-		FLY_LEFT
+		FLY_LEFT,
+		DEATH
 	};
 
-	enum Formation
-	{
-		VERTICAL,
-		HORIZONTAL
-
-		/*
-		vertical is when there is a 1x3 formation of enemies
-		near the bottom and near the top of the screen.
-
-		horizontal is when near the middle of the screen there 
-		is a 2x3 formation of enemies, like a rectangle
-		*/
-	};
 
 	void spawn();
 	void move() override;

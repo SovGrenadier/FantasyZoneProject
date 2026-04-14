@@ -1,5 +1,7 @@
 #include "../Enemy.h"
 #include "../../src/Entity/Weapons/Bullet/Leaf.h"
+#include "../../StumpalonMouth.h"
+#pragma once
 
 class Boss : public Enemy
 {
@@ -25,4 +27,5 @@ private:
 	int frame = 0; 
 	const double PI = 4.0 * std::atan(1.0); 
 	bool mouthOpen; 
+	std::shared_ptr<StumpalonMouth> mouth; 
 };

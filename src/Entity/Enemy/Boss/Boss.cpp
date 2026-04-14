@@ -15,7 +15,7 @@ Boss::Boss()
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
 
 	sprite->setPosition(sf::Vector2f(900.f, 15.f));
- 
+	mouth = std::make_shared<StumpalonMouth>(sf::Vector2f(900.f, 15.f));
 }
 
 
@@ -37,7 +37,7 @@ void Boss::death()
 	//death logic
 }
 
-void Boss::move()
+void Boss :: move()
 {
 	float ySpeed;
 	ySpeed = 2 * sin(ticks / 20);
@@ -46,11 +46,14 @@ void Boss::move()
 
 	if (ySpeed > 0)
 		attack();
-
+ 
 }
 
 void Boss::update(int input)
 {
+	if(ticks==24)
+		mouth->initialize(); 
+
 	ticks++; 
-	move(); 
+	move();
 }

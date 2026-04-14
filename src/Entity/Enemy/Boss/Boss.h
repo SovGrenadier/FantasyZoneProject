@@ -1,4 +1,5 @@
 #include "../Enemy.h"
+#include "../../StumpalonMouth.h"
 #pragma once
 
 class Boss : public Enemy
@@ -15,4 +16,5 @@ public:
 private:
 	int ticks; 
 	Animation* glideRight; 
+	std::shared_ptr<StumpalonMouth> mouth; 
 };

@@ -49,6 +49,10 @@ void Game::run()
 					window.close();
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
 					start = true;
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+					start = true;
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
+					invincible = true;
 			}
 		}
 		window.setView(viewportStart);
@@ -59,6 +63,8 @@ void Game::run()
 		window.display();
 		tick++;
 	}
+	if (invincible)
+		player->setHealth();
 	background1.~Texture();
 	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
 		std::cerr << "Error loading Level Background";
@@ -171,6 +177,8 @@ void Game::run()
 
 		//viewport.move({ 2.0f,0.0f });
 		UIelements->setText("Score: " + std::to_string(score));
+		if (invincible)
+			UIelements->setText("Score: " + std::to_string(score) + "\nInvincible!");
 		UIelements->setPosition(viewport.getCenter() + offset);
 		window.clear();
 		checkCollision();

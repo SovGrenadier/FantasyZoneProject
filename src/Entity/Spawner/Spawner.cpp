@@ -10,9 +10,9 @@ Spawner::Spawner(int spawnerCount)
 	alive = true;
 	health = 20;
 	curDeathFrame = 0;
-	sf::Vector2f spawnerLocs[8] = { { 78.f, 120.f }, { 265.f,50.f }, { 800.f, 32.f },{ 1011.f, 60.f },
-		{ 1094.f, 120.f }, { 1281.f,50.f }, { 471.f, 102.f }, { 641.f, 81.f } };
-	if (spawnerCount >= 0 && spawnerCount < 5) //ensure no out of bounds access
+	sf::Vector2f spawnerLocs[8] = { { 78.f, 120.f }, { 265.f,50.f }, { 471.f, 102.f }, { 641.f, 81.f }, { 800.f, 32.f },{ 1011.f, 60.f },
+		{ 1094.f, 120.f }, { 1281.f,50.f } };
+	if (spawnerCount >= 0 && spawnerCount < 8) //ensure no out of bounds access
 		position = spawnerLocs[spawnerCount];
 	else
 		position = { 0.f,0.f };

@@ -5,7 +5,8 @@ Player::Player()
 {
 	set_active = true;
 	set_visible = true;
-
+	//for testing purposes
+	health = 1000000;
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
@@ -45,6 +46,11 @@ Player::~Player()
 	delete walkLeft;
 	delete standingRight;
 	delete standingLeft;
+}
+
+void Player::setHealth()
+{
+	health = 10000000;
 }
 
 //don't try to walk to the left

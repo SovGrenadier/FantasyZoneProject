@@ -30,7 +30,7 @@ Game::Game()
 	spawnerDummy6->getPlayer(player);
 	spawnerDummy7->getPlayer(player);
 	spawnerDummy8->getPlayer(player);
-	std::make_shared<Boss>()->initialize();
+	//std::make_shared<Boss>()->initialize();
 }
 
 Game::~Game()
@@ -257,7 +257,7 @@ void Game::checkCollision()
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
-					/*
+					
 					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -265,7 +265,6 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 					}
-					*/
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
@@ -307,11 +306,11 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
 							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)

@@ -28,8 +28,7 @@ void Boss::attack()
 {
 	int leafs; 
 	leafs = rand() % 5 +1; 
-	for(int i=0; i<leafs; i++)
-		std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
+	std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
 }
 
 
@@ -75,9 +74,9 @@ void Boss :: move()
 			frame++;
 		}
 	}
-	/*
+
 	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
-		//attack();
+		attack();
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)
 		mouth->setVisibility(true);
@@ -88,10 +87,9 @@ void Boss :: move()
 
 void Boss::update(int input)
 {
-	/*
 	if (ticks == 24)
 	{
-		//mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
+		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
 		mouth->initialize();
 	}
 

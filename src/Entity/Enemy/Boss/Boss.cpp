@@ -75,9 +75,9 @@ void Boss :: move()
 			frame++;
 		}
 	}
-
-	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0)
-		attack();
+	/*
+	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
+		//attack();
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)
 		mouth->setVisibility(true);
@@ -88,9 +88,10 @@ void Boss :: move()
 
 void Boss::update(int input)
 {
+	/*
 	if (ticks == 24)
 	{
-		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
+		//mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
 		mouth->initialize();
 	}
 

@@ -265,8 +265,13 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 					}
+<<<<<<< HEAD
+					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr &&
+						std::dynamic_pointer_cast<Boss>(entities->at(x)) == nullptr)
+=======
 					*/
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
+>>>>>>> 2eb04f2ffbc9863bbc2e734f882fa4b5a2b48220
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{

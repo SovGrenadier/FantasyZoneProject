@@ -86,7 +86,7 @@ void Spawner::update(int input)
 	if (health <= 0)
 	{
 		set_active = false;
-		set_visible = false;
+		//set_visible = false;
 		alive = false;
 	}
 	if (alive)

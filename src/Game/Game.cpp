@@ -13,6 +13,7 @@ Game::Game()
     viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
 	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
 	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
+
 	initialize();
 	player->initialize();
 	player->getView(&viewport);
@@ -20,6 +21,7 @@ Game::Game()
 	offset = { -120.f,-88.f };
 	score = 0;
 	entities = player->getEntities();
+
 	spawnerDummy->getPlayer(player);
 	spawnerDummy2->getPlayer(player);
 	spawnerDummy3->getPlayer(player);
@@ -256,6 +258,7 @@ void Game::checkCollision()
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
+					/*
 					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -263,6 +266,7 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 					}
+					*/
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
@@ -399,10 +403,10 @@ void Game::enemyWave()
 		if (formation)// 2x2 square, right side
 		{
 			padding = { 16.f, 16.f };
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x				, spawnPosition.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x	, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x				, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x	, spawnPosition.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x			 , spawnPosition.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x , spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x			 , spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x , spawnPosition.y })->initialize();
 		}
 		else // column
 		{

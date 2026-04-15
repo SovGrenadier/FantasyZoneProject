@@ -5,8 +5,6 @@ Player::Player()
 {
 	set_active = true;
 	set_visible = true;
-	//for testing purposes
-	health = 1000000;
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
@@ -15,6 +13,7 @@ Player::Player()
 	walkLeft = new Animation(1, 2, sf::IntRect{ sf::Vector2i{33,166},sf::Vector2i{36,16} });
 	standingRight = new Animation(1, 1, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{18,16} });
 	standingLeft = new Animation(1, 1, sf::IntRect{ sf::Vector2i{51,166},sf::Vector2i{18,16} });
+
 	animations[Actions::GLIDE_RIGHT] = rightFly;
 	animations[Actions::MOVE_RIGHT] = rightFly;
 	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;
@@ -27,13 +26,16 @@ Player::Player()
 	animations[Actions::WALK_LEFT] = walkLeft;
 	animations[Actions::STAND_RIGHT] = standingRight;
 	animations[Actions::STAND_LEFT] = standingLeft;
+
 	sprite->setPosition({ 790.f,109.f });
-	tickRate = 100000;
 	ceiling.position = { 33.f, 8.f };
 	ceiling.size = { 1348.f, 6.f };
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+
+	tickRate = 100000;
+
 }
 
 Player::~Player()

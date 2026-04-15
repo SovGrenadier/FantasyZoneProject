@@ -54,7 +54,10 @@ private:
 	static int getRandomInt(int min, int max);
 	void initialize(); 
 	int score;
+	int spawnerCount = 8; 
 	bool invincible = false;
+	void removeDead(); 
+	void removeEnemies(); 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::Vector2f offset; // offset used for UI position
 	//Temporary for testing 
@@ -72,8 +75,7 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
 	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
-	std::shared_ptr<UI> UIelements = std::make_shared<UI>();
-	
+	std::shared_ptr<UI> UIelements = std::make_shared<UI>();	
 	Leaf* leafDummy;
 	//Shop* shop = new Shop();
 };

@@ -5,7 +5,7 @@ StumpalonMouth::StumpalonMouth(sf::Vector2f pos)
 {
 	ticks = 24; 
 	frame = 0; 
-	health = 42;
+	health = 48;
 
 
 	if (!texture->loadFromFile("../res/Bosses.png"))
@@ -42,7 +42,7 @@ void StumpalonMouth::changeState()
 	if(frame<=5)
 		sprite->setTextureRect(*changeColor->getFrame(frame));
 	else
-		sprite->setTextureRect(sf::IntRect(sf::Vector2i(240, 54), sf::Vector2i(9, 23)));
+		sprite->setTextureRect(sf::IntRect(sf::Vector2i(231, 54), sf::Vector2i(12, 23)));
 }
 
 void StumpalonMouth::update(int input)
@@ -79,9 +79,14 @@ void StumpalonMouth::takeDamage(int damage)
 	health -= damage; 
 
 	if (health == 36)
-		set_visible = true; 
+		set_visible = true;
 	else if (health % 6 == 0)
-		changeState(); 
-	else if (health <= 0)
-		death();
+		changeState();
+		
+}
+
+void StumpalonMouth::death()
+{
+	set_active = false;
+	alive = false; 
 }

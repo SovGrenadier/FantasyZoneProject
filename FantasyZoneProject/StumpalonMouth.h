@@ -1,5 +1,6 @@
 #pragma once
 #include "../src/Entity/Enemy/Enemy.h"
+//#include "../src/Entity/Enemy/Boss/Boss.h"
 class StumpalonMouth : public Enemy
 {
 public:
@@ -11,8 +12,9 @@ public:
 	void spawn(sf::Vector2f pos) override{}; 
 	void attack() override {}; 
 	void move() override; 
-	void death() override {}; 
+	void death() override; 
 	void takeDamage(int) override; 
+	int getHealth() { return health; };
 
 
 private:

@@ -14,10 +14,7 @@ Boss::Boss()
 	
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
-
-	sprite->setPosition(sf::Vector2f(900.f, 15.f));
 	sprite->setPosition(sf::Vector2f(900.f, 75.f));
- 
 }
 
 
@@ -39,7 +36,8 @@ void Boss::attack()
 
 void Boss::death()
 {
-	//death logic
+	alive = false;
+	set_active = false;
 }
 
 void Boss :: move()
@@ -78,14 +76,13 @@ void Boss :: move()
 		}
 	}
 
-	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
-		//attack();
+	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0)
+		attack();
 
-	if (sprite->getTextureRect() == *glideRight->getFrame(0))
+	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)
 		mouth->setVisibility(true);
 	else
-		//mouth->setVisibility(false);
-		;
+		mouth->setVisibility(false);
  
 }
 
@@ -97,6 +94,11 @@ void Boss::update(int input)
 		mouth->initialize();
 	}
 
+	if (mouth->getHealth() == 0)
+	{
+		mouth->death();
+		death();
+	}
 	ticks++; 
 	move();
 }

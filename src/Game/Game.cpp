@@ -444,17 +444,6 @@ void Game::enemyWave()
 			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x, spawnPosition.y - padding.y})->initialize();
 			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x, spawnPosition.y - padding.y})->initialize();
 		}
-		else if (formation && !rightSide)
-		{
-			padding = { 20.f, 12.f };
-			spawnPosition.y = viewport.getCenter().y;
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y - padding.y })->initialize();
-		}
 		else if (!formation)
 		{
 			padding.x = 20.f;

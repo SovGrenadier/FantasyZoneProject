@@ -5,8 +5,6 @@ Player::Player()
 {
 	set_active = true;
 	set_visible = true;
-	//for testing purposes
-	health = 1000000;
 	texture = new sf::Texture("../res/Opa-Opa.png");
 	sprite = new sf::Sprite(*texture);
 	rightFly = new Animation(1, 2, sf::IntRect{ sf::Vector2i{9,37},sf::Vector2i{36,12} });
@@ -15,6 +13,7 @@ Player::Player()
 	walkLeft = new Animation(1, 2, sf::IntRect{ sf::Vector2i{33,166},sf::Vector2i{36,16} });
 	standingRight = new Animation(1, 1, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{18,16} });
 	standingLeft = new Animation(1, 1, sf::IntRect{ sf::Vector2i{51,166},sf::Vector2i{18,16} });
+
 	animations[Actions::GLIDE_RIGHT] = rightFly;
 	animations[Actions::MOVE_RIGHT] = rightFly;
 	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;
@@ -27,13 +26,16 @@ Player::Player()
 	animations[Actions::WALK_LEFT] = walkLeft;
 	animations[Actions::STAND_RIGHT] = standingRight;
 	animations[Actions::STAND_LEFT] = standingLeft;
+
 	sprite->setPosition({ 790.f,109.f });
-	tickRate = 100000;
 	ceiling.position = { 33.f, 8.f };
 	ceiling.size = { 1348.f, 6.f };
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+
+	tickRate = 100000;
+
 }
 
 Player::~Player()
@@ -356,6 +358,7 @@ void Player::updateView(int input)
 	{
 		viewport->setCenter({ 1049.f+((viewport->getCenter().x)-33.f),101.5f});
 		sprite->setPosition({ sprite->getPosition().x+1049.f-33.f,sprite->getPosition().y });
+		std::cout << "viewport loop1" << std::endl;
 	}
 	//viewport goes off right end
 	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
@@ -363,6 +366,7 @@ void Player::updateView(int input)
 		//std::cout << "test" << std::endl;
 		viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		std::cout << "viewport loop2" << std::endl;
 	}
 	//player hits the left edge of the viewport
 	if (!(viewportCatchUpLeft)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))

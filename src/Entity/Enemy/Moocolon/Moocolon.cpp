@@ -74,20 +74,6 @@ void Moocolon::spawn()
 //to-do: fix not moving at all after reaching centerY
 void Moocolon::move()
 {
-	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
-	{
-		//handled through player
-		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
-		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
-	}
-	//viewport goes off right end
-	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
-	{
-		//handled through player
-		//std::cout << "test" << std::endl;
-		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
-		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
-	}
 	if (bounceCount == 1)
 	{
 		if ((previousY < centerY + 1.f) && (previousY > centerY - 1.f))
@@ -140,10 +126,31 @@ void Moocolon::move()
 
 void Moocolon::update(int input)
 {
+	//Ensures sprite doesn't disappear when the viewport loops
+	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
+	{
+		//handled through player
+		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
+	//viewport goes off right end
+	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
+	{
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
 	if (!isOnScreen(*viewport))
 	{
-		set_active = false;
-		set_visible = false;
+		if (viewportLoop)
+			viewportLoop = false;
+		else
+		{
+			set_active = false;
+			set_visible = false;
+		}
 		return;
 	}
 	ticks++;

@@ -1,9 +1,10 @@
 #include "Boss.h"
 #include<iostream>
+#include <time.h>
 
 
 Boss::Boss()
-{
+{ 
 	ticks = 24; 
 	if (!texture->loadFromFile("../res/Bosses.png"))
 		std::cout << "Error Loaing from File"; 
@@ -13,9 +14,7 @@ Boss::Boss()
 	
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
-
-	sprite->setPosition(sf::Vector2f(900.f, 15.f));
-	mouth = std::make_shared<StumpalonMouth>(sf::Vector2f(900.f, 15.f));
+	sprite->setPosition(sf::Vector2f(900.f, 75.f));
 }
 
 
@@ -27,18 +26,22 @@ Boss::~Boss()
 
 void Boss::attack()
 {
-	if (ticks % tickRate*2 == 0)
-		sprite->setTextureRect(*glideRight->nextFrame());
+	int leafs; 
+	leafs = rand() % 5 +1; 
+	std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
 }
+
 
 
 void Boss::death()
 {
-	//death logic
+	alive = false;
+	set_active = false;
 }
 
 void Boss :: move()
 {
+	//Ensures sprite doesn't disappear when the viewport loops
 	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
 	{
 		//handled through player
@@ -53,21 +56,49 @@ void Boss :: move()
 		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
+
 	float ySpeed;
-	ySpeed = 2 * sin(ticks / 20);
+	ySpeed =  - sin((ticks * PI) / 100);
 
-	sprite->move(sf::Vector2f(.7f, ySpeed));
+	sprite->move(sf::Vector2f(.7f, ySpeed ));
 
-	if (ySpeed > 0)
+	if (ticks % 50 == 0)
+	{
+		if (frame == 3)
+		{
+			sprite->setTextureRect(*glideRight->getFrame(1));
+			frame = 0; 
+		}
+		else
+		{
+			sprite->setTextureRect(*glideRight->getFrame(frame));
+			frame++;
+		}
+	}
+
+	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
 		attack();
+
+	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)
+		mouth->setVisibility(true);
+	else
+		mouth->setVisibility(false);
  
 }
 
 void Boss::update(int input)
 {
-	if(ticks==24)
-		mouth->initialize(); 
+	if (ticks == 24)
+	{
+		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
+		mouth->initialize();
+	}
 
+	if (mouth->getHealth() == 0)
+	{
+		mouth->death();
+		death();
+	}
 	ticks++; 
 	move();
 }

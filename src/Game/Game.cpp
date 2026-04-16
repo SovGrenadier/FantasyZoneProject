@@ -13,13 +13,14 @@ Game::Game()
 	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
 	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
 	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
-	initialize();
 	player->initialize();
+	initialize();
 	player->getView(&viewport);
 	tick = 0;
 	offset = { -120.f,-88.f };
 	score = 0;
 	entities = player->getEntities();
+
 	spawnerDummy->getPlayer(player);
 	spawnerDummy2->getPlayer(player);
 	spawnerDummy3->getPlayer(player);
@@ -28,7 +29,6 @@ Game::Game()
 	spawnerDummy6->getPlayer(player);
 	spawnerDummy7->getPlayer(player);
 	spawnerDummy8->getPlayer(player);
-	leafDummy = new Leaf(pos);
 	//std::make_shared<Boss>()->initialize();
 }
 
@@ -223,10 +223,10 @@ void Game::updateEntities()
 	//due to viewport loop some spawner are drawn twice on the entrie background
 	//need to make sure these spawners have the same health since they represent the same spawner just on 
 	// different sides of the loop
-	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
-	spawnerDummy6->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
-	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
-	spawnerDummy7->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 }
 
 void Game::drawEntities()
@@ -241,6 +241,7 @@ void Game::drawEntities()
 void Game::checkCollision()
 {
 	sf::FloatRect entity1, entity2;
+
 	//std::cout << entities->size() << std::endl;
 	for (int i = 0; i < entities->size(); i++)
 	{
@@ -248,14 +249,21 @@ void Game::checkCollision()
 		for (int x = i + 1; x < entities->size(); x++)
 		{
 			if (entities->at(x)->alive && entities->at(i)->alive)
-			{
-
+			{ 
 				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
 				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
 				//check if two entities are colliding
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
+					
+					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
+						{
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
@@ -292,26 +300,28 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 					}
-					else if (std::dynamic_pointer_cast<Player>(entities->at(x)))
+					else if (std::dynamic_pointer_cast<Player>(entities->at(x)) != nullptr)
 					{
-						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
+							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 					}
-					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)))
+					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
 					{
-						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
+							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 							score += 100;
 						}
-						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) != nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
@@ -321,7 +331,8 @@ void Game::checkCollision()
 					}
 					else if (std::dynamic_pointer_cast<Bomb>(entities->at(x)))
 					{
-						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
+							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
@@ -339,12 +350,10 @@ void Game::checkCollision()
 			}
 		}
 
+		removeDead();
+
 		//Remove any enemies that are dead 
-		if (!(entities->at(i)->getActive()))
-		{
-			entities->erase(entities->begin() + i);
-			i--;
-		}
+		
 		/* for testing
 		if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
 		{
@@ -354,6 +363,7 @@ void Game::checkCollision()
 		}
 		*/
 	}
+
 }
 
 
@@ -388,10 +398,10 @@ void Game::enemyWave()
 		if (formation)// 2x2 square, right side
 		{
 			padding = { 16.f, 16.f };
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x				, spawnPosition.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x	, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x				, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x	, spawnPosition.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x			 , spawnPosition.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x , spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x			 , spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x + padding.x , spawnPosition.y })->initialize();
 		}
 		else // column
 		{
@@ -424,6 +434,17 @@ void Game::enemyWave()
 	case 3://scissors wave spawn logic
 		spawnPosition.y = 0.f;
 		if (formation)
+		{
+			padding = { 20.f, 12.f };
+			spawnPosition.y = viewport.getCenter().y;
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x, spawnPosition.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x, spawnPosition.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x, spawnPosition.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x, spawnPosition.y - padding.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x, spawnPosition.y - padding.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x, spawnPosition.y - padding.y})->initialize();
+		}
+		else if (formation && !rightSide)
 		{
 			padding = { 20.f, 12.f };
 			spawnPosition.y = viewport.getCenter().y;
@@ -501,4 +522,30 @@ void Game::initialize()
 	spawnerDummy6->initialize();
 	spawnerDummy7->initialize();
 	spawnerDummy8->initialize();
+}
+
+void Game::removeDead()
+{
+	for (int i = 0; i < entities->size(); i++)
+	{
+		if (!(entities->at(i)->getActive()))
+		{
+			if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) != nullptr)
+				spawnerCount--; 
+			entities->erase(entities->begin() + i);
+			i--;
+		}
+	}
+}
+
+void Game::removeEnemies()
+{
+	for (int i = 0; i < entities->size(); i++)
+	{
+		if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr)
+		{
+			entities->erase(entities->begin() + i);
+			i--;
+		}
+	}
 }

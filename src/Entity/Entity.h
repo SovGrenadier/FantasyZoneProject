@@ -39,11 +39,12 @@ protected:
 	int damage = 1; 
 	bool set_visible; //if false, the entity does not show on screen
 	bool set_active; //if false, the entity does not update
+	bool viewportLoop = false;
 	static sf::View* viewport;
 
 private:
 	//static std::vector<Entity*> entities;
 	static std::vector<std::shared_ptr<Entity>> entities;
-	bool initialized; 
+	bool initialized;
 	
 };

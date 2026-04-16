@@ -4,8 +4,17 @@
 
 Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)	
 {
+	texture = new sf::Texture();
+	if (!texture->loadFromFile("../res/Opa-Opa.png"))
+		std::cout << "Error Loading Image";
+	sprite = new sf::Sprite(*texture);
+	sprite->setTexture(*texture);
+	sprite->setPosition(playerPos);
+	ownWeapon = true;
+
+	direction = faceRight; 
+
 	damage = 5;
-	direction = faceRight;
 	if(direction)
 		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{62,28},sf::Vector2i{9,7} });
 	else
@@ -56,5 +65,16 @@ void Bomb::update(int input)
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
 		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
+	{
+		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
+	{
+		set_active = false;
+		set_visible = false;
 	}
 }

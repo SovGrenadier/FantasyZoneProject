@@ -2,17 +2,15 @@
 #include <iostream>
 #include <time.h>
 
-Leaf::Leaf(sf::Vector2f mouthPos) : Bullet(sf::Vector2f(0.f, 0.f), false)
+Leaf::Leaf(sf::Vector2f mouthPos) : Weapons(mouthPos)
 {
-	//366,391  8,7
-	srand(time(NULL));
-	rand();
-	speed = -5.f;
+	texture = new sf::Texture(); 
+	speedX = -(rand() % 4 + .5); 
+	speedY = rand() % 4 - 2.5; 
 
 	set_visible = true;
 	set_active = true;
 	alive = true;
-	position = mouthPos;
 	
 	if (!texture->loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png"))
 		std::cout << "Fail loading Round 1 wrapped with spawner locs.png\n";
@@ -22,11 +20,44 @@ Leaf::Leaf(sf::Vector2f mouthPos) : Bullet(sf::Vector2f(0.f, 0.f), false)
 	sf::IntRect zone({ 366, 391 }, { 8, 7 });
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(zone);
-	sprite->setPosition(position);
+	sprite->setPosition(mouthPos);
+
+	ownWeapon = false; 
+	fly = new Animation(1, 3, sf::IntRect(sf::Vector2i{ 366, 391 }, sf::Vector2i{ 28,7 }));
 }
 
 Leaf::~Leaf()
 {
 	delete texture;
 	delete sprite;
+}
+
+void Leaf::update(int input)
+{
+	//Ensures sprite doesn't disappear when the viewport loops
+	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
+	{
+		//handled through player
+		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
+	//viewport goes off right end
+	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
+	{
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
+	ticks++; 
+	if(ticks%8 == 0)
+		sprite->setTextureRect(*fly->nextFrame());
+
+	sprite->move(sf::Vector2f{ speedX, speedY });
+}
+
+bool Leaf::onScreen()
+{
+	return true; 
 }

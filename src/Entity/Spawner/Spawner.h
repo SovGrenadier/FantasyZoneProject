@@ -30,10 +30,10 @@ public:
 	void getPlayer(std::shared_ptr<Player> newPlayer) { player = newPlayer; }
 	sf::Vector2f position;
 	sf::Sprite* getSprite() override;
+	int spawnerDist;
 private:
 	Actions curAction;
 	int spawn_rate = 5 * 60; //5 seconds between each spawn sequence, 60 fps
-	int spawnerDist;
 
 	sf::Sprite* deathSprite;
 	sf::Texture* deathTexture;

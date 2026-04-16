@@ -139,9 +139,6 @@
     <Image Include="..\res\Shop.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Title, Intro and Ending Text.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Levels\Round 2 - Tabas.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -157,9 +154,6 @@
     <Image Include="..\res\Levels\Round 6 - Mockstar.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\res\Levels\Round 7 - Pocarius.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="..\res\Opa-Opa.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -170,6 +164,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Levels\Round 1 Wrapped.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Title, Intro and Ending Text.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 7 - Pocarius.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

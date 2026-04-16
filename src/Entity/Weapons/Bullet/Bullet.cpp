@@ -1,8 +1,17 @@
 #include "Bullet.h"
+#include <iostream>
 
 
 Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 {
+	texture = new sf::Texture();
+	if (!texture->loadFromFile("../res/Opa-Opa.png"))
+		std::cout << "Error Loading Image";
+	sprite = new sf::Sprite(*texture);
+	sprite->setTexture(*texture);
+	sprite->setPosition(playPos);
+	damage = 1;
+	ownWeapon = true;
 
 	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,26},sf::Vector2i{7,9}});
 

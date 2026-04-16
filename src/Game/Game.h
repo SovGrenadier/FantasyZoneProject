@@ -56,6 +56,7 @@ private:
 	int score;
 	int spawnerCount = 8; 
 	bool invincible = false;
+	std::string UItext = "";
 	void removeDead(); 
 	void removeEnemies(); 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset

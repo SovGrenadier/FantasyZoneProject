@@ -57,6 +57,8 @@ void Game::run()
 					start = true;
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
 					invincible = true;
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
+					player->slowBullets = true;
 			}
 		}
 		window.setView(viewportStart);
@@ -177,13 +179,16 @@ void Game::run()
 		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
 		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
 		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
-		//bullet->setPosition(mouseCoord); 
 
-		//viewport.move({ 2.0f,0.0f });
-		UIelements->setText("Score: " + std::to_string(score));
+		//sets UI text
+		UItext = "Score: " + std::to_string(score);
 		if (invincible)
-			UIelements->setText("Score: " + std::to_string(score) + "\nInvincible!");
+			UItext += "\nInvincible!";
+		if (player->slowBullets)
+			UItext += "\nSlow Bullets!";
+		UIelements->setText(UItext);
 		UIelements->setPosition(viewport.getCenter() + offset);
+
 		window.clear();
 		checkCollision();
 		if (!(player->alive))

@@ -31,6 +31,8 @@ public:
 	void death() override;
 	void setHealth();
 
+	bool slowBullets;
+
 	std::unordered_map<Actions, Animation*> animations;
 private:
 	int speed;

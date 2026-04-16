@@ -205,10 +205,10 @@ void Game::run()
 		if (player->getSpawnerCount() == 0 && !activeBoss)
 		{
 			removeEnemies(); 
-			//std::make_shared<Boss>()->initialize();
+			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 			activeBoss = true; 
 		}
-		else if (tick % 200 == 0)
+		else if (tick % 200 == 0 && !activeBoss)
 		{
 			enemyWave();
 			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";

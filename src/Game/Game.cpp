@@ -210,7 +210,6 @@ void Game::run()
 		}
 		else if (tick % 200 == 0)
 		{
-			std::cout << "\nSpawner Count: " << entities->at(2)->getSpawnerCount() << std::endl;
 			enemyWave();
 			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
 			//std::cout << "\nPAUSE\n";

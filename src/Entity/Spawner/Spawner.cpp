@@ -127,6 +127,7 @@ void Spawner::update(int input)
 
 void Spawner::death()
 {
+	std::cout << "\nSpawner Count: " << spawnerNum << std::endl;
 	spawnerNum--; 
 	curAction = DEATH;
 	alive = false;

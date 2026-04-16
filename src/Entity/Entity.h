@@ -19,6 +19,7 @@ public:
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }
 	sf::Vector2f getPosition() { return pos; }
+	int getSpawnerCount() { return spawnerNum; }
 
 	void getView(sf::View* view);
 	//bools
@@ -41,6 +42,7 @@ protected:
 	bool set_active; //if false, the entity does not update
 	bool viewportLoop = false;
 	static sf::View* viewport;
+	static inline int spawnerNum = 0; 
 
 private:
 	//static std::vector<Entity*> entities;

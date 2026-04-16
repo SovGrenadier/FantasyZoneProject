@@ -54,10 +54,10 @@ private:
 	static int getRandomInt(int min, int max);
 	void initialize(); 
 	int score;
-	int spawnerCount = 8; 
 	bool invincible = false;
 	void removeDead(); 
 	void removeEnemies(); 
+	bool activeBoss; 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::Vector2f offset; // offset used for UI position
 	//Temporary for testing 

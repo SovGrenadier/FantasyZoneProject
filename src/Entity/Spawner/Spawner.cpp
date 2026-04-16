@@ -5,6 +5,8 @@
 
 Spawner::Spawner(int spawnerCount)
 {
+	spawnerNum++; 
+	std::cout << "Spawner Count: " << spawnerNum << std::endl; 
 	set_visible = true;
 	set_active = true;
 	alive = true;
@@ -125,6 +127,7 @@ void Spawner::update(int input)
 
 void Spawner::death()
 {
+	spawnerNum--; 
 	curAction = DEATH;
 	alive = false;
 	deathPos = sprite->getGlobalBounds().getCenter();

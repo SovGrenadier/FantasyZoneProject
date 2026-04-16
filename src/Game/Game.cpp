@@ -29,7 +29,8 @@ Game::Game()
 	spawnerDummy6->getPlayer(player);
 	spawnerDummy7->getPlayer(player);
 	spawnerDummy8->getPlayer(player);
-	//std::make_shared<Boss>()->initialize();
+
+	activeBoss = false; 
 }
 
 Game::~Game()
@@ -201,8 +202,15 @@ void Game::run()
 		window.display();
 		tick += 1;
 	
-		if (tick % 200 == 0)
+		if (player->getSpawnerCount() == 0 && !activeBoss)
 		{
+			removeEnemies(); 
+			//std::make_shared<Boss>()->initialize();
+			activeBoss = true; 
+		}
+		else if (tick % 200 == 0)
+		{
+			std::cout << "\nSpawner Count: " << entities->at(2)->getSpawnerCount() << std::endl;
 			enemyWave();
 			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
 			//std::cout << "\nPAUSE\n";
@@ -350,8 +358,6 @@ void Game::checkCollision()
 			}
 		}
 
-		removeDead();
-
 		//Remove any enemies that are dead 
 		
 		/* for testing
@@ -363,6 +369,8 @@ void Game::checkCollision()
 		}
 		*/
 	}
+
+	removeDead();
 
 }
 
@@ -532,8 +540,6 @@ void Game::removeDead()
 	{
 		if (!(entities->at(i)->getActive()))
 		{
-			if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) != nullptr)
-				spawnerCount--; 
 			entities->erase(entities->begin() + i);
 			i--;
 		}

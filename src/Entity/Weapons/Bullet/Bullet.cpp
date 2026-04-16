@@ -41,9 +41,15 @@ void Bullet::update(int input)
 	//of the viewport (need to move the viewport to the other end)
 
 	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
+	{
 		set_active = false;
+		set_visible = false;
+	}
 	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
+	{
 		set_active = false;
+		set_visible = false;
+	}
 	viewPos = viewport->getCenter().x;
 }
 

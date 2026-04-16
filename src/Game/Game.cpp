@@ -223,10 +223,10 @@ void Game::updateEntities()
 	//due to viewport loop some spawner are drawn twice on the entrie background
 	//need to make sure these spawners have the same health since they represent the same spawner just on 
 	// different sides of the loop
-	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
-	spawnerDummy6->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy6->getHeath()));
-	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
-	spawnerDummy7->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 }
 
 void Game::drawEntities()

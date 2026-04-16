@@ -56,5 +56,16 @@ void Bomb::update(int input)
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
 		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
+	{
+		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
+	{
+		set_active = false;
+		set_visible = false;
 	}
 }

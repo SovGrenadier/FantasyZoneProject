@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
+Bullet::Bullet(sf::Vector2f playPos, bool faceRight, bool slowBullets) : Weapons(playPos)
 {
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Opa-Opa.png"))
@@ -16,13 +16,15 @@ Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{12,26},sf::Vector2i{7,9}});
 
 	if (faceRight)
-	{
 		speed = 7.5f;
-	}
 	else
-	{
 		speed = -7.5f;
-	}
+
+	if (slowBullets && faceRight)
+		speed = 2.f;
+	else if (slowBullets && !faceRight)
+		speed = -2.f;
+
 	viewPos = viewport->getCenter().x;
 }
 

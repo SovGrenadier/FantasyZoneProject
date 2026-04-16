@@ -6,7 +6,7 @@
 class Boss : public Enemy
 {
 public:
-	Boss();
+	Boss(float);
 	~Boss();
 
 	void attack() override;

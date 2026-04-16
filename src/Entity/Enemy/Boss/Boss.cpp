@@ -3,7 +3,7 @@
 #include <time.h>
 
 
-Boss::Boss()
+Boss::Boss(float playerX)
 { 
 	ticks = 24; 
 	if (!texture->loadFromFile("../res/Bosses.png"))
@@ -14,7 +14,7 @@ Boss::Boss()
 	
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
-	sprite->setPosition(sf::Vector2f(900.f, 75.f));
+	sprite->setPosition(sf::Vector2f(playerX + 80.f, 75.f));
 }
 
 
@@ -28,7 +28,8 @@ void Boss::attack()
 {
 	int leafs; 
 	leafs = rand() % 5 +1; 
-	std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
+	for(int i=0 ; i<leafs; i++)
+		std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
 }
 
 
@@ -76,7 +77,7 @@ void Boss :: move()
 		}
 	}
 
-	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0);
+	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0)
 		attack();
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)

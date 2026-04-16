@@ -466,12 +466,12 @@ void Player::shoot()
 	if (faceRight)
 	{
 		//new Bullet({ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
-		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight);
+		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x + 10,   sprite->getPosition().y + 4 }, faceRight, slowBullets);
 		bulletDummy->initialize();
 	}
 	else
 	{
-		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x,   sprite->getPosition().y + 4 }, faceRight);
+		std::shared_ptr<Bullet> bulletDummy = std::make_shared<Bullet>(sf::Vector2f{ sprite->getPosition().x,   sprite->getPosition().y + 4 }, faceRight, slowBullets);
 		bulletDummy->initialize();
 	}
 }

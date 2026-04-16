@@ -49,14 +49,6 @@ bool Enemy::isOnScreen(sf::View &viewport)
 	//make rectangle of viewport
 	sf::FloatRect viewBox(expandedPos, expandedSize);
 	
-	//check if enemy's position is on screen
-	if (!viewBox.findIntersection(sprite->getGlobalBounds()).has_value())
-	{
-		std::cout << viewBox.position.x << ' ' << viewBox.position.y << std::endl;
-		std::cout << viewBox.size.x << ' ' << viewBox.size.y << std::endl;
-		std::cout << sprite->getGlobalBounds().position.x << ' ' << sprite->getGlobalBounds().position.y << std::endl;
-		std::cout << sprite->getGlobalBounds().size.x << ' ' << sprite->getGlobalBounds().size.y << std::endl;
-	}
 	return viewBox.findIntersection(sprite->getGlobalBounds()).has_value();
 }
 

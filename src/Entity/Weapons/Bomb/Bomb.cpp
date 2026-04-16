@@ -32,6 +32,8 @@ Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)
 
 Bomb::~Bomb()
 {
+	delete sprite;
+	delete texture;
 }
 
 
@@ -65,5 +67,16 @@ void Bomb::update(int input)
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
 		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
+	{
+		set_active = false;
+		set_visible = false;
+	}
+	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
+	{
+		set_active = false;
+		set_visible = false;
 	}
 }

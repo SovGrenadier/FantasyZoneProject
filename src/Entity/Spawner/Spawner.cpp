@@ -36,7 +36,7 @@ Spawner::Spawner(int spawnerCount)
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
-
+	std::cout << deathAnim->getFrameCount() << std::endl;
 	animations[ACTIVEFLY] = activeFly;
 	animations[ACTIVEGROUND] = activeGround;
 	animations[DEATH] = deathAnim;
@@ -85,21 +85,24 @@ void Spawner::update(int input)
 {
 	if (health <= 0)
 	{
-		set_active = false;
+		//set_active = false;
 		//set_visible = false;
 		alive = false;
+		sprite = deathSprite;
 	}
+
 	if (alive)
 	{
-		//updateHealth(ticks);
 		spawnEnemy(ticks);
 	}
-	else if (!alive)
+
+	if (!alive)
 	{
 		ticks++;
 		if (ticks >= tickRate)
 		{
 			ticks = 0;
+
 			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
 				set_active = false;
@@ -108,15 +111,19 @@ void Spawner::update(int input)
 			else
 			{
 				//change sprite
-				deathSprite->setTextureRect(*animations[DEATH]->getFrame(curDeathFrame));
+				sprite->setTextureRect(*(animations[DEATH]->getFrame(curDeathFrame)));
 				//set origin
-				sf::FloatRect bounds = deathSprite->getLocalBounds();
-				deathSprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+				sf::FloatRect bounds = sprite->getLocalBounds();
+				sprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
 				//set position back regardless of change due to origin
-				deathSprite->setPosition(deathPos);
+				sprite->setPosition(deathPos);
 				//advance to next death frame
 				curDeathFrame++;
-				death();
+				std::cout << "TEST" << std::endl;
+				std::cout << "alive" << alive << std::endl;
+				std::cout << "set active" << set_active << std::endl;
+				std::cout << "set visible" << set_visible << std::endl;
+				std::cout << "curFrame" << curDeathFrame << std::endl;
 			}
 		}
 		return;

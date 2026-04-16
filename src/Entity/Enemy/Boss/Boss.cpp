@@ -41,6 +41,7 @@ void Boss::death()
 
 void Boss :: move()
 {
+	//Ensures sprite doesn't disappear when the viewport loops
 	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
 	{
 		//handled through player

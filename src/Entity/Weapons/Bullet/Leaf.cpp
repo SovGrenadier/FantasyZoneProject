@@ -34,6 +34,22 @@ Leaf::~Leaf()
 
 void Leaf::update(int input)
 {
+	//Ensures sprite doesn't disappear when the viewport loops
+	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
+	{
+		//handled through player
+		//viewport->setCenter({ 1049.f + ((viewport->getCenter().x) - 33.f),101.5f });
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 1049.f - 33.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
+	//viewport goes off right end
+	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
+	{
+		viewportLoop = true;
+		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		pos = sprite->getPosition();
+	}
 	ticks++; 
 	if(ticks%8 == 0)
 		sprite->setTextureRect(*fly->nextFrame());

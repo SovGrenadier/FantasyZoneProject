@@ -358,6 +358,7 @@ void Player::updateView(int input)
 	{
 		viewport->setCenter({ 1049.f+((viewport->getCenter().x)-33.f),101.5f});
 		sprite->setPosition({ sprite->getPosition().x+1049.f-33.f,sprite->getPosition().y });
+		std::cout << "viewport loop1" << std::endl;
 	}
 	//viewport goes off right end
 	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
@@ -365,6 +366,7 @@ void Player::updateView(int input)
 		//std::cout << "test" << std::endl;
 		viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
+		std::cout << "viewport loop2" << std::endl;
 	}
 	//player hits the left edge of the viewport
 	if (!(viewportCatchUpLeft)&&(viewport->getCenter().x - 125) >= (sprite->getPosition().x - 45.f))

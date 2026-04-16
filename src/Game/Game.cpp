@@ -13,9 +13,8 @@ Game::Game()
     viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
 	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
 	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
-
-	initialize();
 	player->initialize();
+	initialize();
 	player->getView(&viewport);
 	tick = 0;
 	offset = { -120.f,-88.f };

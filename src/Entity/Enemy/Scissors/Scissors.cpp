@@ -10,6 +10,7 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 		faceRight = false;
 
 	if(position.y <= viewportCenter.y)
+
 		
 
 	timer.restart();

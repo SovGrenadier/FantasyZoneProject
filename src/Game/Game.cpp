@@ -58,7 +58,7 @@ void Game::run()
 					start = true;
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
 					invincible = true;
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::L)
 					player->slowBullets = true;
 			}
 		}

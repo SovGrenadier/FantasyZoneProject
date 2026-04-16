@@ -31,7 +31,7 @@ public:
 	void death() override;
 	void setHealth();
 
-	bool slowBullets;
+	bool slowBullets = false;
 
 	std::unordered_map<Actions, Animation*> animations;
 private:

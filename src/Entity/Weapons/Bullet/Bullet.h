@@ -9,7 +9,6 @@ public:
 	~Bullet();
 	void update(int input) override; 
 	void death() override;
-	bool slowBullets;
 protected:
 	float speed; 
 	float viewPos;

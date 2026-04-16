@@ -461,7 +461,7 @@ void Player::death()
 
 }
 
-//to-do: need to come up with away to delete bullets when created
+//to-do: need to come up with a way to delete bullets when created
 void Player::shoot()
 {
 	if (faceRight)

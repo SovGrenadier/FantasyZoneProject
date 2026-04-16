@@ -58,7 +58,7 @@ void Player::setHealth()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	std::cout << input << std::endl;
+	//std::cout << input << std::endl;
 	if (health <= 0)
 	{
 		set_active = false;

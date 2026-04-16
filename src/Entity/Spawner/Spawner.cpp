@@ -87,6 +87,7 @@ void Spawner::update(int input)
 {
 	if (health <= 0)
 	{
+		spawnerNum--;
 		set_active = false;
 		//set_visible = false;
 		alive = false;
@@ -129,7 +130,6 @@ void Spawner::update(int input)
 void Spawner::death()
 {
 	std::cout << "\nSpawner Count: " << spawnerNum << std::endl;
-	spawnerNum--; 
 	curAction = DEATH;
 	alive = false;
 	deathPos = sprite->getGlobalBounds().getCenter();

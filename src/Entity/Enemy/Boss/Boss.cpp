@@ -14,7 +14,7 @@ Boss::Boss(float playerX)
 	
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
-	sprite->setPosition(sf::Vector2f(playerX + 110.f, 75.f));
+	sprite->setPosition(sf::Vector2f(playerX + 80.f, 75.f));
 }
 
 

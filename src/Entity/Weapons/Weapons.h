@@ -9,4 +9,5 @@ public:
 	Weapons(sf::Vector2f);
 	~Weapons();
 	void update(int input) = 0;
+	bool onCcreen(); 
 };

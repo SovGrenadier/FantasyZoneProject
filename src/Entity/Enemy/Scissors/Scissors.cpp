@@ -49,7 +49,7 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(pos);
 
-	std::cout << "Scissors created\n";
+	//std::cout << "Scissors created\n";
 }
 
 
@@ -60,7 +60,7 @@ Scissors::~Scissors()
 	sprite = nullptr;
 	texture = nullptr;
 
-	std::cout << "Scissors destroyed\n";
+	//std::cout << "Scissors destroyed\n";
 }
 
 

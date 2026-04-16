@@ -39,7 +39,7 @@ Game::~Game()
 
 void Game::run()
 {
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(50);
 
 	while (window.isOpen() && !start)
 	{
@@ -98,13 +98,13 @@ void Game::run()
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Down)
 				{
 					//make sure third bit isn't already set to 1
-					if (((input % 0b00001000) / 0b00000100) == 0)
+					if (((input % 0b00001000) / 0b00000100) == 0&& ((input % 0b00000010) / 0b00000001) != 1)
 						input += 0b00000100;
 				}
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Right)
 				{
 					//ensure that a isn't already pressed
-					if (((input % 0b00000100) / 0b00000010) == 0)
+					if (((input % 0b00000100) / 0b00000010) == 0&& ((input % 0b00000100) / 0b00000010) != 1)
 					{
 						//make sure fourth bit isn't already set to 1
 						if (((input % 0b00010000) / 0b00001000) == 0)
@@ -528,6 +528,7 @@ void Game::initialize()
 
 void Game::removeDead()
 {
+	//std::cout << entities->size() << std::endl;
 	for (int i = 0; i < entities->size(); i++)
 	{
 		if (!(entities->at(i)->getActive()))

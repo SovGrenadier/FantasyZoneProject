@@ -29,6 +29,8 @@ Bullet::Bullet(sf::Vector2f playPos, bool faceRight) : Weapons(playPos)
 
 Bullet::~Bullet()
 {
+	delete sprite;
+	delete texture;
 }
 
 

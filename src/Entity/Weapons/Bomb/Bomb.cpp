@@ -32,6 +32,8 @@ Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)
 
 Bomb::~Bomb()
 {
+	delete sprite;
+	delete texture;
 }
 
 

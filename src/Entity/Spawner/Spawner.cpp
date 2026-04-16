@@ -116,6 +116,7 @@ void Spawner::update(int input)
 				deathSprite->setPosition(deathPos);
 				//advance to next death frame
 				curDeathFrame++;
+				death();
 			}
 		}
 		return;

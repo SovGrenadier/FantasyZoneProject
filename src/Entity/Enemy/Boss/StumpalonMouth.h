@@ -1,5 +1,5 @@
 #pragma once
-#include "../src/Entity/Enemy/Enemy.h"
+#include "../../src/Entity/Enemy/Enemy.h"
 //#include "../src/Entity/Enemy/Boss/Boss.h"
 class StumpalonMouth : public Enemy
 {

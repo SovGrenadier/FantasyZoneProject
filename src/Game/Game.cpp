@@ -58,7 +58,7 @@ void Game::run()
 					start = true;
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
 					invincible = true;
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::L)
+				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
 					player->slowBullets = true;
 			}
 		}
@@ -529,7 +529,7 @@ void Game::initialize()
 
 void Game::removeDead()
 {
-	std::cout << entities->size() << std::endl;
+	//std::cout << entities->size() << std::endl;
 	for (int i = 0; i < entities->size(); i++)
 	{
 		if (!(entities->at(i)->getActive()))

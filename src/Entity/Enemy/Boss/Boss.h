@@ -1,6 +1,6 @@
 #include "../Enemy.h"
 #include "../../src/Entity/Weapons/Bullet/Leaf.h"
-#include "../../StumpalonMouth.h"
+#include "../../src/Entity/Enemy/Boss/StumpalonMouth.h"
 #pragma once
 
 class Boss : public Enemy

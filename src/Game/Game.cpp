@@ -207,6 +207,7 @@ void Game::run()
 		window.display();
 		tick += 1;
 	
+		//spawn the boss once all the spawners are killed 
 		if (player->getSpawnerCount() == 0 && !activeBoss)
 		{
 			removeEnemies(); 
@@ -235,10 +236,6 @@ void Game::updateEntities()
 	//due to viewport loop some spawner are drawn twice on the entrie background
 	//need to make sure these spawners have the same health since they represent the same spawner just on 
 	// different sides of the loop
-	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
-	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
-	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
-	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 }
 
 void Game::drawEntities()
@@ -361,6 +358,12 @@ void Game::checkCollision()
 				}
 			}
 		}
+
+		spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+		spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+		spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+		spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+		removeDead();
 
 		//Remove any enemies that are dead 
 		

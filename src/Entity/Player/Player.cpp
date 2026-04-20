@@ -58,7 +58,6 @@ void Player::setHealth()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	//std::cout << input << std::endl;
 	if (health <= 0)
 	{
 		set_active = false;
@@ -461,7 +460,7 @@ void Player::death()
 
 }
 
-//to-do: need to come up with away to delete bullets when created
+//to-do: need to come up with a way to delete bullets when created
 void Player::shoot()
 {
 	if (faceRight)

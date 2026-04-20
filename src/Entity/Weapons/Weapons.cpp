@@ -13,3 +13,8 @@ Weapons::~Weapons()
 {
 
 }
+
+bool Weapons::onCcreen()
+{
+	return true; 
+}

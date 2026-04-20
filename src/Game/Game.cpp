@@ -1,6 +1,7 @@
-#include<../../src/Game/Game.h>
+#include <../../src/Game/Game.h>
 #include <iostream>
-#include<algorithm>
+#include <algorithm>
+#include <iomanip>
 
 Game::Game()
 {
@@ -176,17 +177,26 @@ void Game::run()
 				}
 			}
 		}
+		
+		tempStr = "";
+		scoreStr = std::to_string(score);
+		for (int i = scoreStr.length(); i < 23; i++)
+			tempStr += " ";
+		scoreStr = tempStr + scoreStr;
 
 		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
 		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
 		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
 
 		//sets UI text
-		UItext = "Score: " + std::to_string(score);
+		UItext = "TOP " + scoreStr + "				SHOT			RD.1\n"
+			   + " $   " + scoreStr + "			1.BOMB			";
+
 		if (invincible)
-			UItext += "\nInvincible!";
+			UItext += "Invincible!";
 		if (player->slowBullets)
-			UItext += "\nSlow Bullets!";
+			UItext += "Slow Bullets!";
+
 		UIelements->setText(UItext);
 		UIelements->setPosition(viewport.getCenter() + offset);
 

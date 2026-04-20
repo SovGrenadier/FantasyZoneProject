@@ -5,6 +5,7 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 {
 	ticks = 13;
 	pos = position;
+	faceRight = false;
 
 	Animation* fly = new Animation(1, 3, sf::IntRect({ 10,55 }, { 63,20 }));
 
@@ -35,21 +36,6 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 Bottaco::~Bottaco()
 {
 	std::cout << "Bottaco destroyed\n";
-}
-
-
-void Bottaco::spawn()
-{
-	//Two different formations
-	/*
-	1st Formation:
-	one enemy enters from both side of ths screen,
-	they come towards the middle following the
-	figure 8 shape, then go off screen
-	2nd Formation:
-	a column of 4 enemy appears from one side of the screen
-	follow the same movement
-	*/
 }
 
 

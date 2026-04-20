@@ -16,7 +16,6 @@ public:
 	bool isOnScreen(sf::View &viewport);
 
 	virtual void attack();
-	virtual void spawn(sf::Vector2f);
 	virtual void move() = 0;
 	
 	//inherited methods

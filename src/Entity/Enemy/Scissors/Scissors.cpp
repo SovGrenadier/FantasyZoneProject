@@ -11,13 +11,10 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 
 	if(position.y <= viewportCenter.y)
 
-		
 
-	timer.restart();
 	ticks = 13;
-	//pos = { 840.f, 60.f };
 	pos = position;
-	acceleration = 1.05f;
+	acceleration = 1.02f;
 
 	sf::IntRect zoneRight({ 9, 4 }, { 80, 16 });
 	Animation* flyRight = new Animation(1, 4, zoneRight);
@@ -45,6 +42,7 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 	amplitude = 10.f;
 	time = 0.f;
 	baseY = pos.y;
+	distTraveled = 0.0f;
 
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
@@ -82,9 +80,8 @@ void Scissors::move()
 
 	float wave = static_cast<float>(sin(time));
 
-	sf::Time lifeSpan = sf::seconds(7.f);
 	bool isAlive = true;
-	if (timer.getElapsedTime() >= lifeSpan)
+	if (distTraveled >= 200.f)
 	{
 		isAlive = false;
 		speed *= acceleration;
@@ -103,8 +100,10 @@ void Scissors::move()
 		pos.x += speed;
 	else if (!faceRight && !isAlive)
 		pos.x -= speed;
-
-
+	
+	if (!isAlive)
+		speed *= acceleration;
+	distTraveled += speed;
 	time += 0.05f;
 	sprite->setPosition(pos);
 }

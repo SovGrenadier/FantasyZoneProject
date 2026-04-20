@@ -10,12 +10,11 @@ Snake::Snake(sf::Vector2f position) : Enemy()
 		faceRight = false;
 
 	alive = true;
-	timer.restart();
 	ticks = 13;
-	//pos = { 840.f, 120.f };
 	pos = position;
 	speed = .6f;
-	acceleration = 1.05f;
+	distTraveled = 0.0f;
+	acceleration = 1.02f;
 
 	//flying animation
 	sf::IntRect zoneRight({ 9, 76 }, { 78, 15 });
@@ -53,16 +52,8 @@ Snake::~Snake()
 }
 
 
-void Snake::spawn()
-{
-
-}
-
-
 void Snake::move()
 {
-	//moves in a straight line, then charge off screen
-
 	//After 7 seconds, speed increases by 5% every tick
 	if ((viewport->getCenter().x - 125) > 29.f && (viewport->getCenter().x - 125) < 37.f)
 	{
@@ -78,14 +69,15 @@ void Snake::move()
 		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
-	sf::Time lifeSpan = sf::seconds(7.f);
 
 	if (faceRight)
 		pos.x += speed;
 	else
 		pos.x -= speed;
 
-	if (timer.getElapsedTime() >= lifeSpan)
+	distTraveled += speed;
+
+	if (distTraveled > 200.f)
 		speed *= acceleration;
 
 	sprite->setPosition(pos);

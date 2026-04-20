@@ -1,6 +1,7 @@
-#include<../../src/Game/Game.h>
+#include <../../src/Game/Game.h>
 #include <iostream>
-#include<algorithm>
+#include <algorithm>
+#include <iomanip>
 
 Game::Game()
 {
@@ -184,9 +185,30 @@ void Game::run()
 				}
 			}
 		}
+		
+		tempStr = "";
+		scoreStr = std::to_string(score);
+		for (int i = scoreStr.length(); i < 23; i++)
+			tempStr += " ";
+		scoreStr = tempStr + scoreStr;
+
+		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
+		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
+		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
 
 		window.setView(viewport);
 
+		//sets UI text
+		UItext = "TOP " + scoreStr + "				SHOT			RD.1\n"
+			   + " $   " + scoreStr + "			1.BOMB			";
+
+		if (invincible)
+			UItext += "Invincible!";
+		if (player->slowBullets)
+			UItext += "Slow Bullets!";
+
+		UIelements->setText(UItext);
+		UIelements->setPosition(viewport.getCenter() + offset);
 		if (loading)
 		{
 			for (int i = 0; i < 40; i++)
@@ -249,6 +271,43 @@ void Game::run()
 				//std::cout << "\nPAUSE\n";
 			}
 		}
+		window.clear();
+		checkCollision();
+		if (!(player->alive))
+		{
+			removeEnemies();
+		}
+		if (!(player->getActive()))
+		{
+			removeEnemies();
+			window.close();
+			std::cout << "Game over" << std::endl;
+		}
+		window.setView(viewport);
+		window.draw(*backgroundSprite1);
+		window.draw(*UIelements->getText());
+		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
+		//window.draw(&(test), 1, sf::PrimitiveType::Points);
+		updateEntities();
+		drawEntities();
+		window.display();
+		tick += 1;
+	
+		//spawn the boss once all the spawners are killed 
+		if (player->getSpawnerCount() == 0 && !activeBoss)
+		{
+			removeEnemies(); 
+			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
+			activeBoss = true; 
+		}
+		else if (tick % 200 == 0 && !activeBoss&& (player->alive))
+		{
+			enemyWave();
+			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
+			//std::cout << "\nPAUSE\n";
+		}
+
+		//std::cout << "Tick: " << tick << std::endl;
 	}
 }
 
@@ -327,6 +386,7 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							entities->at(x)->setActive(false);
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -344,11 +404,12 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
 							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
-							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->setActive(false);
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -393,7 +454,6 @@ void Game::checkCollision()
 		spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
 		spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 		spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
-		removeDead();
 
 		//Remove any enemies that are dead 
 		
@@ -406,7 +466,18 @@ void Game::checkCollision()
 		}
 		*/
 	}
-
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	if (!spawnerDummy->getActive())
+		spawnerDummy7->setActive(false);
+	if(!spawnerDummy7->getActive())
+		spawnerDummy->setActive(false);
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	if (!spawnerDummy2->getActive())
+		spawnerDummy8->setActive(false);
+	if (!spawnerDummy8->getActive())
+		spawnerDummy2->setActive(false);
 	removeDead();
 
 }
@@ -436,11 +507,11 @@ void Game::enemyWave()
 		sizeX /= 2.f;
 		spawnPosition.x = viewport.getCenter().x - sizeX - 20.f; // extra 20 so it appears off screen
 	}
-
+	randEnemy = 3;
 	switch (randEnemy)
 	{
 	case 1://moocolon wave spawn logic
-		spawnPosition.y = viewport.getCenter().y - 30.f;
+		spawnPosition.y = viewport.getCenter().y - 20.f;
 		if (formation)// 2x2 square, right side
 		{
 			padding = { 16.f, 16.f };
@@ -451,8 +522,9 @@ void Game::enemyWave()
 		}
 		else // column
 		{
-			padding.y = 40.f;
+			padding.y = 32.5f;
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y + padding.y + padding.y})->initialize();
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y })->initialize();
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y - padding.y })->initialize();
 		}
@@ -512,24 +584,24 @@ void Game::enemyWave()
 			float displacement = 45.f;
 			padding = { 30.f, 30.f };
 			spawnPosition.x += displacement;
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f + padding.x	, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f				, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f + padding.x	, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f				, spawnPosition.y - padding.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x					, spawnPosition.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + padding.x		, spawnPosition.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f				, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f + padding.x	, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f				, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f + padding.x	, spawnPosition.y + padding.y })->initialize();
 		}
 		else // left side
 		{
-			float displacement = 45.f;
+			float displacement = 25.f;
 			padding = { 30.f, 30.f };
-			spawnPosition.x -= displacement;
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f - padding.x, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f			, spawnPosition.y - padding.y })->initialize();
+			spawnPosition.x -= 25.f;
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f - padding.x, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f			, spawnPosition.y - padding.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x					, spawnPosition.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - padding.x		, spawnPosition.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f			, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f - padding.x, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f			, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f - padding.x, spawnPosition.y + padding.y })->initialize();
 		}
 		break;
 	default:

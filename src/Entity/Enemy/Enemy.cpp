@@ -13,7 +13,6 @@ Enemy::Enemy() : Entity()
 		std::cerr << "Fail loading Enemies.png\n";
 	sprite = new sf::Sprite(*texture);
 
-	//add 4 death frames
 	set_active = true;
 	set_visible = true;
 
@@ -56,14 +55,6 @@ Enemy::~Enemy()
 void Enemy::attack()
 {
 	//attack logic
-}
-
-
-void Enemy::spawn(sf::Vector2f spawnpos)
-{
-	pos = spawnpos;
-	set_active = true;
-	set_visible = true;
 }
 
 

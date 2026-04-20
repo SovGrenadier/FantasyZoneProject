@@ -18,6 +18,7 @@ public:
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }
+	void setActive(bool new_active) { set_active = new_active; }
 	sf::Vector2f getPosition() { return pos; }
 	int getSpawnerCount() { return spawnerNum; }
 

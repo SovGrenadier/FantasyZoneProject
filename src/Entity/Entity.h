@@ -29,7 +29,8 @@ public:
 	//abstract methods
 	virtual void update(int input) = 0;
 	virtual void death() = 0;
-	void initialize(); 
+	void initialize();
+	bool isOnScreen(sf::View&); 
 
 	int ticks = 0;
 protected:

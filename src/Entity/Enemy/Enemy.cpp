@@ -28,7 +28,7 @@ Enemy::~Enemy()
 }
 
 
-bool Enemy::isOnScreen(sf::View &viewport)
+/*bool Enemy::isOnScreen(sf::View& viewport)
 {
 	//get dimensions of viewport
 	sf::Vector2f center = viewport.getCenter();
@@ -50,7 +50,7 @@ bool Enemy::isOnScreen(sf::View &viewport)
 	sf::FloatRect viewBox(expandedPos, expandedSize);
 	
 	return viewBox.findIntersection(sprite->getGlobalBounds()).has_value();
-}
+}*/
 
 
 void Enemy::attack()

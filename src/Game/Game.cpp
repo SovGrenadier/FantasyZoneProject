@@ -31,6 +31,8 @@ Game::Game()
 	spawnerDummy8->getPlayer(player);
 
 	activeBoss = false; 
+	loading = true; 
+	loadingBackground.setSize(viewport.getSize());
 }
 
 Game::~Game()
@@ -62,6 +64,7 @@ void Game::run()
 					player->slowBullets = true;
 			}
 		}
+
 		window.setView(viewportStart);
 		if (tick > 120 && tick < 480 * 4)
 			viewportStart.move({ 0.f,0.25f });
@@ -70,9 +73,13 @@ void Game::run()
 		window.display();
 		tick++;
 	}
+
+
 	if (invincible)
 		player->setHealth();
+
 	background1.~Texture();
+
 	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
 		std::cerr << "Error loading Level Background";
 	backgroundSprite1 = new sf::Sprite(background1);
@@ -83,6 +90,7 @@ void Game::run()
 		{
 			if (event->is<sf::Event::Closed>())
 				window.close();
+
 			//check header file to see more info on input
 			if (event->is<sf::Event::KeyPressed>())
 			{
@@ -177,51 +185,70 @@ void Game::run()
 			}
 		}
 
-		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
-		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
-
-		//sets UI text
-		UItext = "Score: " + std::to_string(score);
-		if (invincible)
-			UItext += "\nInvincible!";
-		if (player->slowBullets)
-			UItext += "\nSlow Bullets!";
-		UIelements->setText(UItext);
-		UIelements->setPosition(viewport.getCenter() + offset);
-
-		window.clear();
-		checkCollision();
-		if (!(player->alive))
-		{
-			window.close();
-			std::cout << "Game over" << std::endl;
-		}
 		window.setView(viewport);
-		window.draw(*backgroundSprite1);
-		window.draw(*UIelements->getText());
-		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
-		//window.draw(&(test), 1, sf::PrimitiveType::Points);
-		updateEntities();
-		drawEntities();
-		window.display();
-		tick += 1;
-	
-		//spawn the boss once all the spawners are killed 
-		if (player->getSpawnerCount() == 0 && !activeBoss)
-		{
-			removeEnemies(); 
-			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
-			activeBoss = true; 
-		}
-		else if (tick % 200 == 0 && !activeBoss)
-		{
-			enemyWave();
-			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
-			//std::cout << "\nPAUSE\n";
-		}
 
-		//std::cout << "Tick: " << tick << std::endl;
+		if (loading)
+		{
+			for (int i = 0; i < 40; i++)
+			{
+				removeEnemies();
+				setLoadingScreen();
+				window.clear();
+				window.draw(loadingBackground);
+				window.draw(*loadingText->getText());
+				window.display();
+			}
+
+			loading = false; 
+		}
+		else if (!loading)
+		{
+			//sets UI text
+			UItext = "Score: " + std::to_string(score);
+			if (invincible)
+				UItext += "\nInvincible!";
+			if (player->slowBullets)
+				UItext += "\nSlow Bullets!";
+			UIelements->setText(UItext);
+			UIelements->setPosition(viewport.getCenter() + offset);
+
+			window.clear();
+
+			checkCollision();
+
+			//End the game once player dies 
+			if (!(player->alive))
+			{
+				window.close();
+				std::cout << "Game over" << std::endl;
+			}
+
+			window.setView(viewport);
+			window.draw(*backgroundSprite1);
+			window.draw(*UIelements->getText());
+
+
+			//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
+			//window.draw(&(test), 1, sf::PrimitiveType::Points);
+			updateEntities();
+			drawEntities();
+			window.display();
+			tick += 1;
+
+			//spawn the boss once all the spawners are killed 
+			if (player->getSpawnerCount() == 0 && !activeBoss)
+			{
+				removeEnemies();
+				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
+				activeBoss = true;
+			}
+			else if (tick % 200 == 0 && !activeBoss)
+			{
+				enemyWave();
+				//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
+				//std::cout << "\nPAUSE\n";
+			}
+		}
 	}
 }
 
@@ -238,6 +265,7 @@ void Game::updateEntities()
 	// different sides of the loop
 }
 
+
 void Game::drawEntities()
 {
 	for (int i{}; i < entities->size(); i++)
@@ -247,6 +275,8 @@ void Game::drawEntities()
 	}
 }
 
+
+//Checks for collision between the different enemie 
 void Game::checkCollision()
 {
 	sf::FloatRect entity1, entity2;
@@ -382,6 +412,7 @@ void Game::checkCollision()
 }
 
 
+//spawn non spanwer enemies
 void Game::enemyWave()
 {
 	//moocolon, bottaco, scissors, snake
@@ -528,6 +559,8 @@ void Game::initialize()
 	spawnerDummy8->initialize();
 }
 
+
+//Remove all dead enemies from the entities vector 
 void Game::removeDead()
 {
 	//std::cout << entities->size() << std::endl;
@@ -541,6 +574,8 @@ void Game::removeDead()
 	}
 }
 
+
+//Clear the screen from all enemies once the bodd spawns 
 void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)
@@ -551,4 +586,22 @@ void Game::removeEnemies()
 			i--;
 		}
 	}
+}
+
+
+void Game::setLoadingScreen()
+{
+	float xPos, yPos; 
+
+	xPos = viewport.getCenter().x - (.5 * viewport.getSize().x); 
+	yPos = viewport.getCenter().y - (.5 * viewport.getSize().y); 
+
+	loadingBackground.setPosition(sf::Vector2f{ xPos, yPos }); 
+	loadingBackground.setFillColor(sf::Color(0, 218, 0));
+
+	xPos = viewport.getCenter().x - 30;
+	yPos = viewport.getCenter().y - 40; 
+
+	loadingText->setText("Player 1 Start");
+	loadingText->setPosition(sf::Vector2f{xPos, yPos});
 }

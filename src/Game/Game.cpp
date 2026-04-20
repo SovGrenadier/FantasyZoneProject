@@ -207,6 +207,7 @@ void Game::run()
 		window.display();
 		tick += 1;
 	
+		//spawn the boss once all the spawners are killed 
 		if (player->getSpawnerCount() == 0 && !activeBoss)
 		{
 			removeEnemies(); 

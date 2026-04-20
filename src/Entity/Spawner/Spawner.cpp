@@ -107,6 +107,7 @@ void Spawner::update(int input)
 
 			if (curDeathFrame >= animations[DEATH]->getFrameCount())
 			{
+				spawnerNum--; 
 				set_active = false;
 				set_visible = false;
 			}

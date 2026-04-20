@@ -194,6 +194,11 @@ void Game::run()
 		checkCollision();
 		if (!(player->alive))
 		{
+			removeEnemies();
+		}
+		if (!(player->getActive()))
+		{
+			removeEnemies();
 			window.close();
 			std::cout << "Game over" << std::endl;
 		}
@@ -214,7 +219,7 @@ void Game::run()
 			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 			activeBoss = true; 
 		}
-		else if (tick % 200 == 0 && !activeBoss)
+		else if (tick % 200 == 0 && !activeBoss&& (player->alive))
 		{
 			enemyWave();
 			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
@@ -297,6 +302,7 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							entities->at(x)->setActive(false);
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -314,11 +320,12 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
 							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
 						{
-							//entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->setActive(false);
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -363,7 +370,6 @@ void Game::checkCollision()
 		spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
 		spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 		spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
-		removeDead();
 
 		//Remove any enemies that are dead 
 		
@@ -376,7 +382,18 @@ void Game::checkCollision()
 		}
 		*/
 	}
-
+	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
+	if (!spawnerDummy->getActive())
+		spawnerDummy7->setActive(false);
+	if(!spawnerDummy7->getActive())
+		spawnerDummy->setActive(false);
+	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
+	if (!spawnerDummy2->getActive())
+		spawnerDummy8->setActive(false);
+	if (!spawnerDummy8->getActive())
+		spawnerDummy2->setActive(false);
 	removeDead();
 
 }

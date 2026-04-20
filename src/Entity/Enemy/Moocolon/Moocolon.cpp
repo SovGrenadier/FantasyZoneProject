@@ -11,9 +11,7 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 	else
 		faceRight = false;
 
-	timer.restart();
 	ticks = 13;
-	//pos = sf::Vector2f{ 840.f,100.f };
 	pos = position;
 
 	//frames
@@ -40,16 +38,15 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 
 	centerY = pos.y;
 	speed = 0.6f;
-	amplitude = 25.f;
+	acceleration = 1.02f;
+	amplitude = 17.5f;
 	time = 0.f;
-	bounceIndex = 0;
+	bounceIndex = 1;
 	previousY = pos.y;
-	bounce = false;
-	bounceTwice = false;
+	distTraveled = 0.f;
+	bouncing = true;
 	bounceCount = 0;
 
-	
-	//set sprite
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	sprite->setPosition(pos);
@@ -74,42 +71,41 @@ void Moocolon::spawn()
 //to-do: fix not moving at all after reaching centerY
 void Moocolon::move()
 {
-	if (bounceCount == 1)
-	{
-		if ((previousY < centerY + 1.f) && (previousY > centerY - 1.f))
-			if (faceRight)
-				pos.x += speed;
-			else
-				pos.x -= speed;
-		return;
-	}
-	float wave = static_cast<float>(sin(time));
-
 	if (faceRight)
 		pos.x += speed;
-	else
+	else if (!faceRight)
 		pos.x -= speed;
 
 
-	if(previousY < (centerY + amplitude * wave)) //if moocolon y pos decreasing
-		if ((previousY < centerY + 1.f) && (previousY > centerY - 1.f)) 
-		{ // if moocolon pos y is in range of centerY
+	float wave = centerY + amplitude * static_cast<float>(sin(time));
+	bool decreasing = previousY < wave;
+	bool inRange = (previousY < centerY + .5f) && (previousY > centerY - .5f);
+
+	if (bouncing)
+	{
+		if (decreasing && inRange)
+		{
 			bounceIndex++;
 			if (bounceIndex % 2 == 0)
 			{
-				bounce = true;
+				time *= -1.f;
+				wave = centerY + amplitude * static_cast<float>(sin(time));
 				bounceCount++;
 			}
+
+			if (bounceCount >= 2)
+				bouncing = false;
 		}
 
-	if (bounce)
-		time *= -1.f;
+		pos.y = wave;
+
+
+	}
 	else
-		time *= 1.f;
+		distTraveled += speed;
 
-	pos.y = centerY + amplitude * wave;
-	bounce = false;
-
+	if (distTraveled > 30.f)
+		speed *= acceleration;
 	if (time == 0.f)
 		if (faceRight)
 			time += 0.05f;

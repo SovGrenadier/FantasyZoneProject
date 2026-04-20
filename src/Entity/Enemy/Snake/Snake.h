@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <SFML/System/Clock.hpp>
-#include <SFML/System/Time.hpp>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
@@ -20,7 +19,6 @@ public:
 	};
 
 
-	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -30,6 +28,5 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float speed, acceleration;
-	sf::Clock timer; //after time, charge off screen
+	float speed, acceleration, distTraveled;
 };

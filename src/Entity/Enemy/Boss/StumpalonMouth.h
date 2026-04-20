@@ -9,7 +9,6 @@ public:
 	void setVisibility(bool); 
 	void changeState(); 
 	void update(int) override; 
-	void spawn(sf::Vector2f pos) override{}; 
 	void attack() override {}; 
 	void move() override; 
 	void death() override; 

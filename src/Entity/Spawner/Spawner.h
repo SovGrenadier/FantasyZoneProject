@@ -40,7 +40,6 @@ private:
 
 	//Inheriting from enemy causes problems so we just steal it instead
 	unsigned int curDeathFrame; 
-	std::vector <sf::IntRect> deathFrames;
 	std::unordered_map<Actions, Animation*> animations;
 	unsigned int tickRate;
 	sf::Vector2f deathPos;

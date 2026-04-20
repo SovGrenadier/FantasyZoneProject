@@ -1,10 +1,8 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
-#include <SFML/System/Time.hpp>
 #include <unordered_map>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
-
 
 
 class Scissors : public Enemy
@@ -20,7 +18,6 @@ public:
 		DEATH
 	};
 
-
 	void spawn();
 	void move() override;
 	void update(int) override;
@@ -32,6 +29,5 @@ private:
 	Actions curAction;
 	bool faceRight;
 	float amplitude, time, baseY;
-	float speed, acceleration;
-	sf::Clock timer;
+	float speed, acceleration, distTraveled;
 };

@@ -1,6 +1,7 @@
-#include<../../src/Game/Game.h>
+#include <../../src/Game/Game.h>
 #include <iostream>
-#include<algorithm>
+#include <algorithm>
+#include <iomanip>
 
 Game::Game()
 {
@@ -176,17 +177,26 @@ void Game::run()
 				}
 			}
 		}
+		
+		tempStr = "";
+		scoreStr = std::to_string(score);
+		for (int i = scoreStr.length(); i < 23; i++)
+			tempStr += " ";
+		scoreStr = tempStr + scoreStr;
 
 		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
 		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
 		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
 
 		//sets UI text
-		UItext = "Score: " + std::to_string(score);
+		UItext = "TOP " + scoreStr + "				SHOT			RD.1\n"
+			   + " $   " + scoreStr + "			1.BOMB			";
+
 		if (invincible)
-			UItext += "\nInvincible!";
+			UItext += "Invincible!";
 		if (player->slowBullets)
-			UItext += "\nSlow Bullets!";
+			UItext += "Slow Bullets!";
+
 		UIelements->setText(UItext);
 		UIelements->setPosition(viewport.getCenter() + offset);
 
@@ -422,11 +432,11 @@ void Game::enemyWave()
 		sizeX /= 2.f;
 		spawnPosition.x = viewport.getCenter().x - sizeX - 20.f; // extra 20 so it appears off screen
 	}
-
+	randEnemy = 3;
 	switch (randEnemy)
 	{
 	case 1://moocolon wave spawn logic
-		spawnPosition.y = viewport.getCenter().y - 30.f;
+		spawnPosition.y = viewport.getCenter().y - 20.f;
 		if (formation)// 2x2 square, right side
 		{
 			padding = { 16.f, 16.f };
@@ -437,8 +447,9 @@ void Game::enemyWave()
 		}
 		else // column
 		{
-			padding.y = 40.f;
+			padding.y = 32.5f;
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y + padding.y + padding.y})->initialize();
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y })->initialize();
 			std::make_shared<Moocolon>(sf::Vector2f{ spawnPosition.x, spawnPosition.y - padding.y })->initialize();
 		}
@@ -498,24 +509,24 @@ void Game::enemyWave()
 			float displacement = 45.f;
 			padding = { 30.f, 30.f };
 			spawnPosition.x += displacement;
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f + padding.x	, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f				, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f + padding.x	, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f				, spawnPosition.y - padding.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x					, spawnPosition.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + padding.x		, spawnPosition.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f				, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f + padding.x	, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f				, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f + padding.x	, spawnPosition.y + padding.y })->initialize();
 		}
 		else // left side
 		{
-			float displacement = 45.f;
+			float displacement = 25.f;
 			padding = { 30.f, 30.f };
-			spawnPosition.x -= displacement;
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f - padding.x, spawnPosition.y - padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 45.f			, spawnPosition.y - padding.y })->initialize();
+			spawnPosition.x -= 25.f;
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f - padding.x, spawnPosition.y - padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - 25.f			, spawnPosition.y - padding.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x					, spawnPosition.y })->initialize();
 			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x - padding.x		, spawnPosition.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f			, spawnPosition.y + padding.y })->initialize();
-			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 45.f - padding.x, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f			, spawnPosition.y + padding.y })->initialize();
+			std::make_shared<Snake>(sf::Vector2f{ spawnPosition.x + 25.f - padding.x, spawnPosition.y + padding.y })->initialize();
 		}
 		break;
 	default:

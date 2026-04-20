@@ -56,6 +56,8 @@ private:
 	int score;
 	bool invincible = false;
 	std::string UItext = "";
+	std::string scoreStr = "";	
+	std::string tempStr;
 	void removeDead(); 
 	void removeEnemies(); 
 	bool activeBoss; 

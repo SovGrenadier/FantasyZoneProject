@@ -18,6 +18,7 @@ public:
 	int getDamage() { return damage;}
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }
+	void setActive(bool new_active) { set_active = new_active; }
 	sf::Vector2f getPosition() { return pos; }
 	int getSpawnerCount() { return spawnerNum; }
 
@@ -29,7 +30,8 @@ public:
 	//abstract methods
 	virtual void update(int input) = 0;
 	virtual void death() = 0;
-	void initialize(); 
+	void initialize();
+	bool isOnScreen(sf::View&); 
 
 	int ticks = 0;
 protected:

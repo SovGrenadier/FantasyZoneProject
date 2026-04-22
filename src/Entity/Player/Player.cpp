@@ -58,291 +58,304 @@ void Player::setHealth()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	if (health <= 0)
+	if (health <= 0&&alive)
 	{
-		set_active = false;
-		set_visible = false;
 		alive = false;
+		ticks = 0;
 	}
-	//check if player hit the ceiling
-	if (ceiling.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
+	if (!alive)
 	{
-		if (!hitCeil)
+		ticks++;
+		std::cout << ticks << std::endl;
+		if (ticks >= deathTickCount)
 		{
-			sprite->setPosition({ sprite->getPosition().x, (ceiling.position.y + ceiling.size.y - 1) });
-			hitCeil = true;
+			set_active = false;
 		}
+		else if(ticks>=40)
+			set_visible = false;
 	}
 	else
-		hitCeil = false;
-
-	//check if player hit the floor
-	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
-		//sprite->setPosition({ sprite->getPosition().x, ((ground.position.y)-sprite->getGlobalBounds().size.y-3)});
-		hitFloor = true;
-	}
-	else
-		hitFloor = false;
-
-	ticks++;
-	//a is pressed
-	if (((input % 0b00000100) / 0b00000010) == 1)
-		faceRight = false;
-	//d is pressed
-	if (((input % 0b00010000) / 0b00001000) == 1)
-		faceRight = true;
-
-	if (((input % 0b01000000) / 0b00100000) == 1)
-	{
-		if (bombingTicks >= 36)
+		//check if player hit the ceiling
+		if (ceiling.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 		{
-			bomb();
-			bombingTicks = 0;
-		}
-		else
-			bombingTicks++;
-		input -= 0b00100000;
-	}
-	else if (bombingTicks < 36)
-		bombingTicks=36;
-
-
-	if (((input % 0b00100000) / 0b00010000) == 1)
-	{
-		if (shootingTicks >= 6)
-		{
-			shoot();
-			shootingTicks = 0;
-		}
-		else
-			shootingTicks++;
-		input -= 0b00010000;
-	}
-	else if (shootingTicks < 6)
-		shootingTicks=6;
-
-
-	switch (input)
-	{
-		//nothing is pressed
-	case 0b00000000:
-		if (!hitFloor)
-		{
-			if (faceRight)
+			if (!hitCeil)
 			{
-				curAction = Actions::GLIDE_RIGHT;
-				spriteMov = { 0.6f,0.0f };
+				sprite->setPosition({ sprite->getPosition().x, (ceiling.position.y + ceiling.size.y - 1) });
+				hitCeil = true;
+			}
+		}
+		else
+			hitCeil = false;
+
+		//check if player hit the floor
+		if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
+		{
+			//sprite->setPosition({ sprite->getPosition().x, ((ground.position.y)-sprite->getGlobalBounds().size.y-3)});
+			hitFloor = true;
+		}
+		else
+			hitFloor = false;
+
+		ticks++;
+		//a is pressed
+		if (((input % 0b00000100) / 0b00000010) == 1)
+			faceRight = false;
+		//d is pressed
+		if (((input % 0b00010000) / 0b00001000) == 1)
+			faceRight = true;
+
+		if (((input % 0b01000000) / 0b00100000) == 1)
+		{
+			if (bombingTicks >= 36)
+			{
+				bomb();
+				bombingTicks = 0;
+			}
+			else
+				bombingTicks++;
+			input -= 0b00100000;
+		}
+		else if (bombingTicks < 36)
+			bombingTicks = 36;
+
+
+		if (((input % 0b00100000) / 0b00010000) == 1)
+		{
+			if (shootingTicks >= 6)
+			{
+				shoot();
+				shootingTicks = 0;
+			}
+			else
+				shootingTicks++;
+			input -= 0b00010000;
+		}
+		else if (shootingTicks < 6)
+			shootingTicks = 6;
+
+
+		switch (input)
+		{
+			//nothing is pressed
+		case 0b00000000:
+			if (!hitFloor)
+			{
+				if (faceRight)
+				{
+					curAction = Actions::GLIDE_RIGHT;
+					spriteMov = { 0.6f,0.0f };
+				}
+				else
+				{
+					curAction = Actions::GLIDE_LEFT;
+					spriteMov = { -0.6f,0.0f };
+				}
+				tickRate = 12;
 			}
 			else
 			{
-				curAction = Actions::GLIDE_LEFT;
-				spriteMov = { -0.6f,0.0f };
+				if (faceRight)
+				{
+					curAction = Actions::STAND_RIGHT;
+					spriteMov = { 0.0f,0.0f };
+				}
+				else
+				{
+					curAction = Actions::STAND_LEFT;
+					spriteMov = { 0.0f,0.0f };
+				}
+				tickRate = 12;
+				ticks = 12;
 			}
-			tickRate = 12;
-		}
-		else
-		{
-			if (faceRight)
+			break;
+			//w is pressed
+		case 0b00000001:
+			if (!hitCeil)
 			{
-				curAction = Actions::STAND_RIGHT;
-				spriteMov = { 0.0f,0.0f };
+				if (faceRight)
+				{
+					curAction = Actions::MOVE_UP_FACE_RIGHT;
+					viewportCatchUpLeft = false;
+					viewportCatchUpRight = false;
+					stopRight = false;
+					stopLeft = false;
+					spriteMov = { viewMov.x,-2.0f };
+				}
+				else
+				{
+					curAction = Actions::MOVE_UP_FACE_LEFT;
+					viewportCatchUpLeft = false;
+					viewportCatchUpRight = false;
+					stopRight = false;
+					stopLeft = false;
+					spriteMov = { viewMov.x,-2.0f };
+				}
+				tickRate = 12;
 			}
 			else
 			{
-				curAction = Actions::STAND_LEFT;
-				spriteMov = { 0.0f,0.0f };
+				if (faceRight)
+				{
+					curAction = Actions::GLIDE_RIGHT;
+					spriteMov = { 0.6f,0.0f };
+				}
+				else
+				{
+					curAction = Actions::GLIDE_LEFT;
+					spriteMov = { -0.6f,0.0f };
+				}
+				tickRate = 12;
 			}
-			tickRate = 12;
-			ticks = 12;
-		}
-		break;
-		//w is pressed
-	case 0b00000001:
-		if (!hitCeil)
-		{
-			if (faceRight)
+			hitFloor = false;
+			break;
+			//a is pressed
+		case 0b00000010:
+			faceRight = false;
+			if (!hitFloor)
+			{
+				curAction = Actions::MOVE_LEFT;
+				tickRate = 6;
+				spriteMov = { -2.2f,0.0f };
+			}
+			else
+			{
+				curAction = Actions::WALK_LEFT;
+				tickRate = 6;
+				spriteMov = { -2.2f,0.0f };
+			}
+			break;
+			//s is pressed
+		case 0b00000100:
+			if (!hitFloor)
+			{
+				if (faceRight)
+				{
+					curAction = Actions::MOVE_DOWN_FACE_RIGHT;
+					viewportCatchUpLeft = false;
+					viewportCatchUpRight = false;
+					stopRight = false;
+					stopLeft = false;
+					spriteMov = { viewMov.x,2.0f };
+				}
+				else
+				{
+					curAction = Actions::MOVE_DOWN_FACE_LEFT;
+					viewportCatchUpLeft = false;
+					viewportCatchUpRight = false;
+					stopRight = false;
+					stopLeft = false;
+					spriteMov = { viewMov.x,2.0f };
+				}
+				tickRate = 12;
+			}
+			else
+			{
+				if (faceRight)
+				{
+					curAction = Actions::STAND_RIGHT;
+					spriteMov = { 0.0f,0.0f };
+				}
+				else
+				{
+					curAction = Actions::STAND_LEFT;
+					spriteMov = { 0.0f,0.0f };
+				}
+				tickRate = 12;
+				ticks = 12;
+			}
+			break;
+			//d is pressed
+		case 0b00001000:
+			faceRight = true;
+			if (!hitFloor)
+			{
+				curAction = Actions::MOVE_RIGHT;
+				tickRate = 6;
+				spriteMov = { 2.2f,0.0f };
+			}
+			else
+			{
+				curAction = Actions::WALK_RIGHT;
+				tickRate = 6;
+				spriteMov = { 2.2f,0.0f };
+			}
+			break;
+			//w and d is pressed
+		case 0b00001001:
+			if (!hitCeil)
 			{
 				curAction = Actions::MOVE_UP_FACE_RIGHT;
-				viewportCatchUpLeft = false;
-				viewportCatchUpRight = false;
-				stopRight = false;
-				stopLeft = false;
-				spriteMov = { viewMov.x,-2.0f };
+				spriteMov = { 2.2f,-2.0f };
 			}
 			else
 			{
-				curAction = Actions::MOVE_UP_FACE_LEFT;
-				viewportCatchUpLeft = false;
-				viewportCatchUpRight = false;
-				stopRight = false;
-				stopLeft = false;
-				spriteMov = { viewMov.x,-2.0f };
+				curAction = Actions::MOVE_RIGHT;
+				spriteMov = { 2.2f,0.0f };
 			}
-			tickRate = 12;
-		}
-		else
-		{
-			if (faceRight)
-			{
-				curAction = Actions::GLIDE_RIGHT;
-				spriteMov = { 0.6f,0.0f };
-			}
-			else
-			{
-				curAction = Actions::GLIDE_LEFT;
-				spriteMov = { -0.6f,0.0f };
-			}
-			tickRate = 12;
-		}
-		hitFloor = false;
-		break;
-		//a is pressed
-	case 0b00000010:
-		faceRight = false;
-		if (!hitFloor)
-		{
-			curAction = Actions::MOVE_LEFT;
 			tickRate = 6;
-			spriteMov = { -2.2f,0.0f };
-		}
-		else
-		{
-			curAction = Actions::WALK_LEFT;
-			tickRate = 6;
-			spriteMov = { -2.2f,0.0f };
-		}
-		break;
-		//s is pressed
-	case 0b00000100:
-		if (!hitFloor)
-		{
-			if (faceRight)
+			hitFloor = false;
+			faceRight = true;
+			break;
+			//s and d is pressed
+		case 0b00001100:
+			if (!hitFloor)
 			{
-				curAction = Actions::MOVE_DOWN_FACE_RIGHT;
-				viewportCatchUpLeft = false;
-				viewportCatchUpRight = false;
-				stopRight = false;
-				stopLeft = false;
-				spriteMov = { viewMov.x,2.0f };
-			}
-			else
-			{
-				curAction = Actions::MOVE_DOWN_FACE_LEFT;
-				viewportCatchUpLeft = false;
-				viewportCatchUpRight = false;
-				stopRight = false;
-				stopLeft = false;
-				spriteMov = { viewMov.x,2.0f };
-			}
-			tickRate = 12;
-		}
-		else
-		{
-			if (faceRight)
-			{
-				curAction = Actions::STAND_RIGHT;
-				spriteMov = { 0.0f,0.0f };
-			}
-			else
-			{
-				curAction = Actions::STAND_LEFT;
-				spriteMov = { 0.0f,0.0f };
-			}
-			tickRate = 12;
-			ticks = 12;
-		}
-		break;
-		//d is pressed
-	case 0b00001000:
-		faceRight = true;
-		if (!hitFloor)
-		{
-			curAction = Actions::MOVE_RIGHT;
-			tickRate = 6;
-			spriteMov = { 2.2f,0.0f };
-		}
-		else
-		{
-			curAction = Actions::WALK_RIGHT;
-			tickRate = 6;
-			spriteMov = { 2.2f,0.0f };
-		}
-		break;
-		//w and d is pressed
-	case 0b00001001:
-		if (!hitCeil)
-		{
-			curAction = Actions::MOVE_UP_FACE_RIGHT;
-			spriteMov = { 2.2f,-2.0f };
-		}
-		else
-		{
-			curAction = Actions::MOVE_RIGHT;
-			spriteMov = { 2.2f,0.0f };
-		}
-		tickRate = 6;
-		hitFloor = false;
-		faceRight = true;
-		break;
-		//s and d is pressed
-	case 0b00001100:
-		if (!hitFloor)
-		{
 				curAction = Actions::MOVE_DOWN_FACE_RIGHT;
 				spriteMov = { 2.2f,2.0f };
-		}
-		else
-		{
+			}
+			else
+			{
 				curAction = Actions::WALK_RIGHT;
 				spriteMov = { 2.2f,0.0f };
+			}
+			tickRate = 6;
+			faceRight = true;
+			break;
+			//w and a is pressed
+		case 0b00000011:
+			if (!hitCeil)
+			{
+				curAction = Actions::MOVE_UP_FACE_LEFT;
+				spriteMov = { -2.2f,-2.0f };
+			}
+			else
+			{
+				curAction = Actions::MOVE_LEFT;
+				spriteMov = { -2.2f,0.0f };
+			}
+			tickRate = 6;
+			hitFloor = false;
+			faceRight = false;
+			break;
+			//s and a is pressed
+		case 0b00000110:
+			if (!hitFloor)
+			{
+				curAction = Actions::MOVE_DOWN_FACE_LEFT;
+				spriteMov = { -2.2f,2.0f };
+			}
+			else
+			{
+				curAction = Actions::WALK_LEFT;
+				spriteMov = { -2.2f,0.0f };
+			}
+			tickRate = 6;
+			faceRight = false;
+			break;
 		}
-		tickRate = 6;
-		faceRight = true;
-		break;
-		//w and a is pressed
-	case 0b00000011:
-		if (!hitCeil)
+		sprite->move(spriteMov);
+		updateView(input);
+		if (ticks >= tickRate)
 		{
-			curAction = Actions::MOVE_UP_FACE_LEFT;
-			spriteMov = { -2.2f,-2.0f };
+			//reset to 0 so ticks doesn't get to large
+			ticks = 0;
+			sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 		}
-		else
+		if (hitFloor)
 		{
-			curAction = Actions::MOVE_LEFT;
-			spriteMov = { -2.2f,0.0f };
+			sprite->setPosition({ sprite->getPosition().x, ((ground.position.y) - sprite->getGlobalBounds().size.y + 1) });
 		}
-		tickRate = 6;
-		hitFloor = false;
-		faceRight = false;
-		break;
-		//s and a is pressed
-	case 0b00000110:
-		if (!hitFloor)
-		{
-			curAction = Actions::MOVE_DOWN_FACE_LEFT;
-			spriteMov = { -2.2f,2.0f };
-		}
-		else
-		{
-			curAction = Actions::WALK_LEFT;
-			spriteMov = { -2.2f,0.0f };
-		}
-		tickRate = 6;
-		faceRight = false;
-		break;
-	}
-	sprite->move(spriteMov);
-	updateView(input);
-	if (ticks >= tickRate)
-	{
-		//reset to 0 so ticks doesn't get to large
-		ticks = 0;
-		sprite->setTextureRect(*(animations[curAction]->nextFrame()));
-	}
-	if (hitFloor)
-	{
-		sprite->setPosition({ sprite->getPosition().x, ((ground.position.y) - sprite->getGlobalBounds().size.y + 1) });
 	}
 }
 

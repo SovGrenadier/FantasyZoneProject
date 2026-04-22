@@ -43,6 +43,7 @@ private:
 	void bomb();
 	void updateView(int input);
 	unsigned int tickRate;
+	int deathTickCount = 400;
 	//represents which level of the background spritesheet the player is on
 	int level = 2;
 	//represents edges where viewport matches player movement speed

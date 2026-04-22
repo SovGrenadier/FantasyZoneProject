@@ -60,7 +60,7 @@ private:
 	std::string tempStr;
 	void removeDead(); 
 	void removeEnemies(); 
-	bool activeBoss; 
+	bool activeBoss, loading; 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::Vector2f offset; // offset used for UI position
 	//Temporary for testing 
@@ -79,6 +79,9 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
 	std::shared_ptr<UI> UIelements = std::make_shared<UI>();	
+	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
 	Leaf* leafDummy;
+	void setLoadingScreen();
+	sf::RectangleShape loadingBackground; 
 	//Shop* shop = new Shop();
 };

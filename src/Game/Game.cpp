@@ -185,12 +185,10 @@ void Game::run()
 				}
 			}
 		}
-		
-		tempStr = "";
-		scoreStr = std::to_string(score);
-		for (int i = scoreStr.length(); i < 23; i++)
-			tempStr += " ";
-		scoreStr = tempStr + scoreStr;
+		scoreStr = "";
+		for (int i = 0; i < 15 - std::to_string(score).length(); i++)
+			scoreStr += " ";
+		scoreStr += std::to_string(score);
 
 		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
 		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
@@ -199,13 +197,15 @@ void Game::run()
 		window.setView(viewport);
 
 		//sets UI text
-		UItext = "TOP " + scoreStr + "				SHOT			RD.1\n"
-			   + " $   " + scoreStr + "			1.BOMB			";
+		UItext = "TOP " + scoreStr + "						SHOT					RD.1\n"
+			+ " $  " + scoreStr + "						1.BOMB					";
 
 		if (invincible)
 			UItext += "Invincible!";
+		else
+			UItext += "Lives " + std::to_string(player->health);
 		if (player->slowBullets)
-			UItext += "Slow Bullets!";
+			UItext += "\nSlow Bullets!";
 
 		UIelements->setText(UItext);
 		UIelements->setPosition(viewport.getCenter() + offset);

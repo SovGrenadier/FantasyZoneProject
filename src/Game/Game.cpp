@@ -33,7 +33,7 @@ Game::Game()
 
 	activeBoss = false; 
 	loading = true; 
-	loadingBackground.setSize(viewport.getSize());
+	blankScreen.setSize(viewport.getSize());
 }
 
 Game::~Game()
@@ -211,16 +211,7 @@ void Game::run()
 		UIelements->setPosition(viewport.getCenter() + offset);
 		if (loading)
 		{
-			for (int i = 0; i < 40; i++)
-			{
-				removeEnemies();
-				setLoadingScreen();
-				window.clear();
-				window.draw(loadingBackground);
-				window.draw(*loadingText->getText());
-				window.display();
-			}
-
+			setScreen("Player 1 Start");
 			loading = false; 
 		}
 		else if (!loading)
@@ -279,7 +270,7 @@ void Game::run()
 		}
 		if (!(player->getActive()))
 		{
-			removeEnemies();
+			setScreen("Game Over");
 			window.close();
 			std::cout << "Game over" << std::endl;
 		}
@@ -661,19 +652,29 @@ void Game::removeEnemies()
 }
 
 
-void Game::setLoadingScreen()
+void Game::setScreen(std::string text)
 {
 	float xPos, yPos; 
 
 	xPos = viewport.getCenter().x - (.5 * viewport.getSize().x); 
 	yPos = viewport.getCenter().y - (.5 * viewport.getSize().y); 
 
-	loadingBackground.setPosition(sf::Vector2f{ xPos, yPos }); 
-	loadingBackground.setFillColor(sf::Color(0, 218, 0));
+	blankScreen.setPosition(sf::Vector2f{ xPos, yPos }); 
+	blankScreen.setFillColor(sf::Color(0, 218, 0));
 
 	xPos = viewport.getCenter().x - 30;
 	yPos = viewport.getCenter().y - 40; 
 
-	loadingText->setText("Player 1 Start");
+	loadingText->setText(text);
 	loadingText->setPosition(sf::Vector2f{xPos, yPos});
+
+	removeEnemies();
+
+	for (int i = 0; i < 40; i++)
+	{
+		window.clear();
+		window.draw(blankScreen);
+		window.draw(*loadingText->getText());
+		window.display();
+	}
 }

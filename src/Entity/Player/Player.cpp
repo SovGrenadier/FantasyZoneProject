@@ -13,7 +13,6 @@ Player::Player()
 	walkLeft = new Animation(1, 2, sf::IntRect{ sf::Vector2i{33,166},sf::Vector2i{36,16} });
 	standingRight = new Animation(1, 1, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{18,16} });
 	standingLeft = new Animation(1, 1, sf::IntRect{ sf::Vector2i{51,166},sf::Vector2i{18,16} });
-	health = 3;
 	animations[Actions::GLIDE_RIGHT] = rightFly;
 	animations[Actions::MOVE_RIGHT] = rightFly;
 	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;

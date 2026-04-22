@@ -203,7 +203,7 @@ void Game::run()
 		if (invincible)
 			UItext += "Invincible!";
 		else
-			UItext += "Lives " + std::to_string(player->health);
+			UItext += "Lives " + std::to_string(3);
 		if (player->slowBullets)
 			UItext += "\nSlow Bullets!";
 
@@ -237,13 +237,6 @@ void Game::run()
 			window.clear();
 
 			checkCollision();
-
-			//End the game once player dies 
-			if (!(player->alive))
-			{
-				window.close();
-				std::cout << "Game over" << std::endl;
-			}
 
 			window.setView(viewport);
 			window.draw(*backgroundSprite1);

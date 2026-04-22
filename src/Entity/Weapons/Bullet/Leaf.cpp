@@ -55,9 +55,10 @@ void Leaf::update(int input)
 		sprite->setTextureRect(*fly->nextFrame());
 
 	sprite->move(sf::Vector2f{ speedX, speedY });
-}
 
-bool Leaf::onScreen()
-{
-	return true; 
+	if (!isOnScreen(*viewport))
+	{
+		set_active = false; 
+		set_visible = false; 
+	}
 }

@@ -32,6 +32,7 @@ public:
 	void setHealth();
 
 	bool slowBullets = false;
+	int health;
 
 	std::unordered_map<Actions, Animation*> animations;
 private:

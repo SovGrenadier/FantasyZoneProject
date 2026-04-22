@@ -4,7 +4,8 @@
 class PlayerDeath : public Entity
 {
 public:
-	PlayerDeath(float speed, float angle);
+	//this class will take in angle in degrees
+	PlayerDeath(sf::Vector2f pos, float speed, float angle);
 	~PlayerDeath();
 	void update(int input) override;
 	void death() override;
@@ -12,5 +13,5 @@ public:
 private:
 	int maxTicks = 400;
 	float speed;
-	float angle;
+	float angle;//in degrees
 };

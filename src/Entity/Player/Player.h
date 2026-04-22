@@ -3,6 +3,7 @@
 #include"../../Animation/Animation.h"
 #include"../Weapons/Bullet/Bullet.h"
 #include"../Weapons/Bomb/Bomb.h"
+#include"../PlayerDeathSprite/PlayerDeathSprite.h"
 #include<unordered_map>
 #include<iostream>
 
@@ -42,7 +43,7 @@ private:
 	void bomb();
 	void updateView(int input);
 	unsigned int tickRate;
-	int deathTickCount = 400;
+	int deathTickCount = 250;
 	//represents which level of the background spritesheet the player is on
 	int level = 2;
 	//represents edges where viewport matches player movement speed
@@ -50,6 +51,7 @@ private:
 	bool leftEdge = false;
 	sf::Vector2f spriteMov;
 	sf::Vector2f viewMov;
+	sf::Vector2f deathPos;
 	sf::FloatRect ceiling;
 	sf::FloatRect ground;
 	//if player hits an edge of the viewport the viewport speeds up

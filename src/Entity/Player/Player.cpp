@@ -62,6 +62,7 @@ void Player::update(int input)
 	{
 		alive = false;
 		ticks = 0;
+		deathPos = { sprite->getPosition().x + sprite->getGlobalBounds().size.x,sprite->getPosition().y + sprite->getGlobalBounds().size.y };
 	}
 	if (!alive)
 	{
@@ -73,6 +74,23 @@ void Player::update(int input)
 		}
 		else if(ticks>=40)
 			set_visible = false;
+
+		if (ticks == 41)
+		{
+			for (float i = 0.0f; i <= 360.0f; i += 15.0f)
+			{
+				std::shared_ptr<PlayerDeath> playerDeathDummy = std::make_shared<PlayerDeath>(deathPos, 0.4f, i);
+				playerDeathDummy->initialize();
+			}
+		}
+		if (ticks == 80)
+		{
+			for (float i = 0.0f; i <= 360.0f; i += 15.0f)
+			{
+				std::shared_ptr<PlayerDeath> playerDeathDummy = std::make_shared<PlayerDeath>(deathPos, 0.6f, i);
+				playerDeathDummy->initialize();
+			}
+		}
 	}
 	else
 	{

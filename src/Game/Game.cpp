@@ -87,6 +87,7 @@ void Game::run()
 
 	while (window.isOpen() && start)
 	{
+
 		while (const std::optional event = window.pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
@@ -110,13 +111,13 @@ void Game::run()
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Down)
 				{
 					//make sure third bit isn't already set to 1
-					if (((input % 0b00001000) / 0b00000100) == 0&& ((input % 0b00000010) / 0b00000001) != 1)
+					if (((input % 0b00001000) / 0b00000100) == 0 && ((input % 0b00000010) / 0b00000001) != 1)
 						input += 0b00000100;
 				}
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Right)
 				{
 					//ensure that a isn't already pressed
-					if (((input % 0b00000100) / 0b00000010) == 0&& ((input % 0b00000100) / 0b00000010) != 1)
+					if (((input % 0b00000100) / 0b00000010) == 0 && ((input % 0b00000100) / 0b00000010) != 1)
 					{
 						//make sure fourth bit isn't already set to 1
 						if (((input % 0b00010000) / 0b00001000) == 0)
@@ -185,6 +186,7 @@ void Game::run()
 				}
 			}
 		}
+
 		scoreStr = "";
 		for (int i = 0; i < 15 - std::to_string(score).length(); i++)
 			scoreStr += " ";
@@ -209,10 +211,12 @@ void Game::run()
 
 		UIelements->setText(UItext);
 		UIelements->setPosition(viewport.getCenter() + offset);
+
+		//Display the loading screen 
 		if (loading)
 		{
 			setScreen("Player 1 Start");
-			loading = false; 
+			loading = false;
 		}
 		else if (!loading)
 		{
@@ -232,6 +236,12 @@ void Game::run()
 			//End the game once player dies 
 			if (!(player->alive))
 			{
+				setScreen("Game Over");
+				removeEnemies();
+			}
+			if (!(player->getActive()))
+			{
+				setScreen("Game Over");
 				window.close();
 				std::cout << "Game over" << std::endl;
 			}
@@ -262,43 +272,6 @@ void Game::run()
 				//std::cout << "\nPAUSE\n";
 			}
 		}
-		window.clear();
-		checkCollision();
-		if (!(player->alive))
-		{
-			removeEnemies();
-		}
-		if (!(player->getActive()))
-		{
-			setScreen("Game Over");
-			window.close();
-			std::cout << "Game over" << std::endl;
-		}
-		window.setView(viewport);
-		window.draw(*backgroundSprite1);
-		window.draw(*UIelements->getText());
-		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
-		//window.draw(&(test), 1, sf::PrimitiveType::Points);
-		updateEntities();
-		drawEntities();
-		window.display();
-		tick += 1;
-	
-		//spawn the boss once all the spawners are killed 
-		if (player->getSpawnerCount() == 0 && !activeBoss)
-		{
-			removeEnemies(); 
-			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
-			activeBoss = true; 
-		}
-		else if (tick % 200 == 0 && !activeBoss&& (player->alive))
-		{
-			enemyWave();
-			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
-			//std::cout << "\nPAUSE\n";
-		}
-
-		//std::cout << "Tick: " << tick << std::endl;
 	}
 }
 

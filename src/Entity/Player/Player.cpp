@@ -32,6 +32,7 @@ Player::Player()
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+	lives = 3; 
 
 	tickRate = 100000;
 
@@ -57,8 +58,9 @@ void Player::setHealth()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	if (health <= 0&&alive)
+	if (health <= 0 && alive)
 	{
+		lives--; 
 		alive = false;
 		ticks = 0;
 		deathPos = { sprite->getPosition().x + sprite->getGlobalBounds().size.x,sprite->getPosition().y + sprite->getGlobalBounds().size.y };
@@ -66,12 +68,12 @@ void Player::update(int input)
 	if (!alive)
 	{
 		ticks++;
-		std::cout << ticks << std::endl;
+		//std::cout << ticks << std::endl;
 		if (ticks >= deathTickCount)
 		{
-			set_active = false;
+			set_active = false; 
 		}
-		else if(ticks>=40)
+		else if (ticks >= 40)
 			set_visible = false;
 
 		if (ticks == 41)
@@ -361,8 +363,10 @@ void Player::update(int input)
 			faceRight = false;
 			break;
 		}
+		
 		sprite->move(spriteMov);
 		updateView(input);
+
 		if (ticks >= tickRate)
 		{
 			//reset to 0 so ticks doesn't get to large

@@ -5,8 +5,7 @@
 
 Spawner::Spawner(int spawnerCount)
 {
-	spawnerNum++; 
-	std::cout << "Spawner Count: " << spawnerNum << std::endl; 
+	spawnerNum++;  
 	set_visible = true;
 	set_active = true;
 	alive = true;

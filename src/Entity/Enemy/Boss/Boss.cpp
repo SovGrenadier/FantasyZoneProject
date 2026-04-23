@@ -3,18 +3,20 @@
 #include <time.h>
 
 
-Boss::Boss(float playerX)
+Boss::Boss(float playerXPos)
 { 
 	ticks = 24; 
+
 	if (!texture->loadFromFile("../res/Bosses.png"))
 		std::cout << "Error Loaing from File"; 
-	sprite->setTexture(*texture);
 
+	sprite->setTexture(*texture);
 	sprite->setTextureRect(sf::IntRect{ sf::Vector2i(11,14), sf::Vector2i(62,79) });
 	
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
-	sprite->setPosition(sf::Vector2f(playerX + 80.f, 75.f));
+
+	sprite->setPosition(sf::Vector2f(playerXPos + 80.f, 75.f));
 }
 
 
@@ -29,7 +31,8 @@ void Boss::attack()
 	int leafs; 
 	leafs = rand() % 5 +1; 
 	for(int i=0 ; i<leafs; i++)
-		std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x, sprite->getPosition().y + 39 })->initialize();
+		std::make_shared<Leaf>(sf::Vector2f{ sprite->getPosition().x,
+			sprite->getPosition().y + 39 })->initialize();
 }
 
 
@@ -62,29 +65,6 @@ void Boss :: move()
 	ySpeed =  - sin((ticks * PI) / 100);
 
 	sprite->move(sf::Vector2f(.7f, ySpeed ));
-
-	if (ticks % 50 == 0)
-	{
-		if (frame == 3)
-		{
-			sprite->setTextureRect(*glideRight->getFrame(1));
-			frame = 0; 
-		}
-		else
-		{
-			sprite->setTextureRect(*glideRight->getFrame(frame));
-			frame++;
-		}
-	}
-
-	if (sprite->getTextureRect() == *glideRight->getFrame(2) && ticks % 7 == 0)
-		attack();
-
-	if (sprite->getTextureRect() == *glideRight->getFrame(0) && mouth->getHealth()<=42)
-		mouth->setVisibility(true);
-	else
-		mouth->setVisibility(false);
- 
 }
 
 void Boss::update(int input)
@@ -100,6 +80,30 @@ void Boss::update(int input)
 		mouth->death();
 		death();
 	}
-	ticks++; 
+
 	move();
+
+	if (ticks % 50 == 0)
+	{
+		if (frame == OPEN_MOUTH)
+		{
+			sprite->setTextureRect(*glideRight->getFrame(AJAR_MOUTH));
+			frame = CLOSED_MOUTH;
+		}
+		else
+		{
+			sprite->setTextureRect(*glideRight->getFrame(frame));
+			frame++;
+		}
+	}
+
+	if (sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH) && ticks % 7 == 0)
+		attack();
+
+	if (sprite->getTextureRect() == *glideRight->getFrame(CLOSED_MOUTH) && mouth->getHealth() <= 42)
+		mouth->setVisibility(true);
+	else
+		mouth->setVisibility(false);
+
+	ticks++;
 }

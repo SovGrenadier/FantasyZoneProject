@@ -14,18 +14,12 @@ public:
 	void move() override; 
 	void update(int) override;
 
-	enum IntRect
-	{
-		OPEN_MOUTH,
-		CLOSED_MOUTH
-	};
+	enum state { OPEN_MOUTH = 2,  AJAR_MOUTH = 1, CLOSED_MOUTH = 0};
 
 private:
 	int ticks; 
 	Animation* glideRight; 
-	int attacks = 0; 
 	int frame = 0; 
 	const double PI = 4.0 * std::atan(1.0); 
-	bool mouthOpen; 
 	std::shared_ptr<StumpalonMouth> mouth; 
 };

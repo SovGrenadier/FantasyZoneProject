@@ -35,6 +35,7 @@ public:
 	bool slowBullets = false;
 
 	std::unordered_map<Actions, Animation*> animations;
+	int getLives() { return lives; };
 private:
 	int speed;
 	bool faceRight = true;
@@ -72,5 +73,6 @@ private:
 	Animation* standingLeft;
 	int shootingTicks = 0;
 	int bombingTicks = 0;
+	int lives; 
 
 };

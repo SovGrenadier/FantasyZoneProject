@@ -190,25 +190,8 @@ void Game::run()
 			scoreStr += " ";
 		scoreStr += std::to_string(score);
 
-		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
-		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
-
 		window.setView(viewport);
 
-		//sets UI text
-		UItext = "TOP " + scoreStr + "						SHOT					RD.1\n"
-			+ " $  " + scoreStr + "						1.BOMB					";
-
-		if (invincible)
-			UItext += "Invincible!";
-		else
-			UItext += "Lives " + std::to_string(3);
-		if (player->slowBullets)
-			UItext += "\nSlow Bullets!";
-
-		UIelements->setText(UItext);
-		UIelements->setPosition(viewport.getCenter() + offset);
 		if (loading)
 		{
 			for (int i = 0; i < 40; i++)
@@ -226,17 +209,34 @@ void Game::run()
 		else if (!loading)
 		{
 			//sets UI text
-			UItext = "Score: " + std::to_string(score);
+			UItext = "TOP " + scoreStr + "				SHOT					RD.1\n"
+				+ " $  " + scoreStr + "						1.BOMB					";
+
 			if (invincible)
-				UItext += "\nInvincible!";
+				UItext += "Invincible!";
+			else
+				UItext += "Lives " + std::to_string(3);
+
 			if (player->slowBullets)
 				UItext += "\nSlow Bullets!";
+
 			UIelements->setText(UItext);
 			UIelements->setPosition(viewport.getCenter() + offset);
 
 			window.clear();
 
 			checkCollision();
+
+			if (!(player->alive))
+			{
+				removeEnemies();
+			}
+			if (!(player->getActive()))
+			{
+				removeEnemies();
+				window.close();
+				std::cout << "Game over" << std::endl;
+			}
 
 			window.setView(viewport);
 			window.draw(*backgroundSprite1);
@@ -257,50 +257,13 @@ void Game::run()
 				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 				activeBoss = true;
 			}
-			else if (tick % 200 == 0 && !activeBoss)
+			else if (tick % 200 == 0 && !activeBoss && (player->alive))
 			{
 				enemyWave();
 				//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
 				//std::cout << "\nPAUSE\n";
 			}
 		}
-		window.clear();
-		checkCollision();
-		if (!(player->alive))
-		{
-			removeEnemies();
-		}
-		if (!(player->getActive()))
-		{
-			removeEnemies();
-			window.close();
-			std::cout << "Game over" << std::endl;
-		}
-		window.setView(viewport);
-		window.draw(*backgroundSprite1);
-		window.draw(*UIelements->getText());
-		//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
-		//window.draw(&(test), 1, sf::PrimitiveType::Points);
-		updateEntities();
-		drawEntities();
-		window.display();
-		tick += 1;
-
-		//spawn the boss once all the spawners are killed 
-		if (player->getSpawnerCount() == 0 && !activeBoss&&(player->alive))
-		{
-			removeEnemies();
-			std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
-			activeBoss = true; 
-		}
-		else if (tick % 200 == 0 && !activeBoss&& (player->alive))
-		{
-			enemyWave();
-			//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
-			//std::cout << "\nPAUSE\n";
-		}
-
-		//std::cout << "Tick: " << tick << std::endl;
 	}
 }
 
@@ -640,7 +603,7 @@ void Game::removeDead()
 }
 
 
-//Clear the screen from all enemies once the bodd spawns 
+//Clear the screen from all enemies once the boss spawns 
 void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)

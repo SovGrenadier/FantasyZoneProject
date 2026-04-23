@@ -10,15 +10,17 @@ Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)
 	sprite = new sf::Sprite(*texture);
 	sprite->setTexture(*texture);
 	sprite->setPosition(playerPos);
+
 	ownWeapon = true;
+	damage = 5;
 
 	direction = faceRight; 
 
-	damage = 5;
 	if(direction)
 		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{62,28},sf::Vector2i{9,7} });
 	else
 		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{43,141},sf::Vector2i{9,7} });
+
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
 	viewStart = viewport->getCenter();
@@ -41,6 +43,7 @@ void Bomb::death()
 {
 	set_active = false;
 	set_visible = false;
+	alive = false; 
 }
 
 
@@ -48,11 +51,11 @@ void Bomb::death()
 void Bomb::update(int input)
 {
 	if (health <= 0)
-	{
-		set_active = false;
-		set_visible = false;
-		alive = false;
-	}
+		death();
+	else if (!isOnScreen(*viewport))
+		death(); 
+
+	//Determine the velocity of the bomb based on direction 
 	if (direction)
 	{
 		xPos++;
@@ -63,17 +66,22 @@ void Bomb::update(int input)
 		xPos--;
 		yPos = height + (0.05 * xPos * xPos);
 	}
+
 	sprite->setPosition({ start.x+xPos+(viewport->getCenter().x-viewStart.x),yPos});
+
+	//If the bomb is on the ground, deactivate it.
 	if (ground.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
 	{
 		set_active = false;
 		set_visible = false;
 	}
+
 	if (sprite->getPosition().x > (viewport->getCenter().x + 130.f))
 	{
 		set_active = false;
 		set_visible = false;
 	}
+
 	if (sprite->getPosition().x < (viewport->getCenter().x - 130.f))
 	{
 		set_active = false;

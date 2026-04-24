@@ -19,6 +19,7 @@ public:
 	bool getVisible() { return set_visible; }
 	bool getActive() { return set_active; }
 	void setActive(bool new_active) { set_active = new_active; }
+	void setVisible(bool new_visible) { set_visible = new_visible; }
 	sf::Vector2f getPosition() { return pos; }
 	int getSpawnerCount() { return spawnerNum; }
 

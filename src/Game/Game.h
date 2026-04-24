@@ -57,6 +57,8 @@ private:
 	bool invincible = false;
 	bool shopSpawned = false;
 	std::string UItext = "";
+	std::string UItext2 = "";
+	std::string UItext3 = "";
 	std::string scoreStr = "";	
 	std::string tempStr;
 	void removeDead(); 
@@ -64,7 +66,9 @@ private:
 	void reset();
 	bool activeBoss, loading; 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
-	sf::Vector2f offset; // offset used for UI position
+	sf::Vector2f offset;
+	sf::Vector2f offset2;
+	// offset used for UI position
 	//Temporary for testing 
 	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
 	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 
@@ -80,7 +84,8 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
 	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
-	std::shared_ptr<UI> UIelements = std::make_shared<UI>();	
+	std::shared_ptr<UI> UIelement1 = std::make_shared<UI>();
+	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 

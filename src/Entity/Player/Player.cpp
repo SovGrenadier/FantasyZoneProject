@@ -381,6 +381,19 @@ void Player::update(int input)
 }
 
 
+void Player::reset()
+{
+	curAction = Actions::GLIDE_RIGHT;
+	faceRight = true;
+	health = 1;
+	set_active = true;
+	set_visible = true;
+	alive = true;
+	viewport->setCenter(sf::Vector2f{ 840.f,101.5f });
+	sprite->setPosition({ 790.f,109.f });
+}
+
+
 //to-do: Fix viewport catchup after 1 catchup
 void Player::updateView(int input)
 {

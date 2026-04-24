@@ -24,9 +24,9 @@ Spawner::Spawner(int spawnerCount)
 		std::cerr << "Fail loading Round 1 wrapped with spawner locs.png\n";
 	if (!deathTexture->loadFromFile("../res/Enemies.png"))
 		std::cerr << "Failed loading Enemies.png in spawner\n";
-	sprite = new sf::Sprite(*texture);
+	aliveSprite = new sf::Sprite(*texture);
 	deathSprite = new sf::Sprite(*deathTexture);
-
+	sprite = aliveSprite;
 	sf::IntRect flyZone({ 76,433 }, { 46, 23 });
 	sf::IntRect groundZone({ 75, 406 }, { 48,25 });
 	Animation* activeFly = new Animation(1, 1, flyZone);
@@ -59,7 +59,9 @@ Spawner::Spawner(int spawnerCount)
 Spawner::~Spawner() 
 {
 	delete texture;
-	delete sprite;
+	delete aliveSprite;
+	delete deathTexture;
+	delete deathSprite;
 }
 
 void Spawner::spawnEnemy(int tick)
@@ -132,6 +134,19 @@ void Spawner::update(int input)
 		//exit method so sprite doesn't get updated further
 	}
 }
+
+
+void Spawner::reset()
+{
+	set_active = true;
+	set_visible = true;
+	alive = true;
+	health = 20;
+	sprite = aliveSprite;
+	sprite->setTextureRect(*(animations[ACTIVEFLY]->getFrame(0)));
+	spawnerNum++;
+}
+
 
 void Spawner::death()
 {

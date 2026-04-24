@@ -50,7 +50,7 @@ void Bottaco::move()
 	pos.x = centerX + amplitudeX * sine;
 	pos.y = centerY + amplitudeY * sine * cosine;
 
-	time += 0.015;
+	time += 0.035;
 	sprite->setPosition(pos);
 }
 

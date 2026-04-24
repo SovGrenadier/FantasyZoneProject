@@ -5,7 +5,7 @@
 
 Game::Game()
 {
-	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
+	window = sf::RenderWindow(sf::VideoMode({ 1920, 1080 }), "Fantasy Zone", sf::State::Fullscreen);
 	if (!background1.loadFromFile("../res/Title, Intro and Ending Text.png"))
 		std::cerr << "Error loading Title Screen";
 	backgroundSprite1 = new sf::Sprite(background1);
@@ -260,6 +260,11 @@ void Game::run()
 				//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
 				//std::cout << "\nPAUSE\n";
 			}
+			else if (player->getSpawnerCount() == 2 && !shopSpawned)
+			{
+				shopSpawned = true;
+				Shop* shopDummy = new Shop;
+			}
 		}
 	}
 }
@@ -459,7 +464,8 @@ void Game::enemyWave()
 		sizeX /= 2.f;
 		spawnPosition.x = viewport.getCenter().x - sizeX - 20.f; // extra 20 so it appears off screen
 	}
-
+	randEnemy = 2;
+	formation = true;
 	switch (randEnemy)
 	{
 	case 1://moocolon wave spawn logic
@@ -485,10 +491,10 @@ void Game::enemyWave()
 		if (formation) // one from each side
 		{
 			padding.x = 20.f;
-			spawnPosition.y = viewport.getCenter().y;
+			spawnPosition = viewport.getCenter();
 			float halfSize = viewport.getSize().x;
 			halfSize /= 2.f;
-			std::make_shared<Bottaco>(sf::Vector2f{ spawnPosition.x - halfSize + padding.x, spawnPosition.y })->initialize();
+			std::make_shared<Bottaco>(sf::Vector2f{ spawnPosition.x - halfSize - padding.x, spawnPosition.y })->initialize();
 			std::make_shared<Bottaco>(sf::Vector2f{ spawnPosition.x + halfSize + padding.x, spawnPosition.y })->initialize();
 		}
 		else // four row formation from right side

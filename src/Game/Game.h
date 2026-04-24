@@ -55,6 +55,7 @@ private:
 	void initialize(); 
 	int score;
 	bool invincible = false;
+	bool shopSpawned = false;
 	std::string UItext = "";
 	std::string scoreStr = "";	
 	std::string tempStr;
@@ -80,8 +81,6 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
 	std::shared_ptr<UI> UIelements = std::make_shared<UI>();	
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
-	Leaf* leafDummy;
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
-	//Shop* shop = new Shop();
 };

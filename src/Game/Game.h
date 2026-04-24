@@ -82,8 +82,8 @@ private:
 	std::shared_ptr<UI> UIelements = std::make_shared<UI>();	
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
 	Leaf* leafDummy;
-	void setLoadingScreen();
-	sf::RectangleShape loadingBackground; 
+	void setScreen(std::string);
+	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
 	//Shop* shop = new Shop();
 };

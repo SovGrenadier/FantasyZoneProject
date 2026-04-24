@@ -1,7 +1,7 @@
 #include "Scissors.h"
 
 
-Scissors::Scissors(sf::Vector2f position) : Enemy()
+Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 {
 	sf::Vector2f viewportCenter = viewport->getCenter();
 	if (position.x < viewportCenter.x)
@@ -9,7 +9,10 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 	else
 		faceRight = false;
 
-	if(position.y <= viewportCenter.y)
+	if (shouldShiftHappen)
+		shift = 3.14f;
+	else
+		shift = 0.f;
 
 
 	ticks = 13;
@@ -39,7 +42,7 @@ Scissors::Scissors(sf::Vector2f position) : Enemy()
 
 	//needed for movement
 	speed = .6f;
-	amplitude = 10.f;
+	amplitude = 7.5f;
 	time = 0.f;
 	baseY = pos.y;
 	distTraveled = 0.0f;
@@ -78,7 +81,7 @@ void Scissors::move()
 	* and horizontal movement increases by 5% every tick
 	*/
 
-	float wave = static_cast<float>(sin(time));
+	float wave = static_cast<float>(sin(time + shift));
 
 	bool isAlive = true;
 	if (distTraveled >= 200.f)

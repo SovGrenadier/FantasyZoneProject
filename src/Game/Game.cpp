@@ -372,7 +372,7 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
-							entities->at(x)->setActive(false);
+							entities->at(x)->setVisible(false);
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -395,7 +395,7 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) && entities->at(i)->alive)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
-							entities->at(i)->setActive(false);
+							entities->at(i)->setVisible(false);
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)

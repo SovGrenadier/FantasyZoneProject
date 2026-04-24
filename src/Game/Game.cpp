@@ -459,7 +459,7 @@ void Game::enemyWave()
 		sizeX /= 2.f;
 		spawnPosition.x = viewport.getCenter().x - sizeX - 20.f; // extra 20 so it appears off screen
 	}
-	randEnemy = 3;
+
 	switch (randEnemy)
 	{
 	case 1://moocolon wave spawn logic
@@ -505,28 +505,30 @@ void Game::enemyWave()
 		spawnPosition.y = 0.f;
 		if (formation)
 		{
-			padding = { 20.f, 12.f };
+			bool shift = true;
+			padding = { 20.f, 25.f };
 			spawnPosition.y = viewport.getCenter().y;
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x, spawnPosition.y})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x, spawnPosition.y})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x, spawnPosition.y})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x, spawnPosition.y - padding.y})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x, spawnPosition.y - padding.y})->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x, spawnPosition.y - padding.y})->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x	, spawnPosition.y}, !shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x				, spawnPosition.y}, !shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x	, spawnPosition.y}, !shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x - padding.x	, spawnPosition.y - padding.y}, shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x				, spawnPosition.y - padding.y}, shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{spawnPosition.x + padding.x	, spawnPosition.y - padding.y}, shift)->initialize();
 		}
 		else if (!formation)
 		{
+			bool shift = true;
 			padding.x = 20.f;
 			float quarter = viewport.getCenter().y / 2;
 			spawnPosition.y = quarter;
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y })->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y }, !shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x			, spawnPosition.y }, shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y }, !shift)->initialize();
 
 			spawnPosition.y = viewport.getCenter().y + quarter;
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x, spawnPosition.y })->initialize();
-			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y })->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x - padding.x, spawnPosition.y }, !shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x			, spawnPosition.y }, shift)->initialize();
+			std::make_shared<Scissors>(sf::Vector2f{ spawnPosition.x + padding.x, spawnPosition.y }, !shift)->initialize();
 		}	
 		break;
 	case 4://snake wave spawn logic

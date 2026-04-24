@@ -8,7 +8,7 @@
 class Scissors : public Enemy
 {
 public:
-	Scissors(sf::Vector2f pos);
+	Scissors(sf::Vector2f pos, bool shouldShiftHappen);
 	~Scissors();
 
 	enum Actions
@@ -28,6 +28,6 @@ public:
 private:
 	Actions curAction;
 	bool faceRight;
-	float amplitude, time, baseY;
+	float amplitude, time, baseY, shift;
 	float speed, acceleration, distTraveled;
 };

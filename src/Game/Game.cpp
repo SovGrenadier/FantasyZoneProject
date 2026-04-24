@@ -226,29 +226,27 @@ void Game::run()
 
 			if (!(player->alive) && player->getActive())
 			{
-				loading = true; 
+				//loading = true; 
 				removeEnemies();
 			}
 			if (!(player->getActive()))
 			{
 				if (playerLives == 0)
 				{
+					setScreen("Game Over");
 					removeEnemies();
 					window.close();
 					std::cout << "Game over" << std::endl;
 				}
 				else
 				{
+					setScreen("Player 1 Start");
 					reset();
 					playerLives--;
 				}
 				//removeEnemies();
 				//window.close();
 				//std::cout << "Game over" << std::endl;
-				setScreen("Game Over"); 
-				removeEnemies();
-				window.close();
-				std::cout << "Game over" << std::endl;
 			}
 
 			window.setView(viewport);
@@ -663,7 +661,7 @@ void Game::setScreen(std::string text)
 	blankScreen.setPosition(sf::Vector2f{ xPos, yPos }); 
 	blankScreen.setFillColor(sf::Color(0, 218, 0));
 
-	xPos = viewport.getCenter().x - 30;
+	xPos = viewport.getCenter().x - text.size()*2 - 1;
 	yPos = viewport.getCenter().y - 40; 
 
 	loadingText->setText(text);

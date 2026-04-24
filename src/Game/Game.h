@@ -59,7 +59,8 @@ private:
 	std::string scoreStr = "";	
 	std::string tempStr;
 	void removeDead(); 
-	void removeEnemies(); 
+	void removeEnemies();
+	void reset();
 	bool activeBoss, loading; 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::Vector2f offset; // offset used for UI position
@@ -83,5 +84,6 @@ private:
 	Leaf* leafDummy;
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
+	int playerLives = 3;
 	//Shop* shop = new Shop();
 };

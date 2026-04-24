@@ -13,7 +13,6 @@ Player::Player()
 	walkLeft = new Animation(1, 2, sf::IntRect{ sf::Vector2i{33,166},sf::Vector2i{36,16} });
 	standingRight = new Animation(1, 1, sf::IntRect{ sf::Vector2i{46,53},sf::Vector2i{18,16} });
 	standingLeft = new Animation(1, 1, sf::IntRect{ sf::Vector2i{51,166},sf::Vector2i{18,16} });
-	health = 3;
 	animations[Actions::GLIDE_RIGHT] = rightFly;
 	animations[Actions::MOVE_RIGHT] = rightFly;
 	animations[Actions::MOVE_UP_FACE_RIGHT] = rightFly;
@@ -33,6 +32,7 @@ Player::Player()
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
+	lives = 3; 
 
 	tickRate = 100000;
 
@@ -58,21 +58,40 @@ void Player::setHealth()
 //don't try to walk to the left
 void Player::update(int input)
 {
-	if (health <= 0&&alive)
+	if (health <= 0 && alive)
 	{
+		lives--; 
 		alive = false;
 		ticks = 0;
+		deathPos = { sprite->getPosition().x + sprite->getGlobalBounds().size.x,sprite->getPosition().y + sprite->getGlobalBounds().size.y };
 	}
 	if (!alive)
 	{
 		ticks++;
-		std::cout << ticks << std::endl;
+		//std::cout << ticks << std::endl;
 		if (ticks >= deathTickCount)
 		{
-			set_active = false;
+			set_active = false; 
 		}
-		else if(ticks>=40)
+		else if (ticks >= 40)
 			set_visible = false;
+
+		if (ticks == 41)
+		{
+			for (float i = 0.0f; i <= 360.0f; i += 15.0f)
+			{
+				std::shared_ptr<PlayerDeath> playerDeathDummy = std::make_shared<PlayerDeath>(deathPos, 0.4f, i);
+				playerDeathDummy->initialize();
+			}
+		}
+		if (ticks == 80)
+		{
+			for (float i = 0.0f; i <= 360.0f; i += 15.0f)
+			{
+				std::shared_ptr<PlayerDeath> playerDeathDummy = std::make_shared<PlayerDeath>(deathPos, 0.6f, i);
+				playerDeathDummy->initialize();
+			}
+		}
 	}
 	else
 	{
@@ -344,8 +363,10 @@ void Player::update(int input)
 			faceRight = false;
 			break;
 		}
+		
 		sprite->move(spriteMov);
 		updateView(input);
+
 		if (ticks >= tickRate)
 		{
 			//reset to 0 so ticks doesn't get to large

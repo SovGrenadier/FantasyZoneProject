@@ -1,6 +1,7 @@
 #include"PlayerDeathSprite.h"
+#include<cmath>
 
-PlayerDeath::PlayerDeath(float newSpeed, float newAngle)
+PlayerDeath::PlayerDeath(sf::Vector2f pos, float newSpeed, float newAngle)
 {
 	set_active = true;
 	set_visible = true;
@@ -8,7 +9,9 @@ PlayerDeath::PlayerDeath(float newSpeed, float newAngle)
 	sprite = new sf::Sprite(*texture);
 	speed = newSpeed;
 	angle = newAngle;
-	//sprite->setTextureRect()
+	angle = (angle / 360.f) * 2 * 3.14159265359;
+	sprite->setTextureRect(sf::IntRect{ sf::Vector2i{81,39},sf::Vector2i{8,8} });
+	sprite->setPosition(pos);
 
 }
 
@@ -20,7 +23,8 @@ PlayerDeath::~PlayerDeath()
 
 void PlayerDeath::update(int input)
 {
-
+	sprite->move({ std::cos(angle)*speed,std::sin(angle) * speed });
+	speed *= 0.99;
 }
 
 void PlayerDeath::death()

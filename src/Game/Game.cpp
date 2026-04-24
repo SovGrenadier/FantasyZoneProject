@@ -196,27 +196,8 @@ void Game::run()
 			scoreStr += " ";
 		scoreStr += std::to_string(score);
 
-		const sf::Vector2i mousePosition(sf::Mouse::getPosition(window));
-		const sf::Vector2f mouseCoord(window.mapPixelToCoords(mousePosition));
-		//std::cout << "X: " << mouseCoord.x << " Y: " << mouseCoord.y << std::endl;
-
 		window.setView(viewport);
 
-		//sets UI text
-		UItext = "TOP " + scoreStr + "						SHOT					RD.1\n"
-			+ " $  " + scoreStr + "						1.BOMB					";
-
-		if (invincible)
-			UItext += "Invincible!";
-		else
-			UItext += "Lives " + std::to_string(player->health);
-		if (player->slowBullets)
-			UItext += "\nSlow Bullets!";
-
-		UIelements->setText(UItext);
-		UIelements->setPosition(viewport.getCenter() + offset);
-
-		//Display the loading screen 
 		if (loading)
 		{
 			setScreen("Player 1 Start");
@@ -225,11 +206,17 @@ void Game::run()
 		else if (!loading)
 		{
 			//sets UI text
-			UItext = "Score: " + std::to_string(score);
+			UItext = "TOP " + scoreStr + "				SHOT					RD.1\n"
+				+ " $  " + scoreStr + "						1.BOMB					";
+
 			if (invincible)
-				UItext += "\nInvincible!";
+				UItext += "Invincible!";
+			else
+				UItext += "Lives " + std::to_string(3);
+
 			if (player->slowBullets)
 				UItext += "\nSlow Bullets!";
+
 			UIelements->setText(UItext);
 			UIelements->setPosition(viewport.getCenter() + offset);
 
@@ -237,14 +224,13 @@ void Game::run()
 
 			checkCollision();
 
-			//End the game once player dies 
 			if (!(player->alive))
 			{
-				setScreen("Player 1 Start");
+				removeEnemies();
 			}
 			if (!(player->getActive()))
 			{
-				setScreen("Game Over");
+				removeEnemies();
 				window.close();
 				std::cout << "Game over" << std::endl;
 			}
@@ -268,7 +254,7 @@ void Game::run()
 				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 				activeBoss = true;
 			}
-			else if (tick % 200 == 0 && !activeBoss)
+			else if (tick % 200 == 0 && !activeBoss && (player->alive))
 			{
 				enemyWave();
 				//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
@@ -277,7 +263,6 @@ void Game::run()
 		}
 	}
 }
-
 
 void Game::updateEntities()
 {

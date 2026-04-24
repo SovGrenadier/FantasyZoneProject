@@ -13,7 +13,7 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	viewPos = viewport->getCenter().x;
 	speed = -1.f;
 	pos = newPos;
-	
+
 	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
 	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
 	Animation* deathAnim = new Animation();
@@ -26,7 +26,7 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	animations[FLY_LEFT] = flyLeft;
 	animations[DEATH] = deathAnim;
 
-	if(faceRight)
+	if (faceRight)
 		curAction = FLY_RIGHT;
 	else
 		curAction = FLY_LEFT;
@@ -34,7 +34,6 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	sprite->setTexture(*texture);
 	sprite->setTextureRect(*animations[curAction]->getFrame(0));
 	sprite->setPosition({ pos.x + 20.f,pos.y + 10.f });
-	//std::cout << "kirikiri created: " << faceRight << std::endl;
 }
 
 

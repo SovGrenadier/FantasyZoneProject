@@ -9,7 +9,6 @@ Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)
 		std::cout << "Error Loading Image";
 	sprite = new sf::Sprite(*texture);
 	sprite->setTexture(*texture);
-	sprite->setPosition(playerPos);
 
 	ownWeapon = true;
 	damage = 5;
@@ -20,10 +19,15 @@ Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)
 		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{62,28},sf::Vector2i{9,7} });
 	else
 		sprite->setTextureRect(sf::IntRect{ sf::Vector2i{43,141},sf::Vector2i{9,7} });
+	
 
+	//Define the position of the ground to deactive bomb if it touches it 
 	ground.position = { 33.f, 176.f };
 	ground.size = { 1348.f , 60.f };
+
+
 	viewStart = viewport->getCenter();
+
 	start = playerPos;
 	height = playerPos.y;
 	sprite->setPosition(start);

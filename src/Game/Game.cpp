@@ -17,7 +17,7 @@ Game::Game()
 	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
 	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
 
-	//
+
 	player->initialize();
 	initialize();
 	player->getView(&viewport);
@@ -224,12 +224,14 @@ void Game::run()
 
 			checkCollision();
 
-			if (!(player->alive))
+			if (!(player->alive) && player->getActive())
 			{
+				loading = true; 
 				removeEnemies();
 			}
 			if (!(player->getActive()))
 			{
+				setScreen("Game Over"); 
 				removeEnemies();
 				window.close();
 				std::cout << "Game over" << std::endl;

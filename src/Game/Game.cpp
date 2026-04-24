@@ -215,7 +215,7 @@ void Game::run()
 			if (invincible)
 				UItext += "Invincible!";
 			else
-				UItext += "Lives " + std::to_string(3);
+				UItext += "Lives " + std::to_string(playerLives);
 
 			if (player->slowBullets)
 				UItext += "\nSlow Bullets!";
@@ -233,9 +233,20 @@ void Game::run()
 			}
 			if (!(player->getActive()))
 			{
-				removeEnemies();
-				window.close();
-				std::cout << "Game over" << std::endl;
+				if (playerLives == 0)
+				{
+					removeEnemies();
+					window.close();
+					std::cout << "Game over" << std::endl;
+				}
+				else
+				{
+					reset();
+					playerLives--;
+				}
+				//removeEnemies();
+				//window.close();
+				//std::cout << "Game over" << std::endl;
 			}
 
 			window.setView(viewport);
@@ -251,7 +262,7 @@ void Game::run()
 			tick += 1;
 
 			//spawn the boss once all the spawners are killed 
-			if (player->getSpawnerCount() == 0 && !activeBoss)
+			if (player->getSpawnerCount() == 0 && !activeBoss && (player->alive))
 			{
 				removeEnemies();
 				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
@@ -287,6 +298,29 @@ void Game::drawEntities()
 	{
 		if ((entities->at(i))->getVisible())
 			window.draw(*((entities->at(i))->getSprite()));
+	}
+}
+
+
+void Game::reset()
+{
+	removeEnemies();
+	spawnerDummy->reset();
+	spawnerDummy2->reset();
+	spawnerDummy3->reset();
+	spawnerDummy4->reset();
+	spawnerDummy5->reset();
+	spawnerDummy6->reset();
+	spawnerDummy7->reset();
+	spawnerDummy8->reset();
+	player->reset();
+	for (int i{}; i < entities->size(); i++)
+	{
+		if (dynamic_pointer_cast<PlayerDeath>(entities->at(i)) != nullptr)
+		{
+			entities->erase(entities->begin() + i);
+			i--;
+		}
 	}
 }
 
@@ -337,7 +371,7 @@ void Game::checkCollision()
 							score += 100;
 						}
 					}
-					else if (std::dynamic_pointer_cast<Spawner>(entities->at(x)) != nullptr)
+					else if (std::dynamic_pointer_cast<Spawner>(entities->at(x)) != nullptr && entities->at(x)->alive)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
@@ -362,7 +396,7 @@ void Game::checkCollision()
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
-						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) && entities->at(i)->alive)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->setActive(false);
@@ -377,7 +411,7 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 							score += 100;
 						}
-						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) != nullptr)
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) != nullptr && entities->at(i)->alive)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
@@ -394,7 +428,7 @@ void Game::checkCollision()
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 							score += 100;
 						}
-						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)))
+						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) && entities->at(i)->alive)
 						{
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
@@ -405,11 +439,6 @@ void Game::checkCollision()
 				}
 			}
 		}
-
-		spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
-		spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
-		spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
-		spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 
 		//Remove any enemies that are dead 
 		
@@ -594,7 +623,9 @@ void Game::removeDead()
 	//std::cout << entities->size() << std::endl;
 	for (int i = 0; i < entities->size(); i++)
 	{
-		if (!(entities->at(i)->getActive()))
+		if (!(entities->at(i)->getActive())&&
+			std::dynamic_pointer_cast<Player>(entities->at(i)) == nullptr && 
+			std::dynamic_pointer_cast<Spawner>(entities->at(i)) == nullptr)
 		{
 			entities->erase(entities->begin() + i);
 			i--;

@@ -23,6 +23,7 @@ Game::Game()
 	player->getView(&viewport);
 	tick = 0;
 	offset = { -120.f,-88.f };
+	offset2 = { 0.f, -88.f };
 	score = 0;
 	entities = player->getEntities();
 
@@ -206,19 +207,21 @@ void Game::run()
 		else if (!loading)
 		{
 			//sets UI text
-			UItext = "TOP " + scoreStr + "				SHOT					RD.1\n"
-				+ " $  " + scoreStr + "						1.BOMB					";
+			UItext = "TOP " + scoreStr + "\n $	 " + scoreStr;
+			UItext2 = "SHOT				RND.1\n1.BOMB			";
 
 			if (invincible)
-				UItext += "Invincible!";
+				UItext2 += "Invincible! ";
 			else
-				UItext += "Lives " + std::to_string(playerLives);
+				UItext2 += "LIVES " + std::to_string(playerLives);
 
 			if (player->slowBullets)
-				UItext += "\nSlow Bullets!";
+				UItext2 += "\n						 Slow Bullets!";
 
-			UIelements->setText(UItext);
-			UIelements->setPosition(viewport.getCenter() + offset);
+			UIelement1->setText(UItext);
+			UIelement1->setPosition(viewport.getCenter() + offset);
+			UIelement2->setText(UItext2);
+			UIelement2->setPosition(viewport.getCenter() + offset2);
 
 			window.clear();
 
@@ -248,7 +251,8 @@ void Game::run()
 
 			window.setView(viewport);
 			window.draw(*backgroundSprite1);
-			window.draw(*UIelements->getText());
+			window.draw(*UIelement1->getText());
+			window.draw(*UIelement2->getText());
 
 
 			//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };

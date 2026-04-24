@@ -3,15 +3,17 @@
 
 Shop::Shop()
 {
-	curState = NOT_ACTIVE;
+	curState = FLYING;
 	
 	//appears on screen after two destroyed spawners
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Shop.png"))
 		std::cout << "Fail loading Shop.png\n";
+	ballonSprite = new sf::Sprite(*texture);
+	ballonSprite->setTextureRect({ {387, 170},{16,16} });
 	//sprite with parts to buy
-	sprite = new sf::Sprite(*texture);
-	sprite->setTextureRect({ {19,27},{470,137} });
+	shopSprite = new sf::Sprite(*texture);
+	shopSprite->setTextureRect({ {19,27},{470,137} });
 	//the cursor
 	cursorSprite = new sf::Sprite(*texture);
 	cursorSprite->setTextureRect({ {5,170},{13,21} });
@@ -21,9 +23,12 @@ Shop::Shop()
 	sf::FloatRect bounds = exitSprite->getLocalBounds();
 	exitSprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y });
 
-	sprite->setPosition({ 790.f, 25.f });
-	exitSprite->setPosition({ 790.f, 180.f });
+	/*sf::Vector2f center = viewport->getCenter();
+	
+	ballonSprite->setPosition({center.x, 0.f});
 
+	shopSprite->setPosition(center);
+	cursorSprite->setPosition(center);*/
 	usedThisLevel = false;
 	set_visible = false;
 }
@@ -31,10 +36,10 @@ Shop::Shop()
 
 Shop::~Shop()
 {
-	delete sprite;
 	delete cursorSprite;
 	delete exitSprite;
-	delete texture;
+	delete ballonSprite;
+	delete shopSprite;
 }
 
 
@@ -48,7 +53,7 @@ void Shop::update(int input)
 		break;
 	case FLYING:
 		set_visible = true;
-		//if collision with player
+		
 		//curState = BUY_PHASE;
 		//else player never collides and shop despawns
 		//curState = NOT_ACTIVE;

@@ -3,7 +3,7 @@
 
 Coin::Coin(sf::Vector2f pos)
 {
-	if (!texture->loadFromFile("../res/Shop.png"))
+	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "\nCoin: Error Loading from File\n"; 
 
 	sprite->setTexture(*texture); 

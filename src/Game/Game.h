@@ -33,7 +33,6 @@ private:
 
 	std::shared_ptr<Player> player = std::make_shared<Player>(); 
 
-	//Player player;
 	/*this binary int will represent input
 	* The first bit will represent if w is pressed
 	* The second bit will represent if a is pressed
@@ -44,6 +43,7 @@ private:
 	* */
 	int input = 0b00000000;
 	bool start = false;
+	bool inShop = false;
 	//we need to deallocate bullets and bombs from this vector 
 	//std::vector<Entity*>* entities;
 	std::vector<std::shared_ptr<Entity>>* entities;
@@ -51,6 +51,7 @@ private:
 	void drawEntities();
 	void checkCollision();
 	void enemyWave();
+	void handleMovementInput(const std::optional<sf::Event>&);
 	static int getRandomInt(int min, int max);
 	void initialize(); 
 	int score;
@@ -70,12 +71,6 @@ private:
 	sf::Vector2f offset2;
 	// offset used for UI position
 	//Temporary for testing 
-	/*std::shared_ptr<Snake> snakeDummy = std::make_shared<Snake>(true);
-	std::shared_ptr<Snake> snakeDummy2 = std::make_shared<Snake>(false); 
-	std::shared_ptr<Scissors> scissorsDummy = std::make_shared<Scissors>(true, &viewport); 
-	std::shared_ptr<Moocolon> moocolonDummy = std::make_shared<Moocolon>(true,&viewport);
-	std::shared_ptr<Kirikiri> kiriDummy = std::make_shared<Kirikiri>(true, pos);
-	std::shared_ptr<Bottaco> bottacoDummy = std::make_shared<Bottaco>();*/
 	std::shared_ptr<Spawner> spawnerDummy = std::make_shared<Spawner>(0); 
 	std::shared_ptr<Spawner> spawnerDummy2 = std::make_shared<Spawner>(1);
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
@@ -90,5 +85,5 @@ private:
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
-	//Shop* shop = new Shop();
+	std::shared_ptr<Shop> shop = nullptr;
 };

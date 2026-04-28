@@ -99,6 +99,7 @@ void Game::run()
 				window.close();
 
 			//check header file to see more info on input
+			handleMovementInput(event);
 			if (event->is<sf::Event::KeyPressed>())
 			{
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
@@ -113,70 +114,11 @@ void Game::run()
 					if (((input % 0b01000000) / 0b00100000) == 0)
 						input += 0b00100000;
 				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Down)
-				{
-					//make sure third bit isn't already set to 1
-					if (((input % 0b00001000) / 0b00000100) == 0 && ((input % 0b00000010) / 0b00000001) != 1)
-						input += 0b00000100;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Right)
-				{
-					//ensure that a isn't already pressed
-					if (((input % 0b00000100) / 0b00000010) == 0 && ((input % 0b00000100) / 0b00000010) != 1)
-					{
-						//make sure fourth bit isn't already set to 1
-						if (((input % 0b00010000) / 0b00001000) == 0)
-							input += 0b00001000;
-					}
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Left)
-				{
-					//make sure second bit isn't already set to 1
-					if (((input % 0b00000100) / 0b00000010) == 0)
-						input += 0b00000010;
-					//if a is pressed and d is pressed a takes priority
-					if (((input % 0b00010000) / 0b00001000) == 1)
-						input -= 0b00001000;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Up)
-				{
-					//make sure first bit isn't already set to 1
-					if (((input % 0b00000010) / 0b00000001) == 0)
-						input += 0b00000001;
-					//if w and s are pressed w takes priority
-					if (((input % 0b00001000) / 0b00000100) == 1)
-						input -= 0b00000100;
-				}
 				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
 					window.close();
-
 			}
 			if (event->is<sf::Event::KeyReleased>())
 			{
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Up)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00000010) / 0b00000001) == 1)
-						input -= 0b00000001;
-				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Left)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00000100) / 0b00000010) == 1)
-						input -= 0b00000010;
-				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Down)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00001000) / 0b00000100) == 1)
-						input -= 0b00000100;
-				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Right)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00010000) / 0b00001000) == 1)
-						input -= 0b00001000;
-				}
 				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
 				{
 					//make sure first bit isn't already set to 0
@@ -190,9 +132,9 @@ void Game::run()
 						input -= 0b00100000;
 				}
 			}
-		}
 
-		scoreStr = "";
+		}
+ 		scoreStr = "";
 		for (int i = 0; i < 15 - std::to_string(score).length(); i++)
 			scoreStr += " ";
 		scoreStr += std::to_string(score);
@@ -252,14 +194,35 @@ void Game::run()
 				//std::cout << "Game over" << std::endl;
 			}
 
+			while (inShop && window.isOpen())
+			{
+				while (const std::optional event = window.pollEvent())
+				{
+					if (event->is<sf::Event::Closed>())
+						window.close();
+					handleMovementInput(event);
+					if (event->is<sf::Event::KeyPressed>() && 
+						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					{
+						inShop = false;
+						shop->setState(Shop::State::NOT_ACTIVE);
+					}
+				}
+				std::vector <sf::Sprite*> sprites = shop->getSprites();
+				window.clear(sf::Color(0, 170, 0, 255));
+
+				for (int i = 0; i < sprites.size(); i++)
+					window.draw(*sprites.at(i));
+				window.display();
+				shop->update(input);
+			}
+				
 			window.setView(viewport);
 			window.draw(*backgroundSprite1);
 			window.draw(*UIelement1->getText());
 			window.draw(*UIelement2->getText());
 
 
-			//sf::Vertex test{ player.getSprite()->getPosition(), sf::Color::Red };
-			//window.draw(&(test), 1, sf::PrimitiveType::Points);
 			updateEntities();
 			drawEntities();
 			window.display();
@@ -272,16 +235,13 @@ void Game::run()
 				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 				activeBoss = true;
 			}
-			else if (tick % 200 == 0 && !activeBoss && (player->alive))
-			{
+			else if (tick % 300 == 0 && !activeBoss && (player->alive))
 				enemyWave();
-				//std::cout << "Player Y: " << player->getSprite()->getPosition().y << "\n";
-				//std::cout << "\nPAUSE\n";
-			}
-			else if (player->getSpawnerCount() == 2 && !shopSpawned)
+			else if (score >= 0 && !shopSpawned && !activeBoss)
 			{
 				shopSpawned = true;
-				Shop* shopDummy = new Shop;
+				shop = std::make_shared<Shop>();
+				shop->initialize();
 			}
 		}
 	}
@@ -409,6 +369,14 @@ void Game::checkCollision()
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->setVisible(false);
 						}
+						if (std::dynamic_pointer_cast<Shop>(entities->at(i)) != nullptr)
+						{
+							std::cerr << "SHOP STATE CHANGED TO BUY_PHASE\n";
+							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(i));
+							shop->setState(Shop::State::BUY_PHASE);
+							shop->setSpritePositions();
+							inShop = true;
+						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
 					{
@@ -424,7 +392,7 @@ void Game::checkCollision()
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 							if (!(entities->at(i)->alive))
-								score += 500;
+								score += 1000;
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bomb>(entities->at(x)))
@@ -441,7 +409,18 @@ void Game::checkCollision()
 							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 							if (!(entities->at(i)->alive))
-								score += 500;
+								score += 1000;
+						}
+					}
+					else if (std::dynamic_pointer_cast<Shop>(entities->at(x)) != nullptr)
+					{
+						if(std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							std::cerr << "X SHOP STATE CHANGED TO BUY_PHASE\n";
+							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(x));
+							shop->setState(Shop::State::BUY_PHASE);
+							shop->setSpritePositions();
+							inShop = true;
 						}
 					}
 				}
@@ -500,8 +479,6 @@ void Game::enemyWave()
 		sizeX /= 2.f;
 		spawnPosition.x = viewport.getCenter().x - sizeX - 20.f; // extra 20 so it appears off screen
 	}
-	randEnemy = 2;
-	formation = true;
 	switch (randEnemy)
 	{
 	case 1://moocolon wave spawn logic
@@ -683,5 +660,74 @@ void Game::setScreen(std::string text)
 		window.draw(blankScreen);
 		window.draw(*loadingText->getText());
 		window.display();
+	}
+}
+
+
+void Game::handleMovementInput(const std::optional<sf::Event>& event)
+{
+	if (event->is<sf::Event::KeyPressed>())
+	{
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Down)
+		{
+			//make sure third bit isn't already set to 1
+			if (((input % 0b00001000) / 0b00000100) == 0 && ((input % 0b00000010) / 0b00000001) != 1)
+				input += 0b00000100;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Right)
+		{
+			//ensure that a isn't already pressed
+			if (((input % 0b00000100) / 0b00000010) == 0 && ((input % 0b00000100) / 0b00000010) != 1)
+			{
+				//make sure fourth bit isn't already set to 1
+				if (((input % 0b00010000) / 0b00001000) == 0)
+					input += 0b00001000;
+			}
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Left)
+		{
+			//make sure second bit isn't already set to 1
+			if (((input % 0b00000100) / 0b00000010) == 0)
+				input += 0b00000010;
+			//if a is pressed and d is pressed a takes priority
+			if (((input % 0b00010000) / 0b00001000) == 1)
+				input -= 0b00001000;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Up)
+		{
+			//make sure first bit isn't already set to 1
+			if (((input % 0b00000010) / 0b00000001) == 0)
+				input += 0b00000001;
+			//if w and s are pressed w takes priority
+			if (((input % 0b00001000) / 0b00000100) == 1)
+				input -= 0b00000100;
+		}
+	}
+	if (event->is<sf::Event::KeyReleased>())
+	{
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Up)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00000010) / 0b00000001) == 1)
+				input -= 0b00000001;
+		}
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Left)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00000100) / 0b00000010) == 1)
+				input -= 0b00000010;
+		}
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Down)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00001000) / 0b00000100) == 1)
+				input -= 0b00000100;
+		}
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Right)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00010000) / 0b00001000) == 1)
+				input -= 0b00001000;
+		}
 	}
 }

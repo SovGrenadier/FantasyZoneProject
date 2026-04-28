@@ -7,12 +7,6 @@
 class Shop : public Entity
 {
 public:
-	Shop();
-	~Shop();
-	void update(int input) override;
-	void death() override;
-	std::vector <sf::Sprite*> getSprites();
-	sf::Sprite* getSprite() override { return ballonSprite; }
 	enum State
 	{
 		NOT_ACTIVE,
@@ -20,11 +14,24 @@ public:
 		BUY_PHASE,
 		PARTS_SELECT
 	};
+public:
+	Shop();
+	~Shop();
+
+	void update(int input) override;
+	void move();
+	void death() {};
+	void setState(State state) { curState = state; }
+	void setSpritePositions();
+	std::vector <sf::Sprite*> getSprites();
+	sf::Sprite* getSprite() override;
+	sf::RectangleShape getRect() { return topRect; }
 private:
 	State curState;
-	sf::Vector2f cursorPos;
+	sf::RectangleShape topRect;
+	sf::Vector2f spriteMov;
 	sf::Sprite* ballonSprite;
-	sf::Sprite* cursorSprite; 
+	sf::Sprite* cursorSprite;
 	sf::Sprite* shopSprite;
 	sf::Sprite* exitSprite;
 	bool usedThisLevel;

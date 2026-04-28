@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "../../src/Entity/Entity.h"
-#include "../../Animation/Animation.h"
+#include "../../src/Animation/Animation.h"
 
 
 class Enemy : public Entity 

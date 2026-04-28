@@ -17,7 +17,7 @@ Shop::Shop()
 
 	//appears on screen after two destroyed spawners
 	texture = new sf::Texture();
-	if (!texture->loadFromFile("../res/Shop.png"))
+	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "Fail loading Shop.png\n";
 	ballonSprite = new sf::Sprite(*texture);
 	ballonSprite->setTextureRect({ {387, 170},{16,16} });

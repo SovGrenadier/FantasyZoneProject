@@ -67,7 +67,7 @@ void Game::run()
 		player->reset();
 		score = 0;
 		tick = 0;
-		while (!start)
+		while (!start&& window.isOpen())
 		{
 			while (const std::optional event = window.pollEvent())
 			{
@@ -98,7 +98,7 @@ void Game::run()
 		}
 		if (invincible)
 			player->setHealth();
-		while (start)
+		while (start&& window.isOpen())
 		{
 			while (const std::optional event = window.pollEvent())
 			{

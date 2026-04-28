@@ -2,6 +2,8 @@
 #include "../Entity.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
+#include <math.h>
 
 
 class Shop : public Entity
@@ -26,7 +28,9 @@ public:
 	std::vector <sf::Sprite*> getSprites();
 	sf::Sprite* getSprite() override;
 	sf::RectangleShape getRect() { return topRect; }
+	State getState() { return curState; }
 private:
+	void checkCollison();
 	State curState;
 	sf::RectangleShape topRect;
 	sf::Vector2f spriteMov;
@@ -34,5 +38,8 @@ private:
 	sf::Sprite* cursorSprite;
 	sf::Sprite* shopSprite;
 	sf::Sprite* exitSprite;
+	float time, speed;
+	float baseY, yTraveled, xTraveled;
+	float frequency;
 	bool usedThisLevel;
 };

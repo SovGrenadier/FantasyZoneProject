@@ -41,7 +41,7 @@ Game::Game()
 	blankScreen.setSize(viewport.getSize());
 
 	//Text coin 
-	std::make_shared<Coin>(player->getPosition())->initialize(); 
+	//std::make_shared<Coin>(player->getPosition())->initialize(); 
 }
 
 Game::~Game()
@@ -103,38 +103,7 @@ void Game::run()
 
 			//check header file to see more info on input
 			handleMovementInput(event);
-			if (event->is<sf::Event::KeyPressed>())
-			{
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
-				{
-					//make sure fifth bit isn't already set to 1
-					if (((input % 0b00100000) / 0b00010000) == 0)
-						input += 0b00010000;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
-				{
-					//make sure fifth bit isn't already set to 1
-					if (((input % 0b01000000) / 0b00100000) == 0)
-						input += 0b00100000;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
-					window.close();
-			}
-			if (event->is<sf::Event::KeyReleased>())
-			{
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00100000) / 0b00010000) == 1)
-						input -= 0b00010000;
-				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b01000000) / 0b00100000) == 1)
-						input -= 0b00100000;
-				}
-			}
+			handleOtherInput(event);
 
 		}
  		scoreStr = "";
@@ -199,11 +168,17 @@ void Game::run()
 
 			while (inShop && window.isOpen())
 			{
+				if(loading)
+				{
+					setScreen("PARTS SELECT");
+					loading = false;
+				}
 				while (const std::optional event = window.pollEvent())
 				{
 					if (event->is<sf::Event::Closed>())
 						window.close();
 					handleMovementInput(event);
+					handleOtherInput(event);
 					if (event->is<sf::Event::KeyPressed>() && 
 						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
 					{
@@ -218,6 +193,8 @@ void Game::run()
 					window.draw(*sprites.at(i));
 				window.display();
 				shop->update(input);
+				if (shop->getState() == Shop::State::NOT_ACTIVE)
+					inShop = false;
 			}
 				
 			window.setView(viewport);
@@ -379,6 +356,7 @@ void Game::checkCollision()
 							shop->setState(Shop::State::BUY_PHASE);
 							shop->setSpritePositions();
 							inShop = true;
+							loading = true;
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -424,6 +402,7 @@ void Game::checkCollision()
 							shop->setState(Shop::State::BUY_PHASE);
 							shop->setSpritePositions();
 							inShop = true;
+							loading = true;
 						}
 					}
 				}
@@ -731,6 +710,43 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 			//make sure first bit isn't already set to 0
 			if (((input % 0b00010000) / 0b00001000) == 1)
 				input -= 0b00001000;
+		}
+	}
+}
+
+
+void Game::handleOtherInput(const std::optional<sf::Event>& event)
+{
+	if (event->is<sf::Event::KeyPressed>())
+	{
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+		{
+			//make sure fifth bit isn't already set to 1
+			if (((input % 0b00100000) / 0b00010000) == 0)
+				input += 0b00010000;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+		{
+			//make sure fifth bit isn't already set to 1
+			if (((input % 0b01000000) / 0b00100000) == 0)
+				input += 0b00100000;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+			window.close();
+	}
+	if (event->is<sf::Event::KeyReleased>())
+	{
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00100000) / 0b00010000) == 1)
+				input -= 0b00010000;
+		}
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b01000000) / 0b00100000) == 1)
+				input -= 0b00100000;
 		}
 	}
 }

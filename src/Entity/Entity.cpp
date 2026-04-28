@@ -50,7 +50,7 @@ void Entity::initialize()
 }
 
 
-bool Entity::isOnScreen(sf::View &viewport )
+bool Entity::isOnScreen(sf::View &viewport)
 {
 	//get dimensions of viewport
 	sf::Vector2f center = viewport.getCenter();

@@ -9,10 +9,11 @@ public:
 	void update(int) override; 
 	void death() override; 
 	void move(); 
+	int getValue() { return value; }; 
 
 private: 
 	sf::IntRect zone; 
-	int ticks = 0; 
+	int ticks = 0, value; 
 	float initialHeight, yMax; 
 	float ground; 
 	bool bounce, changeMax; 

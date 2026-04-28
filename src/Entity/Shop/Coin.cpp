@@ -7,19 +7,29 @@ Coin::Coin(sf::Vector2f pos, int size)
 
 	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "\nCoin: Error Loading from File\n";
-	//sprite->setTexture(*texture); 
 	sprite = new sf::Sprite(*texture);
-	if(size == 1)
+
+	//Determine which coin type to load 
+	if (size == 1)
+	{
 		zone = sf::IntRect(sf::Vector2i{ 444, 186 }, sf::Vector2i{ 21,13 });
-	else if (size ==2)
+		value = 10;
+	}
+	else if (size == 2)
+	{
 		zone = sf::IntRect(sf::Vector2i{ 477, 186 }, sf::Vector2i{ 29,15 });
+	}
+
 	else if (size == 3)
 		zone = sf::IntRect(sf::Vector2i{ 510, 186 }, sf::Vector2i{ 34, 18 });
+	
 	sprite->setTextureRect(zone); 
-
-	//sprite->setTextureRect(zone); 
-
+	sprite->setPosition(pos); 
 	initialHeight = pos.y; 
+
+	bounce = true; 
+	yMax = initialHeight; 
+	changeMax = false; 
 }
 
 Coin::~Coin()

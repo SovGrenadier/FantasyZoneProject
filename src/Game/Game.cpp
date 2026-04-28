@@ -54,7 +54,7 @@ Game::~Game()
 void Game::run()
 {
 	window.setFramerateLimit(50);
-
+	std::cout << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
 		reset();

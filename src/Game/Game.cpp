@@ -93,8 +93,12 @@ void Game::run()
 			window.display();
 			tick++;
 		}
+
+
 		if (invincible)
 			player->setHealth();
+
+
 		while (start&& window.isOpen())
 		{
 			while (const std::optional event = window.pollEvent())
@@ -136,8 +140,8 @@ void Game::run()
 							input -= 0b00100000;
 					}
 				}
-
 			}
+
 			if (score > highScore)
 				highScore = score;
 

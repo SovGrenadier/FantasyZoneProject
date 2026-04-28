@@ -78,7 +78,7 @@
     <Image Include="..\res\Levels\Round 6 - Mockstar.png" />
     <Image Include="..\res\Levels\Round 7 - Pocarius.png" />
     <Image Include="..\res\Opa-Opa.png" />
-    <Image Include="..\res\Shop.png" />
+    <Image Include="..\res\Shop Transparent.png" />
     <Image Include="..\res\Title, Intro and Ending Text.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

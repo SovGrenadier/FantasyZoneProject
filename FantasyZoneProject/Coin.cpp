@@ -3,13 +3,13 @@
 
 Coin::Coin(sf::Vector2f pos)
 {
-	if (!texture->loadFromFile("../res/Shop Transparent.png"))
+	if (!texture->loadFromFile("../../res/Shop Transparent.png"))
 		std::cout << "\nCoin: Error Loading from File\n"; 
 
-	sprite->setTexture(*texture); 
+	//sprite->setTexture(*texture); 
 	zone = sf::IntRect(sf::Vector2i{ 444, 186 }, sf::Vector2i{ 21,13 });
 
-	sprite->setTextureRect(zone); 
+	//sprite->setTextureRect(zone); 
 }
 
 Coin::~Coin()

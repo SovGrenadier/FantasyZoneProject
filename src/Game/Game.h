@@ -29,6 +29,8 @@ private:
 	sf::RenderWindow window;
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
+	sf::Texture backgroundStart;
+	sf::Sprite* backgroundSpriteStart;
 	sf::View viewport;
 	sf::View viewportStart;
 
@@ -56,12 +58,14 @@ private:
 	static int getRandomInt(int min, int max);
 	void initialize(); 
 	int score;
+	int highScore;
 	bool invincible = false;
 	bool shopSpawned = false;
 	std::string UItext = "";
 	std::string UItext2 = "";
 	std::string UItext3 = "";
 	std::string scoreStr = "";	
+	std::string highScoreStr = "";
 	std::string tempStr;
 	void removeDead(); 
 	void removeEnemies();

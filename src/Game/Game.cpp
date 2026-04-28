@@ -6,17 +6,17 @@
 Game::Game()
 {
 	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
-	if (!background1.loadFromFile("../res/Title, Intro and Ending Text.png"))
+	//level 1 background
+	if (!backgroundStart.loadFromFile("../res/Title, Intro and Ending Text.png"))
 		std::cerr << "Error loading Title Screen";
+	backgroundSpriteStart = new sf::Sprite(backgroundStart);
+	//start screen background
+	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
+		std::cerr << "Error loading Level Background";
 	backgroundSprite1 = new sf::Sprite(background1);
 	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 
 	//Set up viewport
-	viewport.setSize(sf::Vector2f{ 250.f,175.f });
-	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
-	viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
-	viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
-
 
 	player->initialize();
 	initialize();
@@ -25,6 +25,7 @@ Game::Game()
 	offset = { -120.f,-88.f };
 	offset2 = { 0.f, -88.f };
 	score = 0;
+	highScore = 0;
 	entities = player->getEntities();
 
 	spawnerDummy->getPlayer(player);
@@ -47,204 +48,216 @@ Game::Game()
 Game::~Game()
 {
 	delete backgroundSprite1;
+	delete backgroundSpriteStart;
 }
 
 void Game::run()
 {
 	window.setFramerateLimit(50);
 
-	while (window.isOpen() && !start)
+	while (window.isOpen())
 	{
-		while (const std::optional event = window.pollEvent())
+		reset();
+		//Set up viewports
+		viewport.setSize(sf::Vector2f{ 250.f,175.f });
+		viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
+		viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
+		viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
+		playerLives = 3;
+		player->reset();
+		score = 0;
+		tick = 0;
+		while (!start)
 		{
-			if (event->is<sf::Event::Closed>())
-				window.close();
-			if (event->is<sf::Event::KeyPressed>())
+			while (const std::optional event = window.pollEvent())
 			{
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+				if (event->is<sf::Event::Closed>())
 					window.close();
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
-					start = true;
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
-					start = true;
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
-					invincible = true;
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
-					player->slowBullets = true;
-			}
-		}
-
-		window.setView(viewportStart);
-		if (tick > 120 && tick < 480 * 4)
-			viewportStart.move({ 0.f,0.25f });
-		window.clear();
-		window.draw(*backgroundSprite1);
-		window.display();
-		tick++;
-	}
-
-
-	if (invincible)
-		player->setHealth();
-
-	background1.~Texture();
-
-	if (!background1.loadFromFile("../res/Levels/Round 1 Wrapped.png"))
-		std::cerr << "Error loading Level Background";
-	backgroundSprite1 = new sf::Sprite(background1);
-
-	while (window.isOpen() && start)
-	{
-
-		while (const std::optional event = window.pollEvent())
-		{
-			if (event->is<sf::Event::Closed>())
-				window.close();
-
-			//check header file to see more info on input
-			handleMovementInput(event);
-			if (event->is<sf::Event::KeyPressed>())
-			{
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+				if (event->is<sf::Event::KeyPressed>())
 				{
-					//make sure fifth bit isn't already set to 1
-					if (((input % 0b00100000) / 0b00010000) == 0)
-						input += 0b00010000;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
-				{
-					//make sure fifth bit isn't already set to 1
-					if (((input % 0b01000000) / 0b00100000) == 0)
-						input += 0b00100000;
-				}
-				if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
-					window.close();
-			}
-			if (event->is<sf::Event::KeyReleased>())
-			{
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b00100000) / 0b00010000) == 1)
-						input -= 0b00010000;
-				}
-				if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
-				{
-					//make sure first bit isn't already set to 0
-					if (((input % 0b01000000) / 0b00100000) == 1)
-						input -= 0b00100000;
-				}
-			}
-
-		}
- 		scoreStr = "";
-		for (int i = 0; i < 15 - std::to_string(score).length(); i++)
-			scoreStr += " ";
-		scoreStr += std::to_string(score);
-
-		window.setView(viewport);
-
-		if (loading)
-		{
-			setScreen("Player 1 Start");
-			loading = false;
-		}
-		else if (!loading)
-		{
-			//sets UI text
-			UItext = "TOP " + scoreStr + "\n $	 " + scoreStr;
-			UItext2 = "SHOT				RND.1\n1.BOMB			";
-
-			if (invincible)
-				UItext2 += "Invincible! ";
-			else
-				UItext2 += "LIVES " + std::to_string(playerLives);
-
-			if (player->slowBullets)
-				UItext2 += "\n						 Slow Bullets!";
-
-			UIelement1->setText(UItext);
-			UIelement1->setPosition(viewport.getCenter() + offset);
-			UIelement2->setText(UItext2);
-			UIelement2->setPosition(viewport.getCenter() + offset2);
-
-			window.clear();
-
-			checkCollision();
-
-			if (!(player->alive) && player->getActive())
-			{
-				//loading = true; 
-				removeEnemies();
-			}
-			if (!(player->getActive()))
-			{
-				if (playerLives == 0)
-				{
-					setScreen("Game Over");
-					removeEnemies();
-					window.close();
-					std::cout << "Game over" << std::endl;
-				}
-				else
-				{
-					setScreen("Player 1 Start");
-					reset();
-					playerLives--;
-				}
-				//removeEnemies();
-				//window.close();
-				//std::cout << "Game over" << std::endl;
-			}
-
-			while (inShop && window.isOpen())
-			{
-				while (const std::optional event = window.pollEvent())
-				{
-					if (event->is<sf::Event::Closed>())
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
 						window.close();
-					handleMovementInput(event);
-					if (event->is<sf::Event::KeyPressed>() && 
-						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+						start = true;
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+						start = true;
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::I)
+						invincible = true;
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
+						player->slowBullets = true;
+				}
+			}
+
+			window.setView(viewportStart);
+			if (tick > 120 && tick < 480 * 4)
+				viewportStart.move({ 0.f,0.25f });
+			window.clear();
+			window.draw(*backgroundSpriteStart);
+			window.display();
+			tick++;
+		}
+		if (invincible)
+			player->setHealth();
+		while (start)
+		{
+			while (const std::optional event = window.pollEvent())
+			{
+				if (event->is<sf::Event::Closed>())
+					window.close();
+
+				//check header file to see more info on input
+				handleMovementInput(event);
+				if (event->is<sf::Event::KeyPressed>())
+				{
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
 					{
-						inShop = false;
-						shop->setState(Shop::State::NOT_ACTIVE);
+						//make sure fifth bit isn't already set to 1
+						if (((input % 0b00100000) / 0b00010000) == 0)
+							input += 0b00010000;
+					}
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+					{
+						//make sure fifth bit isn't already set to 1
+						if (((input % 0b01000000) / 0b00100000) == 0)
+							input += 0b00100000;
+					}
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+						window.close();
+				}
+				if (event->is<sf::Event::KeyReleased>())
+				{
+					if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
+					{
+						//make sure first bit isn't already set to 0
+						if (((input % 0b00100000) / 0b00010000) == 1)
+							input -= 0b00010000;
+					}
+					if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
+					{
+						//make sure first bit isn't already set to 0
+						if (((input % 0b01000000) / 0b00100000) == 1)
+							input -= 0b00100000;
 					}
 				}
-				std::vector <sf::Sprite*> sprites = shop->getSprites();
-				window.clear(sf::Color(0, 170, 0, 255));
 
-				for (int i = 0; i < sprites.size(); i++)
-					window.draw(*sprites.at(i));
-				window.display();
-				shop->update(input);
 			}
-				
+			if (score > highScore)
+				highScore = score;
+
+			scoreStr = "";
+			for (int i = 0; i < 15 - std::to_string(score).length(); i++)
+				scoreStr += " ";
+			scoreStr += std::to_string(score);
+
+			highScoreStr = "";
+			for (int i = 0; i < 15 - std::to_string(highScore).length(); i++)
+				highScoreStr += " ";
+			highScoreStr += std::to_string(highScore);
+
 			window.setView(viewport);
-			window.draw(*backgroundSprite1);
-			window.draw(*UIelement1->getText());
-			window.draw(*UIelement2->getText());
 
-
-			updateEntities();
-			drawEntities();
-			window.display();
-			tick += 1;
-
-			//spawn the boss once all the spawners are killed 
-			if (player->getSpawnerCount() == 0 && !activeBoss && (player->alive))
+			if (loading)
 			{
-				removeEnemies();
-				std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
-				activeBoss = true;
+				setScreen("Player 1 Start");
+				loading = false;
 			}
-			else if (tick % 300 == 0 && !activeBoss && (player->alive))
-				enemyWave();
-			else if (score >= 0 && !shopSpawned && !activeBoss)
+			else if (!loading)
 			{
-				shopSpawned = true;
-				shop = std::make_shared<Shop>();
-				shop->initialize();
+				//sets UI text
+				UItext = "TOP " + highScoreStr + "\n $	 " + scoreStr;
+				UItext2 = "SHOT				RND.1\n1.BOMB			";
+
+				if (invincible)
+					UItext2 += "Invincible! ";
+				else
+					UItext2 += "LIVES " + std::to_string(playerLives);
+
+				if (player->slowBullets)
+					UItext2 += "\n						 Slow Bullets!";
+
+				UIelement1->setText(UItext);
+				UIelement1->setPosition(viewport.getCenter() + offset);
+				UIelement2->setText(UItext2);
+				UIelement2->setPosition(viewport.getCenter() + offset2);
+
+				window.clear();
+
+				checkCollision();
+
+				if (!(player->alive) && player->getActive())
+				{
+					//loading = true; 
+					removeEnemies();
+				}
+				if (!(player->getActive()))
+				{
+					if (playerLives == 0)
+					{
+						setScreen("Game Over");
+						removeEnemies();
+						start = false;
+						std::cout << "Game over" << std::endl;
+					}
+					else
+					{
+						setScreen("Player 1 Start");
+						reset();
+						playerLives--;
+					}
+					//removeEnemies();
+					//window.close();
+					//std::cout << "Game over" << std::endl;
+				}
+
+				while (inShop && window.isOpen())
+				{
+					while (const std::optional event = window.pollEvent())
+					{
+						if (event->is<sf::Event::Closed>())
+							window.close();
+						handleMovementInput(event);
+						if (event->is<sf::Event::KeyPressed>() &&
+							event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+						{
+							inShop = false;
+							shop->setState(Shop::State::NOT_ACTIVE);
+						}
+					}
+					std::vector <sf::Sprite*> sprites = shop->getSprites();
+					window.clear(sf::Color(0, 170, 0, 255));
+
+					for (int i = 0; i < sprites.size(); i++)
+						window.draw(*sprites.at(i));
+					window.display();
+					shop->update(input);
+				}
+
+				window.setView(viewport);
+				window.draw(*backgroundSprite1);
+				window.draw(*UIelement1->getText());
+				window.draw(*UIelement2->getText());
+
+
+				updateEntities();
+				drawEntities();
+				window.display();
+				tick ++;
+
+				//spawn the boss once all the spawners are killed 
+				if (player->getSpawnerCount() == 0 && !activeBoss && (player->alive))
+				{
+					removeEnemies();
+					std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
+					activeBoss = true;
+				}
+				else if (tick % 300 == 0 && !activeBoss && (player->alive))
+					enemyWave();
+				else if (score >= 0 && !shopSpawned && !activeBoss)
+				{
+					shopSpawned = true;
+					shop = std::make_shared<Shop>();
+					shop->initialize();
+				}
 			}
 		}
 	}

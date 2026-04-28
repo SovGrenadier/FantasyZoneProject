@@ -40,6 +40,9 @@ Game::Game()
 	activeBoss = false; 
 	loading = true; 
 	blankScreen.setSize(viewport.getSize());
+
+	//Text coin 
+	std::make_shared<Coin>(player->getPosition())->initialize(); 
 }
 
 Game::~Game()

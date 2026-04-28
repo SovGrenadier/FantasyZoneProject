@@ -75,6 +75,12 @@
     <ClCompile Include="..\src\Entity\Enemy\Boss\StumpalonMouth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Entity\PlayerDeathSprite\PlayerDeathSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation\Animation.h">
@@ -132,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Entity\Enemy\Boss\StumpalonMouth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\PlayerDeathSprite\PlayerDeathSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

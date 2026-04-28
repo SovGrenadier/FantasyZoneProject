@@ -6,9 +6,11 @@
 #define S_D_PRESSED 0b00001100
 #define W_A_PRESSED 0b00000011
 #define S_A_PRESSED 0b00000110
+#define X_PRESSED 0b00010000
+#define Z_PRESSED 0b00100000
 
 #include "../Shop/Shop.h"
-#include <iostream>
+
 
 Shop::Shop()
 {
@@ -19,8 +21,12 @@ Shop::Shop()
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "Fail loading Shop.png\n";
+	
 	ballonSprite = new sf::Sprite(*texture);
 	ballonSprite->setTextureRect({ {387, 170},{16,16} });
+	sprite = new sf::Sprite(*texture);
+	sprite = ballonSprite;
+	
 	//sprite with parts to buy
 	shopSprite = new sf::Sprite(*texture);
 	shopSprite->setTextureRect({ {19,22},{470,147} });
@@ -41,6 +47,14 @@ Shop::Shop()
 	topRect.setFillColor(sf::Color(170, 170, 255, 255));
 	usedThisLevel = false;
 	set_visible = false;
+	
+	time = 0.f;
+	yTraveled = 0.f;
+	xTraveled = 0.f;
+	speed = .8f;
+	baseY = 55.f;
+	frequency = 0.5f;
+
 	ballonSprite->setPosition(pos);
 	spriteMov = { 0.f,0.f };
 }
@@ -98,6 +112,12 @@ void Shop::update(int input)
 		case S_A_PRESSED:
 			spriteMov = { -2.2f, 2.f };
 			break;
+		case X_PRESSED:
+			checkCollison();
+			break;
+		case Z_PRESSED:
+			checkCollison();
+			break;
 		default:
 
 			break;
@@ -126,11 +146,33 @@ sf::Sprite* Shop::getSprite()
 		return cursorSprite;
 }
 
-//implement real movement
+
 void Shop::move()
 {
-	pos.y += 1.f;
-	ballonSprite->setPosition(pos);
+	if(yTraveled < 65.f)
+	{
+		pos.y += 1.f;
+		pos.x += 0.25f;
+		yTraveled += 1.f;
+		ballonSprite->setPosition(pos);
+	}
+	else if (xTraveled > 205.f)
+	{
+		pos.y -= 2.f;
+		ballonSprite->setPosition(pos);
+		sprite->setPosition(pos);
+		if (!isOnScreen(*viewport))
+			curState = NOT_ACTIVE;
+	}
+	else
+	{
+		float wave = static_cast<float>(sin(time * frequency));	
+		pos.x += speed;
+		xTraveled += speed;
+		pos.y = baseY + (time * wave);
+		ballonSprite->setPosition(pos);
+		time += 0.2;
+	}
 }
 
 
@@ -160,8 +202,21 @@ void Shop::setSpritePositions()
 	sf::Vector2f size = viewport->getSize();
 	size /= 2.f;
 
+	pos = { center.x, -10.f };
+	ballonSprite->setPosition(pos);
 	cursorSprite->setPosition({center.x, center.y + 60.f});
 	exitSprite->setPosition({ viewport->getCenter().x, viewport->getSize().y });
 	shopSprite->setPosition({ center.x - size.x + 15.f, center.y });
 	usedThisLevel = true;
+}
+
+
+void Shop::checkCollison()
+{
+	sf::FloatRect cursor(cursorSprite->getLocalBounds());
+	sf::FloatRect exitButton(exitSprite->getLocalBounds());
+	if (cursor.findIntersection(exitButton).has_value())
+	{
+		curState = NOT_ACTIVE;
+	}
 }

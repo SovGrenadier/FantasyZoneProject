@@ -55,6 +55,7 @@ private:
 	void checkCollision();
 	void enemyWave();
 	void handleMovementInput(const std::optional<sf::Event>&);
+	void handleOtherInput(const std::optional<sf::Event>&);
 	static int getRandomInt(int min, int max);
 	void initialize(); 
 	int score;

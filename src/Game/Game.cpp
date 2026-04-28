@@ -106,41 +106,9 @@ void Game::run()
 				if (event->is<sf::Event::Closed>())
 					window.close();
 
-				//check header file to see more info on input
-				handleMovementInput(event);
-				if (event->is<sf::Event::KeyPressed>())
-				{
-					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
-					{
-						//make sure fifth bit isn't already set to 1
-						if (((input % 0b00100000) / 0b00010000) == 0)
-							input += 0b00010000;
-					}
-					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
-					{
-						//make sure fifth bit isn't already set to 1
-						if (((input % 0b01000000) / 0b00100000) == 0)
-							input += 0b00100000;
-					}
-					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
-						window.close();
-				}
-				if (event->is<sf::Event::KeyReleased>())
-				{
-					if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
-					{
-						//make sure first bit isn't already set to 0
-						if (((input % 0b00100000) / 0b00010000) == 1)
-							input -= 0b00010000;
-					}
-					if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
-					{
-						//make sure first bit isn't already set to 0
-						if (((input % 0b01000000) / 0b00100000) == 1)
-							input -= 0b00100000;
-					}
-				}
-			}
+			//check header file to see more info on input
+			handleMovementInput(event);
+			handleOtherInput(event);
 
 			if (score > highScore)
 				highScore = score;
@@ -210,33 +178,41 @@ void Game::run()
 					//std::cout << "Game over" << std::endl;
 				}
 
-				while (inShop && window.isOpen())
+			while (inShop && window.isOpen())
+			{
+				if(loading)
 				{
-					while (const std::optional event = window.pollEvent())
-					{
-						if (event->is<sf::Event::Closed>())
-							window.close();
-						handleMovementInput(event);
-						if (event->is<sf::Event::KeyPressed>() &&
-							event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
-						{
-							inShop = false;
-							shop->setState(Shop::State::NOT_ACTIVE);
-						}
-					}
-					std::vector <sf::Sprite*> sprites = shop->getSprites();
-					window.clear(sf::Color(0, 170, 0, 255));
-
-					for (int i = 0; i < sprites.size(); i++)
-						window.draw(*sprites.at(i));
-					window.display();
-					shop->update(input);
+					setScreen("PARTS SELECT");
+					loading = false;
 				}
+				while (const std::optional event = window.pollEvent())
+				{
+					if (event->is<sf::Event::Closed>())
+						window.close();
+					handleMovementInput(event);
+					handleOtherInput(event);
+					if (event->is<sf::Event::KeyPressed>() && 
+						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					{
+						inShop = false;
+						shop->setState(Shop::State::NOT_ACTIVE);
+					}
+				}
+				std::vector <sf::Sprite*> sprites = shop->getSprites();
+				window.clear(sf::Color(0, 170, 0, 255));
 
-				window.setView(viewport);
-				window.draw(*backgroundSprite1);
-				window.draw(*UIelement1->getText());
-				window.draw(*UIelement2->getText());
+				for (int i = 0; i < sprites.size(); i++)
+					window.draw(*sprites.at(i));
+				window.display();
+				shop->update(input);
+				if (shop->getState() == Shop::State::NOT_ACTIVE)
+					inShop = false;
+			}
+				
+			window.setView(viewport);
+			window.draw(*backgroundSprite1);
+			window.draw(*UIelement1->getText());
+			window.draw(*UIelement2->getText());
 
 
 				updateEntities();
@@ -393,6 +369,7 @@ void Game::checkCollision()
 							shop->setState(Shop::State::BUY_PHASE);
 							shop->setSpritePositions();
 							inShop = true;
+							loading = true;
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -438,6 +415,7 @@ void Game::checkCollision()
 							shop->setState(Shop::State::BUY_PHASE);
 							shop->setSpritePositions();
 							inShop = true;
+							loading = true;
 						}
 					}
 				}
@@ -745,6 +723,43 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 			//make sure first bit isn't already set to 0
 			if (((input % 0b00010000) / 0b00001000) == 1)
 				input -= 0b00001000;
+		}
+	}
+}
+
+
+void Game::handleOtherInput(const std::optional<sf::Event>& event)
+{
+	if (event->is<sf::Event::KeyPressed>())
+	{
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)
+		{
+			//make sure fifth bit isn't already set to 1
+			if (((input % 0b00100000) / 0b00010000) == 0)
+				input += 0b00010000;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Z)
+		{
+			//make sure fifth bit isn't already set to 1
+			if (((input % 0b01000000) / 0b00100000) == 0)
+				input += 0b00100000;
+		}
+		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+			window.close();
+	}
+	if (event->is<sf::Event::KeyReleased>())
+	{
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b00100000) / 0b00010000) == 1)
+				input -= 0b00010000;
+		}
+		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Z)
+		{
+			//make sure first bit isn't already set to 0
+			if (((input % 0b01000000) / 0b00100000) == 1)
+				input -= 0b00100000;
 		}
 	}
 }

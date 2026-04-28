@@ -54,7 +54,7 @@ void Coin::death()
 
 void Coin::move()
 {
-	/
+	
 	if (sprite->getPosition().y <= ground && !bounce)//Change Velocity based on position
 		bounce = true;
 	else if (bounce && !(sprite->getPosition().y >= yMax))

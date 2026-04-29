@@ -123,11 +123,11 @@ void Spawner::update(int input)
 				sprite->setPosition(deathPos);
 				//advance to next death frame
 				curDeathFrame++;
-				std::cout << "TEST" << std::endl;
+				/*std::cout << "TEST" << std::endl;
 				std::cout << "alive" << alive << std::endl;
 				std::cout << "set active" << set_active << std::endl;
 				std::cout << "set visible" << set_visible << std::endl;
-				std::cout << "curFrame" << curDeathFrame << std::endl;
+				std::cout << "curFrame" << curDeathFrame << std::endl;*/
 			}
 		}
 		return;

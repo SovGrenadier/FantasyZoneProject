@@ -46,7 +46,7 @@ Shop::Shop()
 	topRect.setPosition({ viewport->getCenter().x, viewport->getCenter().y - 100.f });
 	topRect.setFillColor(sf::Color(170, 170, 255, 255));
 	usedThisLevel = false;
-	set_visible = false;
+	boughtItem = false;
 	
 	time = 0.f;
 	yTraveled = 0.f;
@@ -54,7 +54,6 @@ Shop::Shop()
 	speed = .8f;
 	baseY = 55.f;
 	frequency = 0.5f;
-
 	ballonSprite->setPosition(pos);
 	spriteMov = { 0.f,0.f };
 }
@@ -90,15 +89,19 @@ void Shop::update(int input)
 		{
 		case W_PRESSED:
 			spriteMov = { 0.f, -2.f };
+			
 			break;
 		case A_PRESSED:
 			spriteMov = { -2.2f, 0.f };
+			if(leftBarrier.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
+				shopSprite->move({ -2.2f, 0.f });
 			break;
 		case S_PRESSED:
 			spriteMov = { 0.f, 2.f };
 			break;
 		case D_PRESSED:
 			spriteMov = { 2.2f,0.f };
+			shopSprite->move({ 2.2f,0.f });
 			break;
 		case W_D_PRESSED:
 			spriteMov = { 2.2f, -2.f };
@@ -202,6 +205,9 @@ void Shop::setSpritePositions()
 	sf::Vector2f size = viewport->getSize();
 	size /= 2.f;
 
+	leftBarrier.position = {center.x - size.x + 50.f, 0 };
+	leftBarrier.size = {15.f, size.y * 2};
+	
 	pos = { center.x, -10.f };
 	ballonSprite->setPosition(pos);
 	cursorSprite->setPosition({center.x, center.y + 60.f});
@@ -213,10 +219,14 @@ void Shop::setSpritePositions()
 
 void Shop::checkCollison()
 {
-	sf::FloatRect cursor(cursorSprite->getLocalBounds());
-	sf::FloatRect exitButton(exitSprite->getLocalBounds());
-	if (cursor.findIntersection(exitButton).has_value())
+	if(curState == BUY_PHASE)
 	{
-		curState = NOT_ACTIVE;
+		sf::FloatRect cursor(cursorSprite->getGlobalBounds());
+		sf::FloatRect exitButton(exitSprite->getGlobalBounds());
+		if (cursor.findIntersection(exitButton).has_value())
+			if (!boughtItem)
+				curState = NOT_ACTIVE;
+			else
+				curState = PARTS_SELECT;
 	}
 }

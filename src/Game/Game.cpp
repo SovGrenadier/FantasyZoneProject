@@ -106,10 +106,10 @@ void Game::run()
 				if (event->is<sf::Event::Closed>())
 					window.close();
 
-			//check header file to see more info on input
-			handleMovementInput(event);
-			handleOtherInput(event);
-
+				//check header file to see more info on input
+				handleMovementInput(event);
+				handleOtherInput(event);
+			}
 			if (score > highScore)
 				highScore = score;
 
@@ -196,6 +196,7 @@ void Game::run()
 					{
 						inShop = false;
 						shop->setState(Shop::State::NOT_ACTIVE);
+						shop = nullptr;
 					}
 				}
 				std::vector <sf::Sprite*> sprites = shop->getSprites();

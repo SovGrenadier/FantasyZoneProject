@@ -41,5 +41,6 @@ private:
 	float time, speed;
 	float baseY, yTraveled, xTraveled;
 	float frequency;
-	bool usedThisLevel;
+	sf::FloatRect leftBarrier, rightBarrier;
+	bool usedThisLevel, boughtItem;
 };

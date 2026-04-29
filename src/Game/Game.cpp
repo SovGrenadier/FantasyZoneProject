@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iomanip>
 
+
 Game::Game()
 {
 	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
@@ -42,11 +43,13 @@ Game::Game()
 	blankScreen.setSize(viewport.getSize());
 }
 
+
 Game::~Game()
 {
 	delete backgroundSprite1;
 	delete backgroundSpriteStart;
 }
+
 
 void Game::run()
 {
@@ -55,16 +58,19 @@ void Game::run()
 	while (window.isOpen())
 	{
 		reset();
+
 		//Set up viewports
 		viewport.setSize(sf::Vector2f{ 250.f,175.f });
 		viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
 		viewportStart.setSize(sf::Vector2f{ 253.f,197.f });
 		viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
+
 		playerLives = 3;
 		player->reset();
 		score = 0;
 		tick = 0;
-		while (!start&& window.isOpen())
+
+		while (!start && window.isOpen())
 		{
 			while (const std::optional event = window.pollEvent())
 			{
@@ -99,16 +105,17 @@ void Game::run()
 			player->setHealth();
 
 
-		while (start&& window.isOpen())
+		while (start && window.isOpen())
 		{
 			while (const std::optional event = window.pollEvent())
 			{
 				if (event->is<sf::Event::Closed>())
 					window.close();
 
-			//check header file to see more info on input
-			handleMovementInput(event);
-			handleOtherInput(event);
+				//check header file to see more info on input
+				handleMovementInput(event);
+				handleOtherInput(event);
+			}
 
 			if (score > highScore)
 				highScore = score;
@@ -127,6 +134,7 @@ void Game::run()
 
 			if (loading)
 			{
+				std::make_shared<Coin>(viewport.getCenter(), 1)->initialize();
 				setScreen("Player 1 Start");
 				loading = false;
 			}
@@ -178,47 +186,47 @@ void Game::run()
 					//std::cout << "Game over" << std::endl;
 				}
 
-			while (inShop && window.isOpen())
-			{
-				if(loading)
+				while (inShop && window.isOpen())
 				{
-					setScreen("PARTS SELECT");
-					loading = false;
-				}
-				while (const std::optional event = window.pollEvent())
-				{
-					if (event->is<sf::Event::Closed>())
-						window.close();
-					handleMovementInput(event);
-					handleOtherInput(event);
-					if (event->is<sf::Event::KeyPressed>() && 
-						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					if (loading)
 					{
-						inShop = false;
-						shop->setState(Shop::State::NOT_ACTIVE);
+						setScreen("PARTS SELECT");
+						loading = false;
 					}
-				}
-				std::vector <sf::Sprite*> sprites = shop->getSprites();
-				window.clear(sf::Color(0, 170, 0, 255));
+					while (const std::optional event = window.pollEvent())
+					{
+						if (event->is<sf::Event::Closed>())
+							window.close();
+						handleMovementInput(event);
+						handleOtherInput(event);
+						if (event->is<sf::Event::KeyPressed>() &&
+							event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+						{
+							inShop = false;
+							shop->setState(Shop::State::NOT_ACTIVE);
+						}
+					}
+					std::vector <sf::Sprite*> sprites = shop->getSprites();
+					window.clear(sf::Color(0, 170, 0, 255));
 
-				for (int i = 0; i < sprites.size(); i++)
-					window.draw(*sprites.at(i));
-				window.display();
-				shop->update(input);
-				if (shop->getState() == Shop::State::NOT_ACTIVE)
-					inShop = false;
-			}
-				
-			window.setView(viewport);
-			window.draw(*backgroundSprite1);
-			window.draw(*UIelement1->getText());
-			window.draw(*UIelement2->getText());
+					for (int i = 0; i < sprites.size(); i++)
+						window.draw(*sprites.at(i));
+					window.display();
+					shop->update(input);
+					if (shop->getState() == Shop::State::NOT_ACTIVE)
+						inShop = false;
+				}
+
+				window.setView(viewport);
+				window.draw(*backgroundSprite1);
+				window.draw(*UIelement1->getText());
+				window.draw(*UIelement2->getText());
 
 
 				updateEntities();
 				drawEntities();
 				window.display();
-				tick ++;
+				tick++;
 
 				//spawn the boss once all the spawners are killed 
 				if (player->getSpawnerCount() == 0 && !activeBoss && (player->alive))
@@ -239,6 +247,7 @@ void Game::run()
 		}
 	}
 }
+
 
 void Game::updateEntities()
 {
@@ -286,7 +295,7 @@ void Game::reset()
 }
 
 
-//Checks for collision between the different enemie 
+//Checks for collision between the different entities 
 void Game::checkCollision()
 {
 	sf::FloatRect entity1, entity2;
@@ -433,11 +442,12 @@ void Game::checkCollision()
 		}
 		*/
 	}
+	
 	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
 	spawnerDummy7->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
 	if (!spawnerDummy->getActive())
 		spawnerDummy7->setActive(false);
-	if(!spawnerDummy7->getActive())
+	if (!spawnerDummy7->getActive())
 		spawnerDummy->setActive(false);
 	spawnerDummy2->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
 	spawnerDummy8->setHeath(std::min(spawnerDummy2->getHeath(), spawnerDummy8->getHeath()));
@@ -698,6 +708,7 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 				input -= 0b00000100;
 		}
 	}
+	
 	if (event->is<sf::Event::KeyReleased>())
 	{
 		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::Up)
@@ -747,6 +758,7 @@ void Game::handleOtherInput(const std::optional<sf::Event>& event)
 		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
 			window.close();
 	}
+	
 	if (event->is<sf::Event::KeyReleased>())
 	{
 		if (event->getIf<sf::Event::KeyReleased>()->code == sf::Keyboard::Key::X)

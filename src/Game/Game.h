@@ -60,6 +60,8 @@ private:
 	void initialize(); 
 	int score;
 	int highScore;
+	int spawnTimer;
+	bool noSpeedup = false;
 	bool invincible = false;
 	bool shopSpawned = false;
 	std::string UItext = "";

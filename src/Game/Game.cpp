@@ -88,6 +88,8 @@ void Game::run()
 						invincible = true;
 					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::B)
 						player->slowBullets = true;
+					if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::N)
+						noSpeedup = true;
 				}
 			}
 
@@ -151,11 +153,17 @@ void Game::run()
 
 				if (player->slowBullets)
 					UItext2 += "\n						 Slow Bullets!";
+				if (noSpeedup)
+					UItext2 += "\n						 No Speedup!";
 
 				UIelement1->setText(UItext);
 				UIelement1->setPosition(viewport.getCenter() + offset);
 				UIelement2->setText(UItext2);
 				UIelement2->setPosition(viewport.getCenter() + offset2);
+
+				if (tick % 100 == 0)
+					std::cout << "Player position: " << player->getSprite()->getPosition().x 
+						<< " " << player->getSprite()->getPosition().y << std::endl;
 
 				window.clear();
 
@@ -229,6 +237,15 @@ void Game::run()
 				window.display();
 				tick++;
 
+				//the speed of enemy spawns increases slowly to a max of 3x normal
+				//press N on title screen to disable speedup
+				if (!noSpeedup)
+				{
+					spawnTimer = 300 - (tick / 20);
+					if (spawnTimer < 100)
+						spawnTimer = 100;
+				}
+
 				//spawn the boss once all the spawners are killed 
 				if (player->getSpawnerCount() == 0 && !activeBoss && (player->alive))
 				{
@@ -236,8 +253,9 @@ void Game::run()
 					std::make_shared<Boss>(player->getSprite()->getPosition().x)->initialize();
 					activeBoss = true;
 				}
-				else if (tick % 300 == 0 && !activeBoss && (player->alive))
+				else if (tick % spawnTimer == 0 && !activeBoss && (player->alive))
 					enemyWave();
+
 				else if (score >= 0 && !shopSpawned && !activeBoss)
 				{
 					shopSpawned = true;
@@ -293,6 +311,7 @@ void Game::reset()
 			i--;
 		}
 	}
+	spawnTimer = 300;
 }
 
 

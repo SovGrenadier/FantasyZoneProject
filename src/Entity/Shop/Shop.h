@@ -27,7 +27,8 @@ public:
 	void setSpritePositions();
 	std::vector <sf::Sprite*> getSprites();
 	sf::Sprite* getSprite() override;
-	sf::RectangleShape getRect() { return topRect; }
+	sf::RectangleShape getRect() { return temporary; }
+	sf::RectangleShape getRect2() { return temporary2; }
 	State getState() { return curState; }
 private:
 	void checkCollison();
@@ -42,5 +43,8 @@ private:
 	float baseY, yTraveled, xTraveled;
 	float frequency;
 	sf::FloatRect leftBarrier, rightBarrier;
+	sf::FloatRect roof, floor;
+	sf::RectangleShape temporary;
+	sf::RectangleShape temporary2;
 	bool usedThisLevel, boughtItem;
 };

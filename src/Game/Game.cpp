@@ -186,38 +186,47 @@ void Game::run()
 					//std::cout << "Game over" << std::endl;
 				}
 
-			while (inShop && window.isOpen())
-			{
-				if(loading)
+				while (inShop && window.isOpen())
 				{
-					setScreen("PARTS SELECT");
-					loading = false;
-				}
-				while (const std::optional event = window.pollEvent())
-				{
-					if (event->is<sf::Event::Closed>())
-						window.close();
-					handleMovementInput(event);
-					handleOtherInput(event);
-					if (event->is<sf::Event::KeyPressed>() && 
-						event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape)
+					std::vector <sf::Sprite*> sprites = shop->getSprites();
+					if (loading) //loading screen
 					{
-						inShop = false;
-						shop->setState(Shop::State::NOT_ACTIVE);
-						shop = nullptr;
+						setScreen("PARTS SELECT");
+						loading = false;
 					}
-				}
-				std::vector <sf::Sprite*> sprites = shop->getSprites();
-				window.clear(sf::Color(0, 170, 0, 255));
-
+					while (const std::optional event = window.pollEvent()) //get input
+					{
+						handleMovementInput(event);
+						handleOtherInput(event);
+						if (event->is<sf::Event::KeyPressed>())
+							if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::P)
+							{
+								std::cout << "Cursor\nX: " << shop->getSprite()->getPosition().x << " Y: " << shop->getSprite()->getPosition().y << "\n";
+								std::cout << "Viewport\nX: " << viewport.getCenter().x << " Y: " << viewport.getCenter().y << "\n";
+								std::cout << "Rect\nX: " << shop->getRect().getPosition().x << " Y: " << shop->getRect().getPosition().y << "\n";
+ 							}
+					}
+					if (shop == nullptr)
+					{
+						setScreen("");
+						break;
+					}
+					else if (shop->getState() == Shop::State::NOT_ACTIVE)
+					{
+						setScreen("");
+						shop = nullptr;
+						inShop = false;
+						break;
+					}
+					shop->update(input);
+					window.clear(sf::Color(0,170,0,255));
 					for (int i = 0; i < sprites.size(); i++)
 						window.draw(*sprites.at(i));
+					//window.draw(shop->getRect());
+					//window.draw(shop->getRect2());
 					window.display();
-					shop->update(input);
-					if (shop->getState() == Shop::State::NOT_ACTIVE)
-						inShop = false;
+					
 				}
-
 				window.setView(viewport);
 				window.draw(*backgroundSprite1);
 				window.draw(*UIelement1->getText());
@@ -742,6 +751,8 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 
 void Game::handleOtherInput(const std::optional<sf::Event>& event)
 {
+	if (event->is<sf::Event::Closed>())
+		window.close();
 	if (event->is<sf::Event::KeyPressed>())
 	{
 		if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::X)

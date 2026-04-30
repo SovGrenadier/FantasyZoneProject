@@ -45,7 +45,7 @@ private:
 	* the sixth bit will represent if z is pressed
 	* */
 	int input = 0b00000000;
-	bool start = false;
+	bool start = true;
 	bool inShop = false;
 	//we need to deallocate bullets and bombs from this vector 
 	//std::vector<Entity*>* entities;

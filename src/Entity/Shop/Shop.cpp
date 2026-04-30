@@ -56,6 +56,8 @@ Shop::Shop()
 	frequency = 0.5f;
 	ballonSprite->setPosition(pos);
 	spriteMov = { 0.f,0.f };
+
+
 }
 
 
@@ -70,6 +72,11 @@ Shop::~Shop()
 
 void Shop::update(int input)
 {
+	auto hitRoof = roof.findIntersection(cursorSprite->getGlobalBounds()).has_value();
+	auto hitFloor = floor.findIntersection(cursorSprite->getGlobalBounds()).has_value();
+	auto hitRightBarrier = rightBarrier.findIntersection(cursorSprite->getGlobalBounds()).has_value();
+	auto hitLeftBarrier = leftBarrier.findIntersection(cursorSprite->getGlobalBounds()).has_value();
+
 	switch (curState)
 	{
 	case NOT_ACTIVE:
@@ -88,32 +95,81 @@ void Shop::update(int input)
 		switch (input)
 		{
 		case W_PRESSED:
-			spriteMov = { 0.f, -2.f };
-			
+			if (!hitRoof)
+				cursorSprite->move({ 0.f, -2.f });
 			break;
 		case A_PRESSED:
-			spriteMov = { -2.2f, 0.f };
-			if(leftBarrier.findIntersection(sprite->getGlobalBounds()) != std::nullopt)
+			if (hitLeftBarrier)
 				shopSprite->move({ -2.2f, 0.f });
+			else
+				cursorSprite->move({ -2.2f, 0.f });
 			break;
 		case S_PRESSED:
-			spriteMov = { 0.f, 2.f };
+			if (!hitFloor)
+				cursorSprite->move({ 0.f, 2.f });
 			break;
 		case D_PRESSED:
-			spriteMov = { 2.2f,0.f };
-			shopSprite->move({ 2.2f,0.f });
+			if (hitRightBarrier)
+				shopSprite->move({ 2.2f, 0.f });
+			else
+				cursorSprite->move({ 2.2f, 0.f });
 			break;
-		case W_D_PRESSED:
-			spriteMov = { 2.2f, -2.f };
+		case W_D_PRESSED: 
+			if (hitRoof && !hitRightBarrier)
+				cursorSprite->move({ 2.2f, 0.f });
+			else if (!hitRoof && hitRightBarrier)
+			{
+				cursorSprite->move({ 0.f, -2.f });
+				shopSprite->move({ 2.2f, 0.f });
+			}
+			else if (hitRoof && hitRightBarrier)
+				shopSprite->move({ 2.2f,0.f });
+			else
+				cursorSprite->move({ 2.2f,-2.f });
+
 			break;
 		case S_D_PRESSED:
-			spriteMov = { 2.2f, 2.f };
+			if (hitFloor && !hitRightBarrier)
+				cursorSprite->move({ 2.2, 0.f });
+			else if (!hitFloor && hitRightBarrier)
+			{
+				cursorSprite->move({ 0.f,2.f });
+				shopSprite->move({ 2.2f,0.f });
+			}
+			else if (hitFloor && hitRightBarrier)
+				shopSprite->move({ 2.2f,0.f });
+			else
+				cursorSprite->move({ 2.2f, 2.f });
 			break;
-		case W_A_PRESSED:
-			spriteMov = { -2.2f, -2.f };
+		case W_A_PRESSED: //fix going past barrier
+			if (hitRoof && !hitLeftBarrier)
+				cursorSprite->move({ -2.2f,0.f });
+			else if (!hitRoof && hitLeftBarrier)
+			{
+				cursorSprite->move({ 0.f, 2.f });
+				shopSprite->move({ -2.2f, 0.f });
+			}
+			else if (hitRoof && hitLeftBarrier)
+				shopSprite->move({ -2.2f,0.f });
+			else
+				cursorSprite->move({ -2.2,2.f });
+
+
+
+			cursorSprite->move({ -2.2f, -2.f });
 			break;
 		case S_A_PRESSED:
-			spriteMov = { -2.2f, 2.f };
+			if (hitFloor && !hitLeftBarrier)
+				cursorSprite->move({ -2.2, 0.f });
+			else if (!hitFloor && hitLeftBarrier)
+			{
+				cursorSprite->move({ 0.f,2.f });
+				shopSprite->move({ -2.2f,0.f });
+			}
+			else if (hitFloor && hitLeftBarrier)
+				shopSprite->move({ -2.2f,0.f });
+			else
+				cursorSprite->move({ -2.2f, 2.f });
 			break;
 		case X_PRESSED:
 			checkCollison();
@@ -125,8 +181,8 @@ void Shop::update(int input)
 
 			break;
 		}
-
-		cursorSprite->move(spriteMov);
+		
+		//cursorSprite->move(spriteMov);
 		spriteMov = { 0.f, 0.f };
 		//when exit button is pressed
 		//go to parts select
@@ -184,6 +240,7 @@ std::vector <sf::Sprite*> Shop::getSprites()
 	if (curState == BUY_PHASE)
 	{
 		std::vector <sf::Sprite*> temp;
+	
 		temp.push_back(shopSprite);
 		temp.push_back(exitSprite);
 		temp.push_back(cursorSprite);
@@ -205,9 +262,28 @@ void Shop::setSpritePositions()
 	sf::Vector2f size = viewport->getSize();
 	size /= 2.f;
 
-	leftBarrier.position = {center.x - size.x + 50.f, 0 };
-	leftBarrier.size = {15.f, size.y * 2};
+	roof.position = { center.x - size.x, center.y - size.y + 10.f };
+	roof.size = { size.x * 2, 15.f };
 	
+	floor.position = { center.x - size.x, center.y + size.y - 5.f };
+	floor.size = roof.size;
+
+
+	leftBarrier.position = {center.x - size.x, 0 };
+	leftBarrier.size = {15.f, size.y * 2 + 20.f};
+	
+	rightBarrier.position = { center.x + size.x - 10.f , 0 };
+	rightBarrier.size = leftBarrier.size;
+
+	temporary.setSize(roof.size);
+	temporary.setPosition(roof.position);
+	temporary.setFillColor(sf::Color::Black);
+	temporary2.setSize(rightBarrier.size);
+	temporary2.setPosition(rightBarrier.position);
+	temporary2.setFillColor(sf::Color::Black);
+
+
+
 	pos = { center.x, -10.f };
 	ballonSprite->setPosition(pos);
 	cursorSprite->setPosition({center.x, center.y + 60.f});

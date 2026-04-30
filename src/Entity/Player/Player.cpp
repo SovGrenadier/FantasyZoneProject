@@ -53,11 +53,13 @@ Player::~Player()
 void Player::setHealth()
 {
 	health = 10000000;
+	invinsible = true;
 }
 
 //don't try to walk to the left
 void Player::update(int input)
 {
+	//std::cout << health << std::endl;
 	if (health <= 0 && alive)
 	{
 		lives--; 
@@ -385,7 +387,10 @@ void Player::reset()
 {
 	curAction = Actions::GLIDE_RIGHT;
 	faceRight = true;
-	health = 1;
+	if (invinsible)
+		health = 100000;
+	else
+		health = 1;
 	set_active = true;
 	set_visible = true;
 	alive = true;

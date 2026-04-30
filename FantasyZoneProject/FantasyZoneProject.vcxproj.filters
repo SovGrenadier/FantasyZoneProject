@@ -78,7 +78,7 @@
     <ClCompile Include="..\src\Entity\PlayerDeathSprite\PlayerDeathSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
+    <ClCompile Include="..\src\Entity\Shop\Coin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +143,7 @@
     <ClInclude Include="..\src\Entity\PlayerDeathSprite\PlayerDeathSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Coin.h">
+    <ClInclude Include="..\src\Entity\Shop\Coin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,12 +152,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Enemies.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\Shop.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\res\Levels\Round 2 - Tabas.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\res\Levels\Round 3 - La Dune.png">
@@ -188,6 +182,12 @@
       <Filter>Source Files</Filter>
     </Image>
     <Image Include="..\res\Levels\Round 7 - Pocarius.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Shop Transparent.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\Levels\Round 2 Wrapped.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

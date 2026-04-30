@@ -29,6 +29,9 @@ private:
 	sf::RenderWindow window;
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
+	sf::Texture background2;
+	sf::Sprite* backgroundSprite2;
+	sf::Sprite* curBackgroundSprite;
 	sf::Texture backgroundStart;
 	sf::Sprite* backgroundSpriteStart;
 	sf::View viewport;
@@ -45,7 +48,7 @@ private:
 	* the sixth bit will represent if z is pressed
 	* */
 	int input = 0b00000000;
-	bool start = false;
+	bool start = true;
 	bool inShop = false;
 	//we need to deallocate bullets and bombs from this vector 
 	//std::vector<Entity*>* entities;
@@ -60,6 +63,9 @@ private:
 	void initialize(); 
 	int score;
 	int highScore;
+	int spawnTimer;
+	bool noSpeedup = false;
+	int level = 1;
 	bool invincible = false;
 	bool shopSpawned = false;
 	std::string UItext = "";
@@ -85,6 +91,7 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
 	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
+	std::shared_ptr<Boss> boss1;
 	std::shared_ptr<UI> UIelement1 = std::make_shared<UI>();
 	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
@@ -93,6 +100,8 @@ private:
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
 	std::shared_ptr<Shop> shop = nullptr;
+	bool swapLevels = false;
+	bool gameBegun = false;
 
 	//Temp testing 
 	sf::RectangleShape rectangle; 

@@ -63,6 +63,8 @@ private:
 	void initialize(); 
 	int score;
 	int highScore;
+	int spawnTimer;
+	bool noSpeedup = false;
 	int level = 1;
 	bool invincible = false;
 	bool shopSpawned = false;

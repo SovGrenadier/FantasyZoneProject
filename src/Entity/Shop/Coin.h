@@ -12,10 +12,13 @@ public:
 	int getValue() { return value; }; 
 
 private: 
-	sf::IntRect zone; 
+	int zone; 
+	std::vector<sf::IntRect> zones; 
 	int ticks = 0, value; 
-	float initialHeight, yMax; 
+	float initialHeight, yMax, ySpeed; 
 	float ground; 
-	bool bounce, changeMax; 
+	bool bounce, changeMax;
+	void animation(); 
+	bool fullView; 
 };
 

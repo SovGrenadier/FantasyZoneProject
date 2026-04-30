@@ -41,6 +41,11 @@ Game::Game()
 	activeBoss = false; 
 	loading = true; 
 	blankScreen.setSize(viewport.getSize());
+
+
+	//coin test 
+	rectangle.setSize(sf::Vector2f{ 10.f , 10.f });
+	rectangle.setFillColor(sf::Color(0, 218, 0));
 }
 
 
@@ -134,7 +139,13 @@ void Game::run()
 
 			if (loading)
 			{
-				std::make_shared<Coin>(viewport.getCenter(), 1)->initialize();
+				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
+				rectangle.setPosition(viewport.getCenter());
+
+				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
+				coin->initialize();
+
+				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
 			}
@@ -222,6 +233,9 @@ void Game::run()
 				window.draw(*backgroundSprite1);
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
+				//Test coin 
+				window.draw(*coin->getSprite());
+				//window.draw(rectangle);
 
 
 				updateEntities();

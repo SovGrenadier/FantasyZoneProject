@@ -88,8 +88,12 @@ private:
 	std::shared_ptr<UI> UIelement1 = std::make_shared<UI>();
 	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
+	std::shared_ptr<Coin> coin; 
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
 	std::shared_ptr<Shop> shop = nullptr;
+
+	//Temp testing 
+	sf::RectangleShape rectangle; 
 };

@@ -13,7 +13,7 @@ public:
 	void death() override;
 	void move() override; 
 	void update(int) override;
-
+	int getHealth();
 	enum state { OPEN_MOUTH = 2,  AJAR_MOUTH = 1, CLOSED_MOUTH = 0};
 
 private:

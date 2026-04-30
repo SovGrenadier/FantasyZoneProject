@@ -29,6 +29,9 @@ private:
 	sf::RenderWindow window;
 	sf::Texture background1;
 	sf::Sprite* backgroundSprite1;
+	sf::Texture background2;
+	sf::Sprite* backgroundSprite2;
+	sf::Sprite* curBackgroundSprite;
 	sf::Texture backgroundStart;
 	sf::Sprite* backgroundSpriteStart;
 	sf::View viewport;
@@ -60,6 +63,7 @@ private:
 	void initialize(); 
 	int score;
 	int highScore;
+	int level = 1;
 	bool invincible = false;
 	bool shopSpawned = false;
 	std::string UItext = "";
@@ -85,6 +89,7 @@ private:
 	std::shared_ptr<Spawner> spawnerDummy6 = std::make_shared<Spawner>(5);
 	std::shared_ptr<Spawner> spawnerDummy7 = std::make_shared<Spawner>(6);
 	std::shared_ptr<Spawner> spawnerDummy8 = std::make_shared<Spawner>(7);
+	std::shared_ptr<Boss> boss1;
 	std::shared_ptr<UI> UIelement1 = std::make_shared<UI>();
 	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
@@ -92,4 +97,6 @@ private:
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
 	std::shared_ptr<Shop> shop = nullptr;
+	bool swapLevels = false;
+	bool gameBegun = false;
 };

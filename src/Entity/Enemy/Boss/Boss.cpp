@@ -107,3 +107,12 @@ void Boss::update(int input)
 
 	ticks++;
 }
+
+
+int Boss :: getHealth()
+{
+	if (mouth == nullptr)
+		return 1000;
+	else
+		return mouth->getHealth();
+}

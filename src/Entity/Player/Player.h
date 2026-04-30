@@ -74,5 +74,5 @@ private:
 	int shootingTicks = 0;
 	int bombingTicks = 0;
 	int lives; 
-
+	bool invinsible = false;
 };

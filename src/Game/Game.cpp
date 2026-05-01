@@ -145,7 +145,7 @@ void Game::run()
 
 			if (loading||swapLevels)
 			{
-				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
+				//std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
 				rectangle.setPosition(viewport.getCenter());
 
 				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
@@ -276,7 +276,7 @@ void Game::run()
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
 				//Test coin 
-				window.draw(*coin->getSprite());
+				//window.draw(*coin->getSprite());
 				//window.draw(rectangle);
 
 

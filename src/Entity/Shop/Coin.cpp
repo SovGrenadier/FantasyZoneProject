@@ -42,7 +42,7 @@ Coin::Coin(sf::Vector2f pos, int size)
 	sprite->setPosition(pos);
 	initialHeight = pos.y; 
 
-	bounce = true; 
+	bounce = true;
 	yMax = initialHeight; 
 	ySpeed = 5;
 	changeMax = false; 
@@ -55,6 +55,9 @@ Coin::Coin(sf::Vector2f pos, int size)
 
 	//define where groung is 
 	ground = 159.f; 
+
+	width = 1;
+	time = 0; 
 }
 
 Coin::~Coin()
@@ -126,4 +129,40 @@ void Coin::move()
 			changeMax = false;
 		}
 	}
+
+	/*if (sprite->getPosition().y >= ground)
+	{
+		std::cout << "On ground"; 
+		yMax = maxY(ticks);
+		time = 0; 
+		firstBounce = false; 
+		sprite->setPosition(sf::Vector2f{ sprite->getPosition().x, ground});
+	}
+		
+	sprite->setPosition(sf::Vector2f{ sprite->getPosition().x, parabola(ticks) });
+	std::cout << "\nPosition ( " << sprite->getPosition().x << " , " << sprite->getPosition().y << " )\n";
+
+	ticks++; 
+	time++;*/
+
+
+}
+
+
+double Coin::maxY(int time)
+{
+	return (175-initialHeight) * pow((2 / 3.), ticks); 
+	std::cout << "\nMaxY: " << (175 - initialHeight) * pow((2 / 3.), ticks);
+	width -= .2; 
+}
+
+
+float Coin::parabola(int time)
+{
+	std::cout << "\n yPos" << (175 - yMax) * (pow(width * (time - (1 / width)), 2)) + yMax;
+	if(firstBounce)
+		return  (yMax) * (pow(time, 2)) + (175 - yMax);
+	return (yMax) * (pow(width * (time - (1 / width)), 2)) + (175 - yMax);
+	
+	std::cout<<"\n yPos"<< (175 - yMax) * (pow(width * (time - (1 / width)), 2)) + (175 - yMax);
 }

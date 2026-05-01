@@ -14,11 +14,13 @@ public:
 private: 
 	int zone; 
 	std::vector<sf::IntRect> zones; 
-	int ticks = 0, value; 
-	float initialHeight, yMax, ySpeed; 
+	int ticks = 0, value, time; 
+	float initialHeight, yMax, ySpeed, initialheight; 
 	float ground; 
 	bool bounce, changeMax;
-	void animation(); 
-	bool fullView; 
+	bool fullView, firstBounce = true;
+	double width;
+	double maxY(int);
+	float parabola(int);
 };
 

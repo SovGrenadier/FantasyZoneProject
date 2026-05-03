@@ -69,7 +69,7 @@ void Game::run()
 	std::cout << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
-		score = 0;
+		score = 100000;
 		tick = 0;
 
 		while (!start && window.isOpen())
@@ -180,7 +180,7 @@ void Game::run()
 				if (invincible)
 					UItext2 += "Invincible! ";
 				else
-					UItext2 += "LIVES " + std::to_string(playerLives);
+					UItext2 += "LIVES " + std::to_string(player->getLives());
 
 				if (player->slowBullets)
 					UItext2 += "\n						 Slow Bullets!";
@@ -232,7 +232,6 @@ void Game::run()
 
 				while (inShop && window.isOpen())
 				{
-					std::vector <sf::Sprite*> sprites = shop->getSprites();
 					if (loading) //loading screen
 					{
 						setScreen("PARTS SELECT");
@@ -242,17 +241,12 @@ void Game::run()
 					{
 						handleMovementInput(event);
 						handleOtherInput(event);
-						if (event->is<sf::Event::KeyPressed>())
-							if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::P)
-							{
-								std::cout << "Cursor\nX: " << shop->getSprite()->getPosition().x << " Y: " << shop->getSprite()->getPosition().y << "\n";
-								std::cout << "Viewport\nX: " << viewport.getCenter().x << " Y: " << viewport.getCenter().y << "\n";
-								std::cout << "Rect\nX: " << shop->getRect().getPosition().x << " Y: " << shop->getRect().getPosition().y << "\n";
- 							}
 					}
+					
 					if (shop == nullptr)
 					{
 						setScreen("");
+						inShop = false;
 						break;
 					}
 					else if (shop->getState() == Shop::State::NOT_ACTIVE)
@@ -262,12 +256,14 @@ void Game::run()
 						inShop = false;
 						break;
 					}
+					
 					shop->update(input);
+					window.setView(viewport);
+					std::vector <sf::Drawable*> sprites = shop->getSprites();
 					window.clear(sf::Color(0,170,0,255));
 					for (int i = 0; i < sprites.size(); i++)
 						window.draw(*sprites.at(i));
-					//window.draw(shop->getRect());
-					//window.draw(shop->getRect2());
+					
 					window.display();
 					
 				}
@@ -445,7 +441,8 @@ void Game::checkCollision()
 							std::cerr << "SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(i));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions();
+							shop->setSpritePositions(&score,  player.get());
+							entities->erase(entities->begin() + i);
 							inShop = true;
 							loading = true;
 						}
@@ -491,7 +488,8 @@ void Game::checkCollision()
 							std::cerr << "X SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(x));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions();
+							shop->setSpritePositions(&score, player.get());
+							entities->erase(entities->begin() + x);
 							inShop = true;
 							loading = true;
 						}

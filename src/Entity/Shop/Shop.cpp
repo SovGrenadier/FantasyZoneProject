@@ -46,12 +46,10 @@ Shop::Shop()
 	exitUI = new UI;
 	exitUI->setText("EXIT");
 	
-	
-
-	
-	topRect.setSize({200.f, 25.f});
-	topRect.setPosition({ viewport->getCenter().x, viewport->getCenter().y - 100.f });
+	topRect.setSize({(viewport->getSize().x), 30.f});
 	topRect.setFillColor(sf::Color(170, 170, 255, 255));
+
+
 	usedThisLevel = false;
 	boughtItem = true;
 	scorePtr = nullptr;
@@ -333,6 +331,8 @@ void Shop::setSpritePositions(int* score, Player* player)
 	cursorSprite->setPosition({center.x, center.y + 60.f});
 	exitSprite->setPosition({ viewport->getCenter().x, viewport->getSize().y });
 	shopSprite->setPosition({ center.x - size.x + 10.f, center.y });
+	topRect.setPosition({ viewport->getCenter().x - size.x, viewport->getCenter().y - 100.f });
+
 	usedThisLevel = true;
 
 	createShopItems();
@@ -461,11 +461,52 @@ void Shop::applyEffects()
 	for (int i = 0; i < shopItems.size(); i++)
 		if (shopItems[i]->getBoughtStatus())
 			boughtItems.push_back(shopItems[i]);
-
+	std::cout << "TEST;\n";
 	for (int i = 0; i < boughtItems.size(); i++)
 	{
-		if (boughtItems[i]->getType() == ShopItem::ExtraShip)
+		auto item = boughtItems[i]->getType();
+		switch (item)
+		{
+		case ShopItem::ExtraShip:
 			playerPtr->setLives(playerPtr->getLives() + 1);
+			break;
+		case ShopItem::SmartBomb:
+
+			break;
+		case ShopItem::TwinBombs:
+
+			break;
+		case ShopItem::WideBeam:
+
+			break;
+		case ShopItem::RocketEngine:
+
+			break;
+		case ShopItem::JetEngine:
+
+			break;
+		case ShopItem::HeavyBomb:
+
+			break;
+		case ShopItem::FireBomb:
+
+			break;
+		case ShopItem::SevenWayShot:
+
+			break;
+		case ShopItem::LaserBeam:
+
+			break;
+		case ShopItem::TurboEngine:
+
+			break;
+		case ShopItem::BigWings:
+
+			break;
+		default:
+			break;
+		}
+
 	}
 
 

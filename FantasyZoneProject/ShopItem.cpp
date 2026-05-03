@@ -1,6 +1,5 @@
 #include "../src/Entity/Shop/ShopItem/ShopItem.h"
 
-
 ShopItem::ShopItem(sf::Vector2f soldOutPosition, sf::Vector2f size, int value, ItemType type)
 {
 	itemTexture = new sf::Texture();
@@ -20,7 +19,6 @@ ShopItem::ShopItem(sf::Vector2f soldOutPosition, sf::Vector2f size, int value, I
 	boundary.position.x -= 15.f;
 	boundary.position.y -= 12.f;
 	bought = false;
-	this->type = type;
 }
 
 

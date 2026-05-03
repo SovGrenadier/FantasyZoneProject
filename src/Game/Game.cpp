@@ -258,12 +258,27 @@ void Game::run()
 					}
 					
 					shop->update(input);
+					scoreStr = "";
+					for (int i = 0; i < 15 - std::to_string(score).length(); i++)
+						scoreStr += " ";
+					scoreStr += std::to_string(score);
+
+					highScoreStr = "";
+					for (int i = 0; i < 15 - std::to_string(highScore).length(); i++)
+						highScoreStr += " ";
+					highScoreStr += std::to_string(highScore);
+
+					UItext = "TOP " + highScoreStr + "\n $	 " + scoreStr;
+					UIelement1->setText(UItext);
+					UIelement1->setPosition(viewport.getCenter() + offset);
 					window.setView(viewport);
 					std::vector <sf::Drawable*> sprites = shop->getSprites();
 					window.clear(sf::Color(0,170,0,255));
 					for (int i = 0; i < sprites.size(); i++)
 						window.draw(*sprites.at(i));
-					
+					window.draw(shop->getRect());
+					window.draw(*UIelement1->getText());
+					window.draw(*UIelement2->getText());
 					window.display();
 					
 				}

@@ -33,7 +33,7 @@ public:
 	std::vector <sf::Drawable*> getSprites();
 	sf::Sprite* getSprite() override;
 	sf::Vector2f getViewCenterOld() { return viewCenterOld; }
-	sf::RectangleShape getRect() { return temporary; }
+	sf::RectangleShape getRect() { return topRect; }
 	sf::RectangleShape getRect2() { return temporary2; }
 	State getState() { return curState; }
 	bool canMoveShopItems(sf::Vector2f);

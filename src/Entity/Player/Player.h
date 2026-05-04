@@ -31,6 +31,7 @@ public:
 	void update(int input) override;
 	void death() override;
 	void setHealth();
+	void setLives(int newLives) { lives = newLives; }
 
 	bool slowBullets = false;
 	void reset();

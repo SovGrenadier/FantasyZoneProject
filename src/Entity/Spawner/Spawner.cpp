@@ -54,7 +54,6 @@ Spawner::Spawner(int spawnerCount)
 
 	ticks = 1;
 	tickRate = 12;
-	std::cout << "Spawner created at " << position.x << ", " << position.y << "\n";
 }
 
 Spawner::~Spawner() 

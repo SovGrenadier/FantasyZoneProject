@@ -7,9 +7,9 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 	pos = position;
 	faceRight = false;
 
-	Animation* fly = new Animation(1, 3, sf::IntRect({ 10,55 }, { 63,20 }));
+	fly = new Animation(1, 3, sf::IntRect({ 10,55 }, { 63,20 }));
 
-	Animation* deathAnim = new Animation();
+	deathAnim = new Animation();
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -29,21 +29,20 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 	time = 0.f;
 	centerX = pos.x;
 	centerY = pos.y;
-	std::cout << "Bottaco created\n";
 }
 
 
 Bottaco::~Bottaco()
 {
-	std::cout << "Bottaco destroyed\n";
+	delete fly;
+	delete deathAnim;
+	fly = nullptr;
+	deathAnim = nullptr;
 }
 
 
 void Bottaco::move()
 {
-	//moves like a figure 8/infinity symbol
-	//parametric equations
-
 	float sine = static_cast<float>(sin(time));
 	float cosine = static_cast<float>(cos(time));
 

@@ -17,7 +17,7 @@ public:
 	enum State
 	{
 		NOT_ACTIVE,
-		FLYING, //after 2000 dollars, spawn and fly around
+		FLYING,
 		BUY_PHASE,
 		PARTS_SELECT
 	};
@@ -29,7 +29,7 @@ public:
 	void move();
 	void death() {};
 	void setState(State state) { curState = state; }
-	void setSpritePositions(int*, Player*);
+	void setSpritePositions(int*, int*);
 	std::vector <sf::Drawable*> getSprites();
 	sf::Sprite* getSprite() override;
 	sf::Vector2f getViewCenterOld() { return viewCenterOld; }
@@ -59,9 +59,9 @@ private:
 	sf::RectangleShape temporary2;
 	bool usedThisLevel, boughtItem;
 	int* scorePtr;
+	int* livesPtr;
 	std::vector <ShopItem*> shopItems;
 	std::vector <Bullet*> bulletTypes;
 	std::vector <Bomb*> bombTypes;
 	UI* exitUI;
-	Player* playerPtr;
 };

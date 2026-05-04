@@ -20,7 +20,6 @@ Game::Game()
 		std::cerr << "Error loading Level Background";
 	backgroundSprite2 = new sf::Sprite(background2);
 	curBackgroundSprite = backgroundSprite1;
-	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 	//Set up viewports
 	viewport.setSize(sf::Vector2f{ 250.f,175.f });
 	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
@@ -49,10 +48,6 @@ Game::Game()
 	loading = true; 
 	blankScreen.setSize(viewport.getSize());
 
-
-	//coin test 
-	rectangle.setSize(sf::Vector2f{ 10.f , 10.f });
-	rectangle.setFillColor(sf::Color(0, 218, 0));
 }
 
 
@@ -66,10 +61,10 @@ Game::~Game()
 void Game::run()
 {
 	window.setFramerateLimit(50);
-	std::cout << window.isOpen() << std::endl;
+	std::cout << std::boolalpha << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
-		score = 100000;
+		score = 0;
 		tick = 0;
 
 		while (!start && window.isOpen())
@@ -145,10 +140,7 @@ void Game::run()
 
 			if (loading||swapLevels)
 			{
-				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
-				rectangle.setPosition(player->getPosition());
 
-				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
 				if (swapLevels)
@@ -177,7 +169,7 @@ void Game::run()
 				if (invincible)
 					UItext2 += "Invincible! ";
 				else
-					UItext2 += "LIVES " + std::to_string(player->getLives());
+					UItext2 += "LIVES " + std::to_string(playerLives);
 
 				if (player->slowBullets)
 					UItext2 += "\n						 Slow Bullets!";
@@ -189,9 +181,6 @@ void Game::run()
 				UIelement2->setText(UItext2);
 				UIelement2->setPosition(viewport.getCenter() + offset2);
 
-				if (tick % 100 == 0)
-					std::cout << "Player position: " << player->getSprite()->getPosition().x 
-						<< " " << player->getSprite()->getPosition().y << std::endl;
 
 				window.clear();
 
@@ -199,7 +188,6 @@ void Game::run()
 
 				if (!(player->alive) && player->getActive())
 				{
-					//loading = true; 
 					removeEnemies();
 				}
 				else if (!(player->getActive()))
@@ -218,9 +206,6 @@ void Game::run()
 						reset();
 						playerLives--;
 					}
-					//removeEnemies();
-					//window.close();
-					//std::cout << "Game over" << std::endl;
 				}
 				else if (player->alive && (boss1!=nullptr && !boss1->alive&&level==1))
 				{
@@ -310,7 +295,7 @@ void Game::run()
 				else if (tick % spawnTimer == 0 && !activeBoss && (player->alive))
 					enemyWave();
 
-				else if (score >= 0 && !shopSpawned && !activeBoss)
+				else if (score >= 2000 && !shopSpawned && !activeBoss)
 				{
 					shopSpawned = true;
 					shop = std::make_shared<Shop>();
@@ -449,7 +434,7 @@ void Game::checkCollision()
 							std::cerr << "SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(i));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions(&score,  player.get());
+							shop->setSpritePositions(&score, &playerLives);
 							entities->erase(entities->begin() + i);
 							inShop = true;
 							loading = true;
@@ -496,7 +481,7 @@ void Game::checkCollision()
 							std::cerr << "X SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(x));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions(&score, player.get());
+							shop->setSpritePositions(&score, &playerLives);
 							entities->erase(entities->begin() + x);
 							inShop = true;
 							loading = true;
@@ -506,16 +491,7 @@ void Game::checkCollision()
 			}
 		}
 
-		//Remove any enemies that are dead 
-		
-		/* for testing
-		if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
-		{
-			std::cout << (entities->at(i)->getSprite())->getPosition().x<< std::endl;
-			std::cout << (entities->at(i)->getSprite())->getPosition().y << std::endl;
-			std::cout << "break" << std::endl;
-		}
-		*/
+
 	}
 	
 	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));

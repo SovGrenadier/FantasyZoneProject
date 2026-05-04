@@ -17,7 +17,6 @@ Shop::Shop()
 	curState = FLYING;
 	pos = { viewport->getCenter().x, -10.f };
 
-	//appears on screen after two destroyed spawners
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "Fail loading Shop.png\n";
@@ -51,9 +50,9 @@ Shop::Shop()
 
 
 	usedThisLevel = false;
-	boughtItem = true;
+	boughtItem = false;
 	scorePtr = nullptr;
-	playerPtr = nullptr;
+	livesPtr = nullptr;
 
 	time = 0.f;
 	yTraveled = 0.f;
@@ -73,7 +72,7 @@ Shop::~Shop()
 	delete ballonSprite;
 	delete shopSprite;
 	delete exitUI;
-	playerPtr = nullptr;
+	livesPtr = nullptr;
 	scorePtr = nullptr;
 }
 
@@ -93,10 +92,6 @@ void Shop::update(int input)
 	case FLYING:
 		set_visible = true;
 		move();
-		//curState = BUY_PHASE;
-		//else player never collides and shop despawns
-		//curState = NOT_ACTIVE;
-		//usedThisLevel = true;
 		break;
 	case BUY_PHASE:
 		usedThisLevel = true;
@@ -194,9 +189,6 @@ void Shop::update(int input)
 			break;
 		}
 		
-		//when exit button is pressed
-		//go to parts select
-		//curState = PARTS_SELECT;
 		break;
 	case PARTS_SELECT:
 		switch (input)
@@ -288,10 +280,10 @@ std::vector <sf::Drawable*> Shop::getSprites()
 }
 
 
-void Shop::setSpritePositions(int* score, Player* player)
+void Shop::setSpritePositions(int* score, int* lives)
 {
 	scorePtr = score;
-	playerPtr = player;
+	livesPtr = lives;
 	sf::Vector2f center = viewport->getCenter();
 	sf::Vector2f size = viewport->getSize();
 	size /= 2.f;
@@ -315,16 +307,8 @@ void Shop::setSpritePositions(int* score, Player* player)
 	position.x += 20;
 	position.y -= 43;
 	
-	/*temporary.setSize({1.f,1.f});
-	temporary.setPosition(position);
-	temporary.setFillColor(sf::Color::Black);
-	temporary2.setSize(leftBarrier.size);
-	temporary2.setPosition(leftBarrier.position);
-	temporary2.setFillColor(sf::Color::Black);*/
-
 	viewCenterOld = viewport->getCenter();
 	exitUI->setPosition({ viewCenterOld.x - 20, viewCenterOld.y - 50.f });
-
 
 	pos = { center.x, -10.f };
 	ballonSprite->setPosition(pos);
@@ -365,6 +349,7 @@ void Shop::checkCollison()
 					shopItems[i]->setBought(true);
 					if (*scorePtr == 0)
 						curState == PARTS_SELECT;
+					boughtItem = true;
 				}
 				
 				return;
@@ -468,7 +453,7 @@ void Shop::applyEffects()
 		switch (item)
 		{
 		case ShopItem::ExtraShip:
-			playerPtr->setLives(playerPtr->getLives() + 1);
+			livesPtr += 1;
 			break;
 		case ShopItem::SmartBomb:
 

@@ -16,12 +16,12 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
-	Animation* flyRight = new Animation(1, 2, zone);
+	flyRight = new Animation(1, 2, zone);
 	
 	zone = sf::IntRect({ 148,39 }, { 34, 17});
-	Animation* flyLeft = new Animation(1, 2, zone);
+	flyLeft = new Animation(1, 2, zone);
 
-	Animation* deathAnim = new Animation;
+	deathAnim = new Animation;
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -51,21 +51,22 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	sprite->setPosition(pos);
 	
-	std::cout << "Moocolon created\n";
 }
 
 
 Moocolon::~Moocolon()
 {
-	std::cout << "Moocolon destroyed\n";
+	delete flyLeft;
+	delete flyRight;
+	delete deathAnim;
+	flyLeft = nullptr;
+	flyRight = nullptr;
+	deathAnim = nullptr;
 }
 
 
 void Moocolon::spawn()
 {
-	set_active = true;
-	set_visible = true;
-
 }
 
 //to-do: fix not moving at all after reaching centerY

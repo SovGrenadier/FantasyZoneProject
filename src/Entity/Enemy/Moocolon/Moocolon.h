@@ -27,6 +27,9 @@ public:
 	std::unordered_map<Actions, Animation*> animations;
 	sf::Vector2f getPosition() { return pos; }
 private:
+	Animation* flyLeft;
+	Animation* flyRight;
+	Animation* deathAnim;
 	Actions curAction;
 	bool faceRight;
 	float amplitude, centerY, time;

@@ -59,8 +59,12 @@ private:
 	void enemyWave();
 	void handleMovementInput(const std::optional<sf::Event>&);
 	void handleOtherInput(const std::optional<sf::Event>&);
-	static int getRandomInt(int min, int max);
 	void initialize(); 
+	void removeDead();
+	void removeEnemies();
+	void reset();
+	void setScreen(std::string);
+	static int getRandomInt(int min, int max);
 	int score;
 	int highScore;
 	int spawnTimer;
@@ -74,15 +78,11 @@ private:
 	std::string scoreStr = "";	
 	std::string highScoreStr = "";
 	std::string tempStr;
-	void removeDead(); 
-	void removeEnemies();
-	void reset();
 	bool activeBoss, loading; 
 	sf::Vector2f pos = sf::Vector2f(345.f, 290.f);//player position + offset
 	sf::Vector2f offset;
 	sf::Vector2f offset2;
 	// offset used for UI position
-	//Temporary for testing 
 	std::shared_ptr<Spawner> spawnerDummy = std::make_shared<Spawner>(0); 
 	std::shared_ptr<Spawner> spawnerDummy2 = std::make_shared<Spawner>(1);
 	std::shared_ptr<Spawner> spawnerDummy3 = std::make_shared<Spawner>(2);
@@ -96,13 +96,10 @@ private:
 	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
 	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
 	std::shared_ptr<Coin> coin; 
-	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;
 	std::shared_ptr<Shop> shop = nullptr;
 	bool swapLevels = false;
 	bool gameBegun = false;
 
-	//Temp testing 
-	sf::RectangleShape rectangle; 
 };

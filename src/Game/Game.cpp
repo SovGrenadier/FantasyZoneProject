@@ -69,7 +69,7 @@ void Game::run()
 	std::cout << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
-		score = 100000;
+		score = 0;
 		tick = 0;
 
 		while (!start && window.isOpen())
@@ -151,7 +151,6 @@ void Game::run()
 				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
 				coin->initialize();
 
-				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
 				if (swapLevels)
@@ -202,7 +201,6 @@ void Game::run()
 
 				if (!(player->alive) && player->getActive())
 				{
-					//loading = true; 
 					removeEnemies();
 				}
 				else if (!(player->getActive()))
@@ -220,9 +218,6 @@ void Game::run()
 						reset();
 						playerLives--;
 					}
-					//removeEnemies();
-					//window.close();
-					//std::cout << "Game over" << std::endl;
 				}
 				else if (player->alive && (boss1!=nullptr && !boss1->alive&&level==1))
 				{
@@ -286,10 +281,6 @@ void Game::run()
 				window.draw(*curBackgroundSprite);
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
-				//Test coin 
-				window.draw(*coin->getSprite());
-				//window.draw(rectangle);
-
 
 				updateEntities();
 				drawEntities();
@@ -316,7 +307,7 @@ void Game::run()
 				else if (tick % spawnTimer == 0 && !activeBoss && (player->alive))
 					enemyWave();
 
-				else if (score >= 0 && !shopSpawned && !activeBoss)
+				else if (score >= 2000 && !shopSpawned && !activeBoss)
 				{
 					shopSpawned = true;
 					shop = std::make_shared<Shop>();

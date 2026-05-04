@@ -51,7 +51,7 @@ Shop::Shop()
 
 
 	usedThisLevel = false;
-	boughtItem = true;
+	boughtItem = false;
 	scorePtr = nullptr;
 	playerPtr = nullptr;
 
@@ -93,10 +93,6 @@ void Shop::update(int input)
 	case FLYING:
 		set_visible = true;
 		move();
-		//curState = BUY_PHASE;
-		//else player never collides and shop despawns
-		//curState = NOT_ACTIVE;
-		//usedThisLevel = true;
 		break;
 	case BUY_PHASE:
 		usedThisLevel = true;
@@ -194,9 +190,6 @@ void Shop::update(int input)
 			break;
 		}
 		
-		//when exit button is pressed
-		//go to parts select
-		//curState = PARTS_SELECT;
 		break;
 	case PARTS_SELECT:
 		switch (input)
@@ -365,6 +358,7 @@ void Shop::checkCollison()
 					shopItems[i]->setBought(true);
 					if (*scorePtr == 0)
 						curState == PARTS_SELECT;
+					boughtItem = true;
 				}
 				
 				return;

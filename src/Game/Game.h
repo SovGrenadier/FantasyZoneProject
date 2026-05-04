@@ -94,8 +94,7 @@ private:
 	std::shared_ptr<Boss> boss1;
 	std::shared_ptr<UI> UIelement1 = std::make_shared<UI>();
 	std::shared_ptr<UI> UIelement2 = std::make_shared<UI>();
-	std::shared_ptr<UI> loadingText = std::make_shared<UI>(); 
-	std::shared_ptr<Coin> coin; 
+	std::shared_ptr<UI> loadingText = std::make_shared<UI>();
 	void setScreen(std::string);
 	sf::RectangleShape blankScreen; 
 	int playerLives = 3;

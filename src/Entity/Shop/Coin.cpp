@@ -122,7 +122,7 @@ void Coin::move()
 
 		if (changeMax)
 		{
-			yMax *= 1.50;
+			yMax *= 2.5;
 			changeMax = false;
 		}
 	}

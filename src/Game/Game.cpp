@@ -148,9 +148,6 @@ void Game::run()
 				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
 				rectangle.setPosition(player->getPosition());
 
-				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
-				coin->initialize();
-
 				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
@@ -212,6 +209,7 @@ void Game::run()
 						setScreen("Game Over");
 						removeEnemies();
 						start = false;
+						playerLives = 3; 
 						std::cout << "Game over" << std::endl;
 					}
 					else
@@ -286,10 +284,6 @@ void Game::run()
 				window.draw(*curBackgroundSprite);
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
-				//Test coin 
-				window.draw(*coin->getSprite());
-				//window.draw(rectangle);
-
 
 				updateEntities();
 				drawEntities();
@@ -394,7 +388,6 @@ void Game::checkCollision()
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
-					
 					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -714,7 +707,8 @@ void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)
 	{
-		if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr)
+		if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr ||
+			std::dynamic_pointer_cast<Coin>(entities->at(i)) !=nullptr)
 		{
 			entities->erase(entities->begin() + i);
 			i--;

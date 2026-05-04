@@ -112,6 +112,7 @@ void Spawner::update(int input)
 				spawnerNum--; 
 				set_active = false;
 				set_visible = false;
+				std::make_shared<Coin>(sprite->getPosition(), 2); 
 			}
 			else
 			{

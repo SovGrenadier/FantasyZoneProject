@@ -146,7 +146,7 @@ void Game::run()
 			if (loading||swapLevels)
 			{
 				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
-				rectangle.setPosition(viewport.getCenter());
+				rectangle.setPosition(player->getPosition());
 
 				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
 				coin->initialize();

@@ -17,7 +17,6 @@ Shop::Shop()
 	curState = FLYING;
 	pos = { viewport->getCenter().x, -10.f };
 
-	//appears on screen after two destroyed spawners
 	texture = new sf::Texture();
 	if (!texture->loadFromFile("../res/Shop Transparent.png"))
 		std::cout << "Fail loading Shop.png\n";
@@ -41,23 +40,28 @@ Shop::Shop()
 	exitSprite->setTextureRect({ {30,169},{40,16} });
 	bounds = exitSprite->getLocalBounds();
 	exitSprite->setOrigin({ bounds.size.x / 2.f, bounds.size.y / 2.f });
+	
 
-	topRect.setSize({200.f, 25.f});
-	topRect.setPosition({ viewport->getCenter().x, viewport->getCenter().y - 100.f });
+	exitUI = new UI;
+	exitUI->setText("EXIT");
+	
+	topRect.setSize({(viewport->getSize().x), 30.f});
 	topRect.setFillColor(sf::Color(170, 170, 255, 255));
+
+
 	usedThisLevel = false;
 	boughtItem = false;
-	
+	scorePtr = nullptr;
+	livesPtr = nullptr;
+
 	time = 0.f;
 	yTraveled = 0.f;
 	xTraveled = 0.f;
 	speed = .8f;
 	baseY = 55.f;
 	frequency = 0.5f;
+	
 	ballonSprite->setPosition(pos);
-	spriteMov = { 0.f,0.f };
-
-
 }
 
 
@@ -67,6 +71,9 @@ Shop::~Shop()
 	delete exitSprite;
 	delete ballonSprite;
 	delete shopSprite;
+	delete exitUI;
+	livesPtr = nullptr;
+	scorePtr = nullptr;
 }
 
 
@@ -85,10 +92,6 @@ void Shop::update(int input)
 	case FLYING:
 		set_visible = true;
 		move();
-		//curState = BUY_PHASE;
-		//else player never collides and shop despawns
-		//curState = NOT_ACTIVE;
-		//usedThisLevel = true;
 		break;
 	case BUY_PHASE:
 		usedThisLevel = true;
@@ -100,9 +103,10 @@ void Shop::update(int input)
 			break;
 		case A_PRESSED:
 			if (hitLeftBarrier)
-				shopSprite->move({ -2.2f, 0.f });
-			else
+				moveShopItems({ 2.2f, 0.f });
+				else
 				cursorSprite->move({ -2.2f, 0.f });
+			checkShopPosition();
 			break;
 		case S_PRESSED:
 			if (!hitFloor)
@@ -110,9 +114,10 @@ void Shop::update(int input)
 			break;
 		case D_PRESSED:
 			if (hitRightBarrier)
-				shopSprite->move({ 2.2f, 0.f });
+				moveShopItems({ -2.2f, 0.f });
 			else
 				cursorSprite->move({ 2.2f, 0.f });
+			checkShopPosition();
 			break;
 		case W_D_PRESSED: 
 			if (hitRoof && !hitRightBarrier)
@@ -120,13 +125,14 @@ void Shop::update(int input)
 			else if (!hitRoof && hitRightBarrier)
 			{
 				cursorSprite->move({ 0.f, -2.f });
-				shopSprite->move({ 2.2f, 0.f });
+				moveShopItems({ -2.2f, 0.f });
 			}
 			else if (hitRoof && hitRightBarrier)
-				shopSprite->move({ 2.2f,0.f });
+				moveShopItems({ -2.2f,0.f });
 			else
 				cursorSprite->move({ 2.2f,-2.f });
 
+			checkShopPosition();
 			break;
 		case S_D_PRESSED:
 			if (hitFloor && !hitRightBarrier)
@@ -134,29 +140,28 @@ void Shop::update(int input)
 			else if (!hitFloor && hitRightBarrier)
 			{
 				cursorSprite->move({ 0.f,2.f });
-				shopSprite->move({ 2.2f,0.f });
+				moveShopItems({ -2.2f,0.f });
 			}
 			else if (hitFloor && hitRightBarrier)
-				shopSprite->move({ 2.2f,0.f });
+				moveShopItems({ -2.2f,0.f });
 			else
 				cursorSprite->move({ 2.2f, 2.f });
+
+			checkShopPosition();
 			break;
-		case W_A_PRESSED: //fix going past barrier
+		case W_A_PRESSED:
 			if (hitRoof && !hitLeftBarrier)
 				cursorSprite->move({ -2.2f,0.f });
 			else if (!hitRoof && hitLeftBarrier)
 			{
-				cursorSprite->move({ 0.f, 2.f });
-				shopSprite->move({ -2.2f, 0.f });
+				cursorSprite->move({ 0.f, -2.f });
+				moveShopItems({ 2.2f, 0.f });
 			}
 			else if (hitRoof && hitLeftBarrier)
-				shopSprite->move({ -2.2f,0.f });
+				moveShopItems({ 2.2f,0.f });
 			else
-				cursorSprite->move({ -2.2,2.f });
-
-
-
-			cursorSprite->move({ -2.2f, -2.f });
+				cursorSprite->move({ -2.2,-2.f });
+			checkShopPosition();
 			break;
 		case S_A_PRESSED:
 			if (hitFloor && !hitLeftBarrier)
@@ -164,12 +169,14 @@ void Shop::update(int input)
 			else if (!hitFloor && hitLeftBarrier)
 			{
 				cursorSprite->move({ 0.f,2.f });
-				shopSprite->move({ -2.2f,0.f });
+				moveShopItems({ 2.2f,0.f });
 			}
 			else if (hitFloor && hitLeftBarrier)
-				shopSprite->move({ -2.2f,0.f });
+				moveShopItems({ 2.2f,0.f });
 			else
 				cursorSprite->move({ -2.2f, 2.f });
+
+			checkShopPosition();
 			break;
 		case X_PRESSED:
 			checkCollison();
@@ -182,15 +189,30 @@ void Shop::update(int input)
 			break;
 		}
 		
-		//cursorSprite->move(spriteMov);
-		spriteMov = { 0.f, 0.f };
-		//when exit button is pressed
-		//go to parts select
-		//curState = PARTS_SELECT;
 		break;
 	case PARTS_SELECT:
+		switch (input)
+		{
+		case W_PRESSED:
+			//move up one
+			break;
+		case S_PRESSED:
+			//move down one
+			break;
+		case X_PRESSED:
+		case Z_PRESSED:
 
-		//after selecting parts and exit
+			break;
+
+
+		}
+
+
+		for (int i = 0; i < 40; i++)
+		{
+			std::cout << i << std::endl;
+		}
+		applyEffects();
 		curState = NOT_ACTIVE;
 		break;
 	}
@@ -202,7 +224,7 @@ sf::Sprite* Shop::getSprite()
 	if (curState == FLYING)
 		return ballonSprite;
 	else 
-		return cursorSprite;
+		return shopSprite;
 }
 
 
@@ -235,29 +257,33 @@ void Shop::move()
 }
 
 
-std::vector <sf::Sprite*> Shop::getSprites()
+std::vector <sf::Drawable*> Shop::getSprites()
 {
 	if (curState == BUY_PHASE)
 	{
-		std::vector <sf::Sprite*> temp;
+		std::vector <sf::Drawable*> drawables;
 	
-		temp.push_back(shopSprite);
-		temp.push_back(exitSprite);
-		temp.push_back(cursorSprite);
-		return temp;
+		drawables.push_back(shopSprite);
+		drawables.push_back(exitSprite);
+		for (int i = 0; i < shopItems.size(); i++)
+			if(shopItems[i]->getBoughtStatus())
+				drawables.push_back(shopItems[i]->getSoldSprite());
+		drawables.push_back(cursorSprite);
+		return drawables;
 	}
-	else
+	else if (curState == PARTS_SELECT)
 	{
-		std::vector <sf::Sprite*> temp;
-		temp.push_back(shopSprite);
-		temp.push_back(exitSprite);
-		return temp;
+		std::vector <sf::Drawable*> drawables;
+		drawables.push_back(exitUI->getText());
+		return drawables;
 	}
 }
 
 
-void Shop::setSpritePositions()
+void Shop::setSpritePositions(int* score, int* lives)
 {
+	scorePtr = score;
+	livesPtr = lives;
 	sf::Vector2f center = viewport->getCenter();
 	sf::Vector2f size = viewport->getSize();
 	size /= 2.f;
@@ -275,21 +301,25 @@ void Shop::setSpritePositions()
 	rightBarrier.position = { center.x + size.x - 10.f , 0 };
 	rightBarrier.size = leftBarrier.size;
 
-	temporary.setSize(roof.size);
-	temporary.setPosition(roof.position);
-	temporary.setFillColor(sf::Color::Black);
-	temporary2.setSize(rightBarrier.size);
-	temporary2.setPosition(rightBarrier.position);
-	temporary2.setFillColor(sf::Color::Black);
-
-
+	sf::Vector2f position = viewport->getCenter();
+	position.x = viewport->getCenter().x;
+	position.x -= 115;
+	position.x += 20;
+	position.y -= 43;
+	
+	viewCenterOld = viewport->getCenter();
+	exitUI->setPosition({ viewCenterOld.x - 20, viewCenterOld.y - 50.f });
 
 	pos = { center.x, -10.f };
 	ballonSprite->setPosition(pos);
 	cursorSprite->setPosition({center.x, center.y + 60.f});
 	exitSprite->setPosition({ viewport->getCenter().x, viewport->getSize().y });
-	shopSprite->setPosition({ center.x - size.x + 15.f, center.y });
+	shopSprite->setPosition({ center.x - size.x + 10.f, center.y });
+	topRect.setPosition({ viewport->getCenter().x - size.x, viewport->getCenter().y - 100.f });
+
 	usedThisLevel = true;
+
+	createShopItems();
 }
 
 
@@ -297,12 +327,172 @@ void Shop::checkCollison()
 {
 	if(curState == BUY_PHASE)
 	{
-		sf::FloatRect cursor(cursorSprite->getGlobalBounds());
+		sf::Vector2f cursor(cursorSprite->getPosition());
 		sf::FloatRect exitButton(exitSprite->getGlobalBounds());
-		if (cursor.findIntersection(exitButton).has_value())
+		cursor.y += 10.f;
+		if (exitButton.contains(cursor))
+		{
 			if (!boughtItem)
 				curState = NOT_ACTIVE;
 			else
 				curState = PARTS_SELECT;
+			viewport->setCenter(viewCenterOld);
+		}
+		for (int i = 0; i < shopItems.size(); i++)
+		{
+			if (shopItems[i]->getBox().contains(cursor))
+			{
+				int value = shopItems[i]->getValue();
+				if (*scorePtr > value && scorePtr != nullptr && !shopItems[i]->getBoughtStatus())
+				{
+					*scorePtr -= value;
+					shopItems[i]->setBought(true);
+					if (*scorePtr == 0)
+						curState == PARTS_SELECT;
+					boughtItem = true;
+				}
+				
+				return;
+			}
+		}
 	}
+}
+
+
+void Shop::checkShopPosition()
+{
+	sf::Vector2f center = viewport->getCenter();
+	sf::Vector2f size = viewport->getSize();
+	size /= 2.f;
+
+	sf::Vector2f pos = shopSprite->getPosition();
+	sf::FloatRect bounds = shopSprite->getGlobalBounds();
+
+	float leftLimit = center.x - size.x + 10.f;
+	float rightLimit = center.x + size.x - 10.f;
+
+	if (bounds.position.x > leftLimit)
+		pos.x = leftLimit;
+	if (bounds.position.x + bounds.size.x < rightLimit)
+		pos.x += rightLimit - (bounds.position.x + bounds.size.x);
+
+	shopSprite->setPosition(pos);
+}
+
+
+void Shop::createShopItems()
+{
+	sf::Vector2f size = { 73,61 };
+	sf::Vector2f position = viewport->getCenter();
+	sf::Vector2f padding = { 79.f,61.f };
+	std::cout << "X: " << position.x << " Y: " << position.y << "\n";
+	position.x = viewport->getCenter().x;
+	position.x -= 100;
+	position.y -= 50;
+
+	shopItems.push_back(new ShopItem(position, size ,100, ShopItem::BigWings));
+	shopItems.push_back(new ShopItem({position.x + padding.x, position.y}, size, 5000, ShopItem::TurboEngine));
+	
+	shopItems.push_back(new ShopItem({position.x, position.y + padding.y}, size, 500, ShopItem::JetEngine));
+	shopItems.push_back(new ShopItem({position + padding }, size, 30000, ShopItem::RocketEngine)); 
+	
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 2.f), position.y }, size, 500, ShopItem::LaserBeam));
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 2.f), position.y + padding.y}, size, 1000, ShopItem::WideBeam));
+	
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 3.f), position.y }, size, 2500, ShopItem::SevenWayShot));
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 3.f), position.y + padding.y}, size, 100, ShopItem::TwinBombs));
+	
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 4.f), position.y }, size, 1000,ShopItem::FireBomb));
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 4.f), position.y + padding.y}, size, 1000, ShopItem::SmartBomb));
+	
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 5.f), position.y }, size, 1000, ShopItem::HeavyBomb));
+	shopItems.push_back(new ShopItem({position.x + (padding.x * 5.f), position.y + padding.y}, size, 2500, ShopItem::ExtraShip));
+}
+
+
+void Shop::moveShopItems(sf::Vector2f pos)
+{
+	if (!canMoveShopItems(pos))
+		return;
+	shopSprite->move(pos);
+	for (int i = 0; i < shopItems.size(); i++)
+		shopItems[i]->moveSprite(pos);
+}
+
+
+bool Shop::canMoveShopItems(sf::Vector2f movement)
+{
+	sf::FloatRect bounds = shopSprite->getGlobalBounds();
+
+	float screenLeft = viewport->getCenter().x - viewport->getSize().x / 2.f + 10.f;
+	float screenRight = viewport->getCenter().x + viewport->getSize().x / 2.f - 10.f;
+
+	float nextLeft = bounds.position.x + movement.x;
+	float nextRight = bounds.position.x + bounds.size.x + movement.x;
+
+	if (movement.x > 0 && nextLeft > screenLeft)
+		return false;
+
+	if (movement.x < 0 && nextRight < screenRight)
+		return false;
+
+	return true;
+}
+
+
+void Shop::applyEffects()
+{
+	std::vector <ShopItem*> boughtItems;
+	for (int i = 0; i < shopItems.size(); i++)
+		if (shopItems[i]->getBoughtStatus())
+			boughtItems.push_back(shopItems[i]);
+	std::cout << "TEST;\n";
+	for (int i = 0; i < boughtItems.size(); i++)
+	{
+		auto item = boughtItems[i]->getType();
+		switch (item)
+		{
+		case ShopItem::ExtraShip:
+			livesPtr += 1;
+			break;
+		case ShopItem::SmartBomb:
+
+			break;
+		case ShopItem::TwinBombs:
+
+			break;
+		case ShopItem::WideBeam:
+
+			break;
+		case ShopItem::RocketEngine:
+
+			break;
+		case ShopItem::JetEngine:
+
+			break;
+		case ShopItem::HeavyBomb:
+
+			break;
+		case ShopItem::FireBomb:
+
+			break;
+		case ShopItem::SevenWayShot:
+
+			break;
+		case ShopItem::LaserBeam:
+
+			break;
+		case ShopItem::TurboEngine:
+
+			break;
+		case ShopItem::BigWings:
+
+			break;
+		default:
+			break;
+		}
+
+	}
+
+
 }

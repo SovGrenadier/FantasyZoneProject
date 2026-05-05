@@ -20,7 +20,6 @@ Game::Game()
 		std::cerr << "Error loading Level Background";
 	backgroundSprite2 = new sf::Sprite(background2);
 	curBackgroundSprite = backgroundSprite1;
-	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 	//Set up viewports
 	viewport.setSize(sf::Vector2f{ 250.f,175.f });
 	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
@@ -49,10 +48,6 @@ Game::Game()
 	loading = true; 
 	blankScreen.setSize(viewport.getSize());
 
-
-	//coin test 
-	rectangle.setSize(sf::Vector2f{ 10.f , 10.f });
-	rectangle.setFillColor(sf::Color(0, 218, 0));
 }
 
 
@@ -66,7 +61,7 @@ Game::~Game()
 void Game::run()
 {
 	window.setFramerateLimit(50);
-	std::cout << window.isOpen() << std::endl;
+	std::cout << std::boolalpha << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
 		score = 0;
@@ -145,13 +140,7 @@ void Game::run()
 
 			if (loading||swapLevels)
 			{
-				//std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
-				rectangle.setPosition(viewport.getCenter());
 
-				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
-				coin->initialize();
-
-				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
 				if (swapLevels)
@@ -192,9 +181,6 @@ void Game::run()
 				UIelement2->setText(UItext2);
 				UIelement2->setPosition(viewport.getCenter() + offset2);
 
-				if (tick % 100 == 0)
-					std::cout << "Player position: " << player->getSprite()->getPosition().x 
-						<< " " << player->getSprite()->getPosition().y << std::endl;
 
 				window.clear();
 
@@ -202,7 +188,6 @@ void Game::run()
 
 				if (!(player->alive) && player->getActive())
 				{
-					//loading = true; 
 					removeEnemies();
 				}
 				else if (!(player->getActive()))
@@ -220,9 +205,6 @@ void Game::run()
 						reset();
 						playerLives--;
 					}
-					//removeEnemies();
-					//window.close();
-					//std::cout << "Game over" << std::endl;
 				}
 				else if (player->alive && (boss1!=nullptr && !boss1->alive&&level==1))
 				{
@@ -232,7 +214,6 @@ void Game::run()
 
 				while (inShop && window.isOpen())
 				{
-					std::vector <sf::Sprite*> sprites = shop->getSprites();
 					if (loading) //loading screen
 					{
 						setScreen("PARTS SELECT");
@@ -242,17 +223,12 @@ void Game::run()
 					{
 						handleMovementInput(event);
 						handleOtherInput(event);
-						if (event->is<sf::Event::KeyPressed>())
-							if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::P)
-							{
-								std::cout << "Cursor\nX: " << shop->getSprite()->getPosition().x << " Y: " << shop->getSprite()->getPosition().y << "\n";
-								std::cout << "Viewport\nX: " << viewport.getCenter().x << " Y: " << viewport.getCenter().y << "\n";
-								std::cout << "Rect\nX: " << shop->getRect().getPosition().x << " Y: " << shop->getRect().getPosition().y << "\n";
- 							}
 					}
+					
 					if (shop == nullptr)
 					{
 						setScreen("");
+						inShop = false;
 						break;
 					}
 					else if (shop->getState() == Shop::State::NOT_ACTIVE)
@@ -262,12 +238,29 @@ void Game::run()
 						inShop = false;
 						break;
 					}
+					
 					shop->update(input);
+					scoreStr = "";
+					for (int i = 0; i < 15 - std::to_string(score).length(); i++)
+						scoreStr += " ";
+					scoreStr += std::to_string(score);
+
+					highScoreStr = "";
+					for (int i = 0; i < 15 - std::to_string(highScore).length(); i++)
+						highScoreStr += " ";
+					highScoreStr += std::to_string(highScore);
+
+					UItext = "TOP " + highScoreStr + "\n $	 " + scoreStr;
+					UIelement1->setText(UItext);
+					UIelement1->setPosition(viewport.getCenter() + offset);
+					window.setView(viewport);
+					std::vector <sf::Drawable*> sprites = shop->getSprites();
 					window.clear(sf::Color(0,170,0,255));
 					for (int i = 0; i < sprites.size(); i++)
 						window.draw(*sprites.at(i));
-					//window.draw(shop->getRect());
-					//window.draw(shop->getRect2());
+					window.draw(shop->getRect());
+					window.draw(*UIelement1->getText());
+					window.draw(*UIelement2->getText());
 					window.display();
 					
 				}
@@ -275,10 +268,6 @@ void Game::run()
 				window.draw(*curBackgroundSprite);
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
-				//Test coin 
-				//window.draw(*coin->getSprite());
-				//window.draw(rectangle);
-
 
 				updateEntities();
 				drawEntities();
@@ -305,7 +294,7 @@ void Game::run()
 				else if (tick % spawnTimer == 0 && !activeBoss && (player->alive))
 					enemyWave();
 
-				else if (score >= 0 && !shopSpawned && !activeBoss)
+				else if (score >= 2000 && !shopSpawned && !activeBoss)
 				{
 					shopSpawned = true;
 					shop = std::make_shared<Shop>();
@@ -445,7 +434,8 @@ void Game::checkCollision()
 							std::cerr << "SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(i));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions();
+							shop->setSpritePositions(&score, &playerLives);
+							entities->erase(entities->begin() + i);
 							inShop = true;
 							loading = true;
 						}
@@ -491,7 +481,8 @@ void Game::checkCollision()
 							std::cerr << "X SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(x));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions();
+							shop->setSpritePositions(&score, &playerLives);
+							entities->erase(entities->begin() + x);
 							inShop = true;
 							loading = true;
 						}
@@ -500,16 +491,7 @@ void Game::checkCollision()
 			}
 		}
 
-		//Remove any enemies that are dead 
-		
-		/* for testing
-		if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
-		{
-			std::cout << (entities->at(i)->getSprite())->getPosition().x<< std::endl;
-			std::cout << (entities->at(i)->getSprite())->getPosition().y << std::endl;
-			std::cout << "break" << std::endl;
-		}
-		*/
+
 	}
 	
 	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));

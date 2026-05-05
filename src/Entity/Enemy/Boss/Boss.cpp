@@ -87,18 +87,28 @@ void Boss::update(int input)
 	{
 		if (frame == OPEN_MOUTH)
 		{
-			sprite->setTextureRect(*glideRight->getFrame(AJAR_MOUTH));
-			frame = CLOSED_MOUTH;
+			openning = false; 
+			sprite->setTextureRect(*glideRight->getFrame(OPEN_MOUTH));
+			frame--;
 		}
-		else
+		else if (frame == CLOSED_MOUTH)
 		{
-			sprite->setTextureRect(*glideRight->getFrame(frame));
+			openning = true;
+			sprite->setTextureRect(*glideRight->getFrame(CLOSED_MOUTH));
 			frame++;
 		}
+		else if (frame==AJAR_MOUTH)
+		{
+			sprite->setTextureRect(*glideRight->getFrame(AJAR_MOUTH));
+
+			if (openning)
+				frame++;
+			else
+				frame--; 
+		}
 	}
-	std::cout << ticks << std::endl;
-	std::cout <<( sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH)) << std::endl;
-	if (sprite->getTextureRect() == *glideRight->getFrame(AJAR_MOUTH) && ticks % 7 == 0)
+
+	if (sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH) && ticks % 7 == 0) 
 		attack();
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(CLOSED_MOUTH) && mouth->getHealth() <= 42)

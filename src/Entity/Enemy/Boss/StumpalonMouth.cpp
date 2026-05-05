@@ -8,7 +8,7 @@ StumpalonMouth::StumpalonMouth(sf::Vector2f pos)
 	health = 48;
 
 
-	if (!texture->loadFromFile("../res/Boss.png"))
+	if (!texture->loadFromFile("../res/Bosses.png"))
 		std::cout << "Error Loaing from File";
 	sprite->setTexture(*texture);
 

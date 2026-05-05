@@ -143,12 +143,15 @@ void Game::run()
 
 				setScreen("Player 1 Start");
 				loading = false;
+
 				if (swapLevels)
 				{
 					player->reset();
 					reset();
 				}
+
 				swapLevels = false;
+
 				switch (level)
 				{
 				case 1:
@@ -379,23 +382,25 @@ void Game::checkCollision()
 			{ 
 				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
 				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+
 				//check if two entities are colliding
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
 					
-					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
+					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(x)) != nullptr)
 					{
-						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
+						if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 					}
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							if(!invincible)
+								entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -414,8 +419,11 @@ void Game::checkCollision()
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
-							entities->at(x)->setVisible(false);
+							if (!invincible)
+							{
+								entities->at(i)->takeDamage(entities->at(x)->getDamage());
+								//entities->at(x)->setVisible(false);
+							}
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -433,11 +441,12 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
 							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) && entities->at(i)->alive)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							if(!invincible)
+								entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->setVisible(false);
 						}
 						if (std::dynamic_pointer_cast<Shop>(entities->at(i)) != nullptr)
@@ -449,6 +458,11 @@ void Game::checkCollision()
 							entities->erase(entities->begin() + i);
 							inShop = true;
 							loading = true;
+						}
+						if (std::dynamic_pointer_cast<Leaf>(entities->at(i)) != nullptr)
+						{
+							std::cout << "\nCollision Detected\n";
+							entities->at(x)->takeDamage(entities->at(i)->getDamage()); 
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -496,6 +510,21 @@ void Game::checkCollision()
 							entities->erase(entities->begin() + x);
 							inShop = true;
 							loading = true;
+						}
+					}
+					else if (std::dynamic_pointer_cast<Leaf>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Coin>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							score += entities->at(x)->getValue();
+							entities->at(x)->setActive(false);
 						}
 					}
 				}

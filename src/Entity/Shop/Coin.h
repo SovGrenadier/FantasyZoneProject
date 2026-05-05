@@ -8,17 +8,16 @@ public:
 	~Coin(); 
 	void update(int) override; 
 	void death() override; 
-	void move(); 
-	int getValue() { return value; }; 
+	void move();
 
 private: 
 	int zone; 
 	std::vector<sf::IntRect> zones; 
-	int ticks = 0, value; 
-	float initialHeight, yMax, ySpeed; 
+	int ticks = 0, time; 
+	float initialHeight, yMax, ySpeed, initialheight; 
 	float ground; 
-	bool bounce, changeMax;
-	void animation(); 
-	bool fullView; 
+	bool bounce, changeMax = true;
+	bool fullView, firstBounce = true;
+	double width;
 };
 

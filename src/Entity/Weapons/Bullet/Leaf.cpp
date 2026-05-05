@@ -11,6 +11,7 @@ Leaf::Leaf(sf::Vector2f mouthPos) : Weapons(mouthPos)
 	set_visible = true;
 	set_active = true;
 	alive = true;
+	damage = 1; 
 	
 	if (!texture->loadFromFile("../res/Levels/Round 1 wrapped with spawner locs.png"))
 		std::cout << "Fail loading Round 1 wrapped with spawner locs.png\n";
@@ -57,6 +58,11 @@ void Leaf::update(int input)
 	sprite->move(sf::Vector2f{ speedX, speedY });
 
 	if (!isOnScreen(*viewport))
+	{
+		set_active = false; 
+		set_visible = false; 
+	}
+	else if (health == 0)
 	{
 		set_active = false; 
 		set_visible = false; 

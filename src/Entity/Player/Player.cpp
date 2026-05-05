@@ -394,7 +394,6 @@ void Player::reset()
 	set_active = true;
 	set_visible = true;
 	alive = true;
-	viewport->setCenter(sf::Vector2f{ 840.f,101.5f });
 	sprite->setPosition({ 790.f,109.f });
 }
 

@@ -350,6 +350,17 @@ void Game::reset()
 		}
 	}
 	spawnTimer = 300;
+	switch (level)
+	{
+	case 1:
+		curBackgroundSprite = backgroundSprite1;
+		viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
+		break;
+	case 2:
+		curBackgroundSprite = backgroundSprite2;
+		viewport.setCenter(sf::Vector2f{ 840.f,105.5f });
+		break;
+	}
 }
 
 

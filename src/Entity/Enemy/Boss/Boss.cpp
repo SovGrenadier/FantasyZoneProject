@@ -96,8 +96,9 @@ void Boss::update(int input)
 			frame++;
 		}
 	}
-
-	if (sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH) && ticks % 7 == 0)
+	std::cout << ticks << std::endl;
+	std::cout <<( sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH)) << std::endl;
+	if (sprite->getTextureRect() == *glideRight->getFrame(AJAR_MOUTH) && ticks % 7 == 0)
 		attack();
 
 	if (sprite->getTextureRect() == *glideRight->getFrame(CLOSED_MOUTH) && mouth->getHealth() <= 42)

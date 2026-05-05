@@ -30,10 +30,10 @@ Spawner::Spawner(int spawnerCount)
 	sprite = aliveSprite;
 	sf::IntRect flyZone({ 76,433 }, { 46, 23 });
 	sf::IntRect groundZone({ 75, 406 }, { 48,25 });
-	Animation* activeFly = new Animation(1, 1, flyZone);
-	Animation* activeGround = new Animation(1, 1, groundZone);
+	activeFly = new Animation(1, 1, flyZone);
+	activeGround = new Animation(1, 1, groundZone);
 
-	Animation* deathAnim = new Animation;
+	deathAnim = new Animation;
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -62,6 +62,9 @@ Spawner::~Spawner()
 	delete aliveSprite;
 	delete deathTexture;
 	delete deathSprite;
+	delete activeFly;
+	delete activeGround;
+	delete deathAnim;
 }
 
 void Spawner::spawnEnemy(int tick)
@@ -138,13 +141,14 @@ void Spawner::update(int input)
 
 void Spawner::reset()
 {
+	if(!set_active)
+		spawnerNum++;
 	set_active = true;
 	set_visible = true;
 	alive = true;
 	health = 20;
 	sprite = aliveSprite;
 	sprite->setTextureRect(*(animations[ACTIVEFLY]->getFrame(0)));
-	spawnerNum++;
 }
 
 

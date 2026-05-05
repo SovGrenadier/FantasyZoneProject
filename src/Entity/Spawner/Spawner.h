@@ -34,7 +34,7 @@ public:
 	void reset();
 private:
 	Actions curAction;
-	int spawn_rate = 5 * 60; //5 seconds between each spawn sequence, 60 fps
+	int spawn_rate = 3 * 60; //3 seconds between each spawn sequence, 60 fps
 
 	sf::Sprite* deathSprite;
 	sf::Texture* deathTexture;
@@ -46,4 +46,8 @@ private:
 	unsigned int tickRate;
 	sf::Vector2f deathPos;
 	static inline std::shared_ptr<Player> player = std::make_shared<Player>();
+	Animation* activeFly;
+	Animation* activeGround;
+
+	Animation* deathAnim;
 };

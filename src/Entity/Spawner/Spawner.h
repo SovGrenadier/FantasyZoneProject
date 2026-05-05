@@ -4,6 +4,7 @@
 #include<memory>
 #include "../Enemy/Enemy.h"
 #include"../Player/Player.h"
+#include "../Shop/Coin.h"
 
 class Spawner : public Entity
 {

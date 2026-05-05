@@ -22,4 +22,5 @@ private:
 	int frame = 0; 
 	const double PI = 4.0 * std::atan(1.0); 
 	std::shared_ptr<StumpalonMouth> mouth; 
+	bool openning = true; 
 };

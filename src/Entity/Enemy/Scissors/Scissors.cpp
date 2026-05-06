@@ -1,6 +1,9 @@
 #include "Scissors.h"
 
 
+/// Constructor of Scissors
+/// shouldShiftHappens defines whether or not scissors will immediately
+/// travel upwards, or travel downwards
 Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 {
 	sf::Vector2f viewportCenter = viewport->getCenter();
@@ -53,7 +56,7 @@ Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 
 }
 
-
+/// deconstructor
 Scissors::~Scissors()
 {
 	delete flyLeft;
@@ -64,16 +67,9 @@ Scissors::~Scissors()
 	deathAnim = nullptr;
 }
 
-
-void Scissors::spawn()
-{
-
-}
-
-
+// moves, which follows a sinusodial pattern
 void Scissors::move()
 {
-
 	float wave = static_cast<float>(sin(time + shift));
 
 	bool isAlive = true;
@@ -104,7 +100,7 @@ void Scissors::move()
 	sprite->setPosition(pos);
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Scissors::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -173,7 +169,7 @@ void Scissors::update(int input)
 	}
 }
 
-
+/// gets Scissors ready to run death animation
 void Scissors::death()
 {
 	curAction = DEATH;

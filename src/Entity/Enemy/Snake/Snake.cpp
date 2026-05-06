@@ -1,6 +1,6 @@
 #include "Snake.h"
 
-
+/// constructor of snake
 Snake::Snake(sf::Vector2f position) : Enemy()
 {
 	float viewportCenterX = viewport->getCenter().x;
@@ -44,7 +44,7 @@ Snake::Snake(sf::Vector2f position) : Enemy()
 
 }
 
-
+/// deconstructor
 Snake::~Snake()
 {
 	delete flyRight;
@@ -55,7 +55,7 @@ Snake::~Snake()
 	deathAnim = nullptr;
 }
 
-
+/// moves in a straight line
 void Snake::move()
 {
 	//After 7 seconds, speed increases by 5% every tick
@@ -86,7 +86,7 @@ void Snake::move()
 	sprite->setPosition(pos);
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Snake::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -156,7 +156,7 @@ void Snake::update(int input)
 	}
 }
 
-
+/// gets Snake ready to run death animation
 void Snake::death()
 {
 	curAction = DEATH;

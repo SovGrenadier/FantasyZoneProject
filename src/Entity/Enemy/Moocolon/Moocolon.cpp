@@ -1,7 +1,7 @@
 #include "Moocolon.h"
-#include <iostream>
-#include <cmath>
 
+
+/// constructor of Moocolon
 Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 {
 	float viewCenterX = viewport->getCenter().x;
@@ -53,7 +53,7 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 	
 }
 
-
+/// deconstructor
 Moocolon::~Moocolon()
 {
 	delete flyLeft;
@@ -65,11 +65,7 @@ Moocolon::~Moocolon()
 }
 
 
-void Moocolon::spawn()
-{
-}
-
-//to-do: fix not moving at all after reaching centerY
+/// moves, which follows a sinusoidal but can occasionally bounce
 void Moocolon::move()
 {
 	if (faceRight)
@@ -120,7 +116,7 @@ void Moocolon::move()
 	previousY = pos.y;
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Moocolon::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -194,7 +190,7 @@ void Moocolon::update(int input)
 	}
 }
 
-
+/// gets Bottaco ready to run death animation
 void Moocolon::death()
 {
 	curAction = DEATH;

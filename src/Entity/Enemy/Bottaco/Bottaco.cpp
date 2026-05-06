@@ -1,6 +1,6 @@
 #include "Bottaco.h"
 
-
+/// constructor of Bottaco 
 Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 {
 	ticks = 13;
@@ -31,7 +31,7 @@ Bottaco::Bottaco(sf::Vector2f position) : Enemy()
 	centerY = pos.y;
 }
 
-
+/// deconstructor
 Bottaco::~Bottaco()
 {
 	delete fly;
@@ -40,7 +40,7 @@ Bottaco::~Bottaco()
 	deathAnim = nullptr;
 }
 
-
+/// moves, which follows a figure 8 pattern
 void Bottaco::move()
 {
 	float sine = static_cast<float>(sin(time));
@@ -53,7 +53,7 @@ void Bottaco::move()
 	sprite->setPosition(pos);
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Bottaco::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -121,7 +121,7 @@ void Bottaco::update(int input)
 	}
 }
 
-
+/// gets Bottaco ready to run death animation
 void Bottaco::death()
 {
 	curAction = DEATH;

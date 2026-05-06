@@ -2,6 +2,12 @@
 #include <iostream>
 
 
+/// <summary>
+/// Creates a bullet and initailizes its position to the player's, and determines the velocity.
+/// </summary>
+/// <param name = "playerPos"></param>
+/// <param name = "faceRight"></param>
+/// <param name = "slowBullets"></param>
 Bullet::Bullet(sf::Vector2f playPos, bool faceRight, bool slowBullets) : Weapons(playPos)
 {
 	texture = new sf::Texture();

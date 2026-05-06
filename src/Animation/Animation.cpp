@@ -1,11 +1,21 @@
 #include<../../src/Animation/Animation.h>
 #include<iostream>
 
+
+
 Animation::Animation()
 {
 
 }
 
+
+/// <summary>
+/// Creates an animation objects that breaks up a zone into the specified amount of
+/// rows and columns.
+/// </summary>
+/// <param name="row"></param>
+/// <param name="col"></param>
+/// <param name="zone"></param>
 Animation::Animation(int row, int col, sf::IntRect zone)
 {
 	curFrame = 0;
@@ -33,17 +43,30 @@ Animation::Animation(int row, int col, sf::IntRect zone)
 	}
 }
 
+
 Animation::~Animation()
 {
 
 }
 
+
+/// <summary>
+/// Returns a specific frame in the animation specified in the parameter
+/// </summary>
+/// <param name="frame"></param>
+/// <returns></returns>
 sf::IntRect* Animation::getFrame(int frame)
 {
 	return &frames.at(frame);
 }
 
 
+/// <summary>
+/// Returns the next frame it the sequence, if you call this function over and over
+/// you will cyucle through the frames for your given animation.
+/// </summary>
+/// <param name="frame"></param>
+/// <returns></returns>
 sf::IntRect* Animation::nextFrame()
 {
 	curFrame++;
@@ -57,6 +80,10 @@ sf::IntRect* Animation::nextFrame()
 }
 
 
+/// <summary>
+/// Alllows you to add a frame to the animation sequence
+/// </summary>
+/// <param name="frame"></param>
 void Animation::addFrame(const sf::IntRect& frame)
 {
 	frames.push_back(frame);

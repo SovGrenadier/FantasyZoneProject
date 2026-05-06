@@ -2,7 +2,13 @@
 #include "../Enemy/Kirikiri/Kirikiri.h"
 #include <iostream>
 
-
+/// <summary>
+/// Creates a spawner at the specified predetermined spot(given through spawner count)
+/// look at spawnerLocs to determines exact position. 
+/// Allocates memory for texture and sprites of spawner and the death animation
+/// Allocates memory for the animation objects to handle switching sprites
+/// </summary>
+/// <param name="spawnerCount"></param>
 Spawner::Spawner(int spawnerCount)
 {
 	spawnerNum++;  
@@ -56,6 +62,10 @@ Spawner::Spawner(int spawnerCount)
 	tickRate = 12;
 }
 
+
+/// <summary>
+/// deallocates all memory allocated in the constructor
+/// </summary>
 Spawner::~Spawner() 
 {
 	delete texture;
@@ -67,6 +77,12 @@ Spawner::~Spawner()
 	delete deathAnim;
 }
 
+
+/// <summary>
+/// Creates a kirikiri enemy at the spawners position every 3 seconds.
+/// This method is called in the update method.
+/// </summary>
+/// <param name="tick"></param>
 void Spawner::spawnEnemy(int tick)
 {
 	bool kirikiriDir;
@@ -87,6 +103,11 @@ void Spawner::spawnEnemy(int tick)
 		ticks++;
 }
 
+
+/// <summary>
+/// called in game every frame. Controls everything the spawner does, death and spawning kirikiri
+/// </summary>
+/// <param name="input"></param>
 void Spawner::update(int input)
 {
 	if (health <= 0)
@@ -140,6 +161,9 @@ void Spawner::update(int input)
 }
 
 
+/// <summary>
+/// call when spawner needs to be reset back to original state
+/// </summary>
 void Spawner::reset()
 {
 	if(!set_active)
@@ -162,6 +186,11 @@ void Spawner::death()
 }
 
 
+
+/// <summary>
+/// returns sprite being used
+/// </summary>
+/// <returns></returns>
 sf::Sprite* Spawner::getSprite()
 {
 	if (alive)

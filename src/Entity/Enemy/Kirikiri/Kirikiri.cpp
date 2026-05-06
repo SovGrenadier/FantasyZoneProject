@@ -3,7 +3,13 @@
 #include<algorithm>
 #include<cmath>
 
-
+/// <summary>
+/// creates a kirikiri enemy at new pos.
+/// When the kirikiri enemy is created it will fall down(out of spawner) and go to
+/// the direction specified by isFaceRight
+/// </summary>
+/// <param name="isFaceRight"></param>
+/// <param name="newPos"></param>
 Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 {
 	//same speed as player
@@ -37,6 +43,9 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 }
 
 
+/// <summary>
+/// deletes animation objects related to the kirikiri
+/// </summary>
 Kirikiri::~Kirikiri()
 {
 	delete flyRight;
@@ -52,7 +61,11 @@ void Kirikiri::move()
 {
 }
 
-
+/// <summary>
+/// handles all updates related to kirikiri including looping when the viewport loops,
+///  all kirikiri movement, and the death animation
+/// </summary>
+/// <param name=""></param>
 void Kirikiri::update(int) 
 {
 	//Ensures sprite doesn't disappear when the viewport loops

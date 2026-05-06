@@ -4,6 +4,11 @@
 #include <iomanip>
 
 
+/// <summary>
+/// Used to set up game and initialize many things. Gives all entities a pointer to the viewport,
+/// gives game access to the entities vector, gives spawners a pointer to player, sets up viewport
+/// 
+/// </summary>
 Game::Game()
 {
 	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
@@ -51,13 +56,19 @@ Game::Game()
 }
 
 
+/// <summary>
+/// dealloactes all background sprites
+/// </summary>
 Game::~Game()
 {
 	delete backgroundSprite1;
 	delete backgroundSpriteStart;
+	delete backgroundSprite2;
 }
 
-
+/// <summary>
+/// calling this method will run a game of rolling thunder
+/// </summary>
 void Game::run()
 {
 	window.setFramerateLimit(50);
@@ -309,6 +320,9 @@ void Game::run()
 }
 
 
+/// <summary>
+/// This method cycler through the entities vector and call all their update functions
+/// </summary>
 void Game::updateEntities()
 {
 	for (int i{}; i < entities->size(); i++)
@@ -322,6 +336,9 @@ void Game::updateEntities()
 }
 
 
+/// <summary>
+/// This method cycler through the entities vector and draw all entities
+/// </summary>
 void Game::drawEntities()
 {
 	for (int i{}; i < entities->size(); i++)
@@ -332,6 +349,10 @@ void Game::drawEntities()
 }
 
 
+/// <summary>
+/// Should be called during a level change or when player dies.
+/// Resets the game to the original state
+/// </summary>
 void Game::reset()
 {
 	removeEnemies();
@@ -367,7 +388,9 @@ void Game::reset()
 }
 
 
-//Checks for collision between the different entities 
+/// <summary>
+/// Checks for collision between entities and ensure entities react appropriately to those collisions
+/// </summary>
 void Game::checkCollision()
 {
 	sf::FloatRect entity1, entity2;
@@ -688,6 +711,9 @@ int Game::getRandomInt(int min, int max)
 }
 
 
+/// <summary>
+/// Initializes all spawners, This essientally ensures the spawners are added to the entities vector
+/// </summary>
 void Game::initialize()
 {
 	spawnerDummy->initialize();
@@ -701,7 +727,11 @@ void Game::initialize()
 }
 
 
-//Remove all dead enemies from the entities vector 
+/// <summary>
+/// Remove all dead entities from the entities vector 
+/// (this excludes spawners and players)
+/// This removes them from the game.
+/// </summary>
 void Game::removeDead()
 {
 	//std::cout << entities->size() << std::endl;
@@ -718,7 +748,10 @@ void Game::removeDead()
 }
 
 
-//Clear the screen from all enemies once the boss spawns or player dies
+/// <summary>
+/// Removes all enemies from the entites vector.
+/// This removes them from the game.
+/// </summary>
 void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)
@@ -760,6 +793,12 @@ void Game::setScreen(std::string text)
 }
 
 
+/// <summary>
+/// This handles all input related to player movement by assigning bits to a int.
+/// The pattern of the bits informs us what keys are being pressed.
+/// Look in the header file for more details
+/// </summary>
+/// <param name="event"></param>
 void Game::handleMovementInput(const std::optional<sf::Event>& event)
 {
 	if (event->is<sf::Event::KeyPressed>())
@@ -830,6 +869,12 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 }
 
 
+/// <summary>
+/// This handles all input related to player shooting by assigning bits to a int.
+/// The pattern of the bits informs us what keys are being pressed.
+/// Look in the header file for more details
+/// </summary>
+/// <param name="event"></param>
 void Game::handleOtherInput(const std::optional<sf::Event>& event)
 {
 	if (event->is<sf::Event::Closed>())

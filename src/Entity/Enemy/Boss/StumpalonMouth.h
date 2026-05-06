@@ -1,6 +1,6 @@
 #pragma once
 #include "../../src/Entity/Enemy/Enemy.h"
-//#include "../src/Entity/Enemy/Boss/Boss.h"
+
 class StumpalonMouth : public Enemy
 {
 public:
@@ -20,6 +20,6 @@ private:
 	sf::IntRect zone; 
 	Animation* changeColor; 
 	int ticks, frame; 
-	const double PI = 4.0 * std::atan(1.0);
+	const double PI = 4.0 * std::atan(1.0); // For movement calculations
 };
 

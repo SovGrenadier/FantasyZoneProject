@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
 #include <unordered_map>
+#include <iostream>
+#include <cmath>
 #include "../Enemy.h"
 #include "../../../Animation/Animation.h"
 
@@ -18,7 +20,6 @@ public:
 		DEATH
 	};
 
-	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;

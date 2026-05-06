@@ -8,10 +8,9 @@
 #define S_A_PRESSED 0b00000110
 #define X_PRESSED 0b00010000
 #define Z_PRESSED 0b00100000
-
 #include "../Shop/Shop.h"
 
-
+/// sets all the sprites up
 Shop::Shop()
 {
 	curState = FLYING;
@@ -64,7 +63,7 @@ Shop::Shop()
 	ballonSprite->setPosition(pos);
 }
 
-
+/// deconstructor
 Shop::~Shop()
 {
 	delete cursorSprite;
@@ -76,7 +75,7 @@ Shop::~Shop()
 	scorePtr = nullptr;
 }
 
-
+/// will take input and update based on the state
 void Shop::update(int input)
 {
 	auto hitRoof = roof.findIntersection(cursorSprite->getGlobalBounds()).has_value();
@@ -218,7 +217,7 @@ void Shop::update(int input)
 	}
 }
 
-
+/// returns ballonSprite to be drawn to screen
 sf::Sprite* Shop::getSprite()
 {
 	if (curState == FLYING)
@@ -227,7 +226,7 @@ sf::Sprite* Shop::getSprite()
 		return shopSprite;
 }
 
-
+/// only used during FLYING phase, but moves like an increasing sinusoidal
 void Shop::move()
 {
 	if(yTraveled < 65.f)
@@ -257,6 +256,7 @@ void Shop::move()
 }
 
 
+/// returns a vector of sprites, to all be drawn to the screen
 std::vector <sf::Drawable*> Shop::getSprites()
 {
 	if (curState == BUY_PHASE)
@@ -279,7 +279,10 @@ std::vector <sf::Drawable*> Shop::getSprites()
 	}
 }
 
-
+/// operates like a constructor, is ran whenever the object is created
+/// in order to set where the sprites should go, recieves a pointer to 
+/// the score and lives in order to be able to change those without
+/// holding a copy of player
 void Shop::setSpritePositions(int* score, int* lives)
 {
 	scorePtr = score;
@@ -323,6 +326,7 @@ void Shop::setSpritePositions(int* score, int* lives)
 }
 
 
+/// checks whether or not the cursor is hovered over a shop item
 void Shop::checkCollison()
 {
 	if(curState == BUY_PHASE)
@@ -358,7 +362,7 @@ void Shop::checkCollison()
 	}
 }
 
-
+/// prevent the shop from being able to scroll off screenS
 void Shop::checkShopPosition()
 {
 	sf::Vector2f center = viewport->getCenter();
@@ -379,7 +383,7 @@ void Shop::checkShopPosition()
 	shopSprite->setPosition(pos);
 }
 
-
+/// helper function that creates the shop items
 void Shop::createShopItems()
 {
 	sf::Vector2f size = { 73,61 };
@@ -410,6 +414,7 @@ void Shop::createShopItems()
 }
 
 
+/// moves the shop and its items based off a translation provided
 void Shop::moveShopItems(sf::Vector2f pos)
 {
 	if (!canMoveShopItems(pos))
@@ -420,6 +425,8 @@ void Shop::moveShopItems(sf::Vector2f pos)
 }
 
 
+/// returns whether or not movement is allowed, based on whether or not will
+/// it go off screen
 bool Shop::canMoveShopItems(sf::Vector2f movement)
 {
 	sf::FloatRect bounds = shopSprite->getGlobalBounds();
@@ -440,6 +447,7 @@ bool Shop::canMoveShopItems(sf::Vector2f movement)
 }
 
 
+/// if items are bought, then apply those effects to the game
 void Shop::applyEffects()
 {
 	std::vector <ShopItem*> boughtItems;

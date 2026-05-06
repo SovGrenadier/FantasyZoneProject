@@ -3,10 +3,15 @@
 #include <time.h>
 
 
+/// <summary>
+/// Creates a boss object relative to the player's position
+/// </summary>
+/// <param name="playerPos"></param>
 Boss::Boss(float playerXPos)
 { 
 	ticks = 24; 
 
+	// Set up sprite 
 	if (!texture->loadFromFile("../res/Bosses.png"))
 		std::cout << "Error Loaing from File"; 
 
@@ -16,6 +21,7 @@ Boss::Boss(float playerXPos)
 	glideRight = new Animation(1, 3, 
 		sf::IntRect{ sf::Vector2i(8,14), sf::Vector2i(200,79) });
 
+	// Initialize the Boss's position based on the player's 
 	sprite->setPosition(sf::Vector2f(playerXPos + 80.f, 75.f));
 }
 
@@ -26,6 +32,10 @@ Boss::~Boss()
 }
 
 
+/// <summary>
+/// Creates a randomized number of leafs to eject from the Boss's mouth when it is 
+/// Open. 
+/// </summary>
 void Boss::attack()
 {
 	int leafs; 
@@ -36,13 +46,20 @@ void Boss::attack()
 }
 
 
-
+/// <summary>
+/// Updates the state of the boss once it dies 
+/// </summary>
 void Boss::death()
 {
 	alive = false;
 	set_active = false;
 }
 
+
+/// <summary>
+/// Changes the position of the Boss so that it resembles a sinusoidal function, and 
+/// ensures the Boss loops with the viewport 
+/// </summary>
 void Boss :: move()
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -61,20 +78,30 @@ void Boss :: move()
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
 
+	//Calculate the change in y position of the boss given the time since creation (ticks)
 	float ySpeed;
 	ySpeed =  - sin((ticks * PI) / 100);
 
 	sprite->move(sf::Vector2f(.7f, ySpeed ));
 }
 
+
+/// <summary>
+/// Animates the Boss's mouth movement, initiates death once the Boss's health 
+/// reaches 0, triggers move and attack functions, and controls the visibility of the 
+/// mouth piece. 
+/// </summary>
+/// <param name="input"></param>
 void Boss::update(int input)
 {
+	//creates the mouth when boss is created 
 	if (ticks == 24)
 	{
 		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
 		mouth->initialize();
 	}
 
+	//Iniitiate the death for boss and mouth once the health of the mouth reaches 0
 	if (mouth->getHealth() == 0)
 	{
 		mouth->death();
@@ -83,23 +110,37 @@ void Boss::update(int input)
 
 	move();
 
+	// Animate the boss so it goes back and forth between sprite frames  
 	if (ticks % 50 == 0)
 	{
 		if (frame == OPEN_MOUTH)
 		{
-			sprite->setTextureRect(*glideRight->getFrame(AJAR_MOUTH));
-			frame = CLOSED_MOUTH;
+			openning = false; 
+			sprite->setTextureRect(*glideRight->getFrame(OPEN_MOUTH));
+			frame--;
 		}
-		else
+		else if (frame == CLOSED_MOUTH)
 		{
-			sprite->setTextureRect(*glideRight->getFrame(frame));
+			openning = true;
+			sprite->setTextureRect(*glideRight->getFrame(CLOSED_MOUTH));
 			frame++;
+		}
+		else if (frame==AJAR_MOUTH)
+		{
+			sprite->setTextureRect(*glideRight->getFrame(AJAR_MOUTH));
+
+			if (openning)
+				frame++;
+			else
+				frame--; 
 		}
 	}
 
-	if (sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH) && ticks % 7 == 0)
+	// Attack When the mouth is open
+	if (sprite->getTextureRect() == *glideRight->getFrame(OPEN_MOUTH) && ticks % 7 == 0) 
 		attack();
 
+	// Set the mouthpiece invisible when the mouth is open since it only shows a closed mouth
 	if (sprite->getTextureRect() == *glideRight->getFrame(CLOSED_MOUTH) && mouth->getHealth() <= 42)
 		mouth->setVisibility(true);
 	else
@@ -109,6 +150,10 @@ void Boss::update(int input)
 }
 
 
+/// <summary>
+/// returns the health of the mouth of boss since that is the only place it can take damage. 
+/// </summary>
+/// <return></return>
 int Boss :: getHealth()
 {
 	if (mouth == nullptr)

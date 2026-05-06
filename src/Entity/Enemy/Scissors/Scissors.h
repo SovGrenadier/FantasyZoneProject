@@ -18,7 +18,6 @@ public:
 		DEATH
 	};
 
-	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;

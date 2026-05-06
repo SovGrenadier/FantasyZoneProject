@@ -17,6 +17,7 @@ Enemy::Enemy() : Entity()
 
 	tickRate = 12;
 	curDeathFrame = 0;
+
 }
 
 

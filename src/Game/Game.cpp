@@ -4,6 +4,11 @@
 #include <iomanip>
 
 
+/// <summary>
+/// Used to set up game and initialize many things. Gives all entities a pointer to the viewport,
+/// gives game access to the entities vector, gives spawners a pointer to player, sets up viewport
+/// 
+/// </summary>
 Game::Game()
 {
 	window = sf::RenderWindow(sf::VideoMode({ 1333, 1000 }), "Fantasy Zone");
@@ -20,7 +25,6 @@ Game::Game()
 		std::cerr << "Error loading Level Background";
 	backgroundSprite2 = new sf::Sprite(background2);
 	curBackgroundSprite = backgroundSprite1;
-	//backgroundSprite1->setScale(sf::Vector2f{3.2f,2.5f});
 	//Set up viewports
 	viewport.setSize(sf::Vector2f{ 250.f,175.f });
 	viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
@@ -49,27 +53,29 @@ Game::Game()
 	loading = true; 
 	blankScreen.setSize(viewport.getSize());
 
-
-	//coin test 
-	rectangle.setSize(sf::Vector2f{ 10.f , 10.f });
-	rectangle.setFillColor(sf::Color(0, 218, 0));
 }
 
 
+/// <summary>
+/// dealloactes all background sprites
+/// </summary>
 Game::~Game()
 {
 	delete backgroundSprite1;
 	delete backgroundSpriteStart;
+	delete backgroundSprite2;
 }
 
-
+/// <summary>
+/// calling this method will run a game of rolling thunder
+/// </summary>
 void Game::run()
 {
 	window.setFramerateLimit(50);
-	std::cout << window.isOpen() << std::endl;
+	std::cout << std::boolalpha << window.isOpen() << std::endl;
 	while (window.isOpen())
 	{
-		score = 100000;
+		score = 0;
 		tick = 0;
 
 		while (!start && window.isOpen())
@@ -145,21 +151,18 @@ void Game::run()
 
 			if (loading||swapLevels)
 			{
-				std::cout << "\n( " << viewport.getCenter().x << " , " << viewport.getCenter().y << " )\n"; 
-				rectangle.setPosition(viewport.getCenter());
 
-				coin = std::make_shared<Coin>(viewport.getCenter(), 1);
-				coin->initialize();
-
-				//coin->getSprite()->setPosition(viewport.getCenter());
 				setScreen("Player 1 Start");
 				loading = false;
+
 				if (swapLevels)
 				{
 					player->reset();
 					reset();
 				}
+
 				swapLevels = false;
+
 				switch (level)
 				{
 				case 1:
@@ -180,7 +183,7 @@ void Game::run()
 				if (invincible)
 					UItext2 += "Invincible! ";
 				else
-					UItext2 += "LIVES " + std::to_string(player->getLives());
+					UItext2 += "LIVES " + std::to_string(playerLives);
 
 				if (player->slowBullets)
 					UItext2 += "\n						 Slow Bullets!";
@@ -192,9 +195,6 @@ void Game::run()
 				UIelement2->setText(UItext2);
 				UIelement2->setPosition(viewport.getCenter() + offset2);
 
-				if (tick % 100 == 0)
-					std::cout << "Player position: " << player->getSprite()->getPosition().x 
-						<< " " << player->getSprite()->getPosition().y << std::endl;
 
 				window.clear();
 
@@ -202,7 +202,6 @@ void Game::run()
 
 				if (!(player->alive) && player->getActive())
 				{
-					//loading = true; 
 					removeEnemies();
 				}
 				else if (!(player->getActive()))
@@ -220,9 +219,6 @@ void Game::run()
 						reset();
 						playerLives--;
 					}
-					//removeEnemies();
-					//window.close();
-					//std::cout << "Game over" << std::endl;
 				}
 				else if (player->alive && (boss1!=nullptr && !boss1->alive&&level==1))
 				{
@@ -286,10 +282,6 @@ void Game::run()
 				window.draw(*curBackgroundSprite);
 				window.draw(*UIelement1->getText());
 				window.draw(*UIelement2->getText());
-				//Test coin 
-				window.draw(*coin->getSprite());
-				//window.draw(rectangle);
-
 
 				updateEntities();
 				drawEntities();
@@ -316,7 +308,7 @@ void Game::run()
 				else if (tick % spawnTimer == 0 && !activeBoss && (player->alive))
 					enemyWave();
 
-				else if (score >= 0 && !shopSpawned && !activeBoss)
+				else if (score >= 2000 && !shopSpawned && !activeBoss)
 				{
 					shopSpawned = true;
 					shop = std::make_shared<Shop>();
@@ -328,6 +320,9 @@ void Game::run()
 }
 
 
+/// <summary>
+/// This method cycler through the entities vector and call all their update functions
+/// </summary>
 void Game::updateEntities()
 {
 	for (int i{}; i < entities->size(); i++)
@@ -341,6 +336,9 @@ void Game::updateEntities()
 }
 
 
+/// <summary>
+/// This method cycler through the entities vector and draw all entities
+/// </summary>
 void Game::drawEntities()
 {
 	for (int i{}; i < entities->size(); i++)
@@ -351,6 +349,10 @@ void Game::drawEntities()
 }
 
 
+/// <summary>
+/// Should be called during a level change or when player dies.
+/// Resets the game to the original state
+/// </summary>
 void Game::reset()
 {
 	removeEnemies();
@@ -372,10 +374,23 @@ void Game::reset()
 		}
 	}
 	spawnTimer = 300;
+	switch (level)
+	{
+	case 1:
+		curBackgroundSprite = backgroundSprite1;
+		viewport.setCenter(sf::Vector2f{ 840.f,101.5f });
+		break;
+	case 2:
+		curBackgroundSprite = backgroundSprite2;
+		viewport.setCenter(sf::Vector2f{ 840.f,105.5f });
+		break;
+	}
 }
 
 
-//Checks for collision between the different entities 
+/// <summary>
+/// Checks for collision between entities and ensure entities react appropriately to those collisions
+/// </summary>
 void Game::checkCollision()
 {
 	sf::FloatRect entity1, entity2;
@@ -390,23 +405,25 @@ void Game::checkCollision()
 			{ 
 				entity1 = entities->at(i)->getSprite()->getGlobalBounds();
 				entity2 = entities->at(x)->getSprite()->getGlobalBounds();
+
 				//check if two entities are colliding
 				if (entity1.findIntersection(entity2).has_value())
 				{
 					//determine which 2 entities are colliding and determine action that should be taken
 					
-					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(i)) != nullptr)
+					if (std::dynamic_pointer_cast<StumpalonMouth>(entities->at(x)) != nullptr)
 					{
-						if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
+						if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							entities->at(x)->takeDamage(entities->at(i)->getDamage());
 						}
 					}
 					if (std::dynamic_pointer_cast<Enemy>(entities->at(x)) != nullptr)
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+							if(!invincible)
+								entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -425,8 +442,11 @@ void Game::checkCollision()
 					{
 						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
 						{
-							entities->at(i)->takeDamage(entities->at(x)->getDamage());
-							entities->at(x)->setVisible(false);
+							if (!invincible)
+							{
+								entities->at(i)->takeDamage(entities->at(x)->getDamage());
+								//entities->at(x)->setVisible(false);
+							}
 						}
 						else if (std::dynamic_pointer_cast<Bullet>(entities->at(i)) != nullptr)
 						{
@@ -444,11 +464,12 @@ void Game::checkCollision()
 						if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr &&
 							std::dynamic_pointer_cast<Boss>(entities->at(i)) == nullptr)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
 						}
 						if (std::dynamic_pointer_cast<Spawner>(entities->at(i)) && entities->at(i)->alive)
 						{
-							entities->at(x)->takeDamage(entities->at(i)->getDamage());
+							if(!invincible)
+								entities->at(x)->takeDamage(entities->at(i)->getDamage());
 							entities->at(i)->setVisible(false);
 						}
 						if (std::dynamic_pointer_cast<Shop>(entities->at(i)) != nullptr)
@@ -456,10 +477,15 @@ void Game::checkCollision()
 							std::cerr << "SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(i));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions(&score,  player.get());
+							shop->setSpritePositions(&score, &playerLives);
 							entities->erase(entities->begin() + i);
 							inShop = true;
 							loading = true;
+						}
+						if (std::dynamic_pointer_cast<Leaf>(entities->at(i)) != nullptr)
+						{
+							std::cout << "\nCollision Detected\n";
+							entities->at(x)->takeDamage(entities->at(i)->getDamage()); 
 						}
 					}
 					else if (std::dynamic_pointer_cast<Bullet>(entities->at(x)) != nullptr)
@@ -503,26 +529,32 @@ void Game::checkCollision()
 							std::cerr << "X SHOP STATE CHANGED TO BUY_PHASE\n";
 							auto shop = std::dynamic_pointer_cast<Shop>(entities->at(x));
 							shop->setState(Shop::State::BUY_PHASE);
-							shop->setSpritePositions(&score, player.get());
+							shop->setSpritePositions(&score, &playerLives);
 							entities->erase(entities->begin() + x);
 							inShop = true;
 							loading = true;
+						}
+					}
+					else if (std::dynamic_pointer_cast<Leaf>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							entities->at(i)->takeDamage(entities->at(x)->getDamage());
+						}
+					}
+					else if (std::dynamic_pointer_cast<Coin>(entities->at(x)) != nullptr)
+					{
+						if (std::dynamic_pointer_cast<Player>(entities->at(i)) != nullptr)
+						{
+							score += entities->at(x)->getValue();
+							entities->at(x)->setActive(false);
 						}
 					}
 				}
 			}
 		}
 
-		//Remove any enemies that are dead 
-		
-		/* for testing
-		if (dynamic_cast<Spawner*>(entities->at(i)) != nullptr)
-		{
-			std::cout << (entities->at(i)->getSprite())->getPosition().x<< std::endl;
-			std::cout << (entities->at(i)->getSprite())->getPosition().y << std::endl;
-			std::cout << "break" << std::endl;
-		}
-		*/
+
 	}
 	
 	spawnerDummy->setHeath(std::min(spawnerDummy->getHeath(), spawnerDummy7->getHeath()));
@@ -679,6 +711,9 @@ int Game::getRandomInt(int min, int max)
 }
 
 
+/// <summary>
+/// Initializes all spawners, This essientally ensures the spawners are added to the entities vector
+/// </summary>
 void Game::initialize()
 {
 	spawnerDummy->initialize();
@@ -692,7 +727,11 @@ void Game::initialize()
 }
 
 
-//Remove all dead enemies from the entities vector 
+/// <summary>
+/// Remove all dead entities from the entities vector 
+/// (this excludes spawners and players)
+/// This removes them from the game.
+/// </summary>
 void Game::removeDead()
 {
 	//std::cout << entities->size() << std::endl;
@@ -709,7 +748,10 @@ void Game::removeDead()
 }
 
 
-//Clear the screen from all enemies once the boss spawns or player dies
+/// <summary>
+/// Removes all enemies from the entites vector.
+/// This removes them from the game.
+/// </summary>
 void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)
@@ -751,6 +793,12 @@ void Game::setScreen(std::string text)
 }
 
 
+/// <summary>
+/// This handles all input related to player movement by assigning bits to a int.
+/// The pattern of the bits informs us what keys are being pressed.
+/// Look in the header file for more details
+/// </summary>
+/// <param name="event"></param>
 void Game::handleMovementInput(const std::optional<sf::Event>& event)
 {
 	if (event->is<sf::Event::KeyPressed>())
@@ -821,6 +869,12 @@ void Game::handleMovementInput(const std::optional<sf::Event>& event)
 }
 
 
+/// <summary>
+/// This handles all input related to player shooting by assigning bits to a int.
+/// The pattern of the bits informs us what keys are being pressed.
+/// Look in the header file for more details
+/// </summary>
+/// <param name="event"></param>
 void Game::handleOtherInput(const std::optional<sf::Event>& event)
 {
 	if (event->is<sf::Event::Closed>())

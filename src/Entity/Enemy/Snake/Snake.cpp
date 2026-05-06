@@ -1,6 +1,6 @@
 #include "Snake.h"
 
-
+/// constructor of snake
 Snake::Snake(sf::Vector2f position) : Enemy()
 {
 	float viewportCenterX = viewport->getCenter().x;
@@ -18,12 +18,12 @@ Snake::Snake(sf::Vector2f position) : Enemy()
 
 	//flying animation
 	sf::IntRect zoneRight({ 9, 76 }, { 78, 15 });
-	Animation* flyRight = new Animation(1, 3, zoneRight);
+	flyRight = new Animation(1, 3, zoneRight);
 
 	sf::IntRect zoneLeft({ 104,78 }, { 78, 15 });
-	Animation* flyLeft = new Animation(1, 3, zoneLeft);
+	flyLeft = new Animation(1, 3, zoneLeft);
 
-	Animation* deathAnim = new Animation();
+	deathAnim = new Animation();
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -42,16 +42,20 @@ Snake::Snake(sf::Vector2f position) : Enemy()
 	sprite->setTextureRect(*(animations[curAction])->getFrame(0));
 	sprite->setPosition(pos);
 
-	std::cout << "Snake created\n";
 }
 
-
+/// deconstructor
 Snake::~Snake()
 {
-	std::cout << "Snake destroyed\n";
+	delete flyRight;
+	delete flyLeft;
+	delete deathAnim;
+	flyLeft = nullptr;
+	flyRight = nullptr;
+	deathAnim = nullptr;
 }
 
-
+/// moves in a straight line
 void Snake::move()
 {
 	//After 7 seconds, speed increases by 5% every tick
@@ -65,7 +69,6 @@ void Snake::move()
 	if ((viewport->getCenter().x - 125) > 1105.f && (viewport->getCenter().x - 125) < 1113.f)
 	{
 		//handled through player
-		//std::cout << "test" << std::endl;
 		//viewport->setCenter({ 93.f + ((viewport->getCenter().x) - 1109.f),101.5f });
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 	}
@@ -83,7 +86,7 @@ void Snake::move()
 	sprite->setPosition(pos);
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Snake::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -153,7 +156,7 @@ void Snake::update(int input)
 	}
 }
 
-
+/// gets Snake ready to run death animation
 void Snake::death()
 {
 	curAction = DEATH;

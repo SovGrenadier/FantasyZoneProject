@@ -23,6 +23,9 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	std::unordered_map<Actions, Animation*> animations;
 private:
+	Animation* flyRight;
+	Animation* flyLeft;
+	Animation* deathAnim;
 	Actions curAction;
 	bool faceRight;
 	//this will be used to determine when kirikiri should fly off the screen

@@ -26,6 +26,9 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	std::unordered_map<Actions, Animation*> animations;
 private:
+	Animation* flyLeft;
+	Animation* flyRight;
+	Animation* deathAnim;
 	Actions curAction;
 	bool faceRight;
 	float speed, acceleration, distTraveled;

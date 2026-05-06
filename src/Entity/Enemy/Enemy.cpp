@@ -5,7 +5,6 @@
 
 Enemy::Enemy() : Entity()
 {
-	curDeathFrame = 0;
 	//loads enemies png, child class will have to crop
 	defeatPoints = 100;
 	texture = new sf::Texture();
@@ -17,6 +16,8 @@ Enemy::Enemy() : Entity()
 	set_visible = true;
 
 	tickRate = 12;
+	curDeathFrame = 0;
+
 }
 
 
@@ -29,11 +30,9 @@ Enemy::~Enemy()
 
 void Enemy::attack()
 {
-	//attack logic
 }
 
 
 void Enemy::update(int input)
 {
-	ticks += 1;
 }

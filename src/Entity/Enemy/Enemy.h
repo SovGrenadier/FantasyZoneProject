@@ -29,5 +29,5 @@ protected:
 	unsigned int curDeathFrame;
 	unsigned int defeatPoints;
 	int spawnerCount = 0;
-	sf::Vector2f deathPos;
+	sf::Vector2f deathPos; 
 };

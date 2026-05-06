@@ -1,5 +1,7 @@
 #include "../src/Entity/Shop/ShopItem/ShopItem.h"
 
+
+/// defines the position, boundary, value, and type/title
 ShopItem::ShopItem(sf::Vector2f soldOutPosition, sf::Vector2f size, int value, ItemType type)
 {
 	itemTexture = new sf::Texture();
@@ -31,6 +33,7 @@ ShopItem::~ShopItem()
 }
 
 
+/// returns the sprite of the sold out sign whether it is bought or not
 sf::Sprite* ShopItem::getSoldSprite()
 {
 	if (bought)
@@ -40,6 +43,7 @@ sf::Sprite* ShopItem::getSoldSprite()
 }
 
 
+/// move the sprites as the shop moves
 void ShopItem::moveSprite(sf::Vector2f pos)
 {
 	soldOutSprite->move(pos);
@@ -48,6 +52,7 @@ void ShopItem::moveSprite(sf::Vector2f pos)
 }
 
 
+/// returns the title to help know which affect should be applied
 std::string ShopItem::getItemTitle()
 {
 	if (type == BigWings)

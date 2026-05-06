@@ -2,7 +2,13 @@
 #include "../Enemy/Kirikiri/Kirikiri.h"
 #include <iostream>
 
-
+/// <summary>
+/// Creates a spawner at the specified predetermined spot(given through spawner count)
+/// look at spawnerLocs to determines exact position. 
+/// Allocates memory for texture and sprites of spawner and the death animation
+/// Allocates memory for the animation objects to handle switching sprites
+/// </summary>
+/// <param name="spawnerCount"></param>
 Spawner::Spawner(int spawnerCount)
 {
 	spawnerNum++;  
@@ -30,10 +36,10 @@ Spawner::Spawner(int spawnerCount)
 	sprite = aliveSprite;
 	sf::IntRect flyZone({ 76,433 }, { 46, 23 });
 	sf::IntRect groundZone({ 75, 406 }, { 48,25 });
-	Animation* activeFly = new Animation(1, 1, flyZone);
-	Animation* activeGround = new Animation(1, 1, groundZone);
+	activeFly = new Animation(1, 1, flyZone);
+	activeGround = new Animation(1, 1, groundZone);
 
-	Animation* deathAnim = new Animation;
+	deathAnim = new Animation;
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -54,17 +60,29 @@ Spawner::Spawner(int spawnerCount)
 
 	ticks = 1;
 	tickRate = 12;
-	std::cout << "Spawner created at " << position.x << ", " << position.y << "\n";
 }
 
+
+/// <summary>
+/// deallocates all memory allocated in the constructor
+/// </summary>
 Spawner::~Spawner() 
 {
 	delete texture;
 	delete aliveSprite;
 	delete deathTexture;
 	delete deathSprite;
+	delete activeFly;
+	delete activeGround;
+	delete deathAnim;
 }
 
+
+/// <summary>
+/// Creates a kirikiri enemy at the spawners position every 3 seconds.
+/// This method is called in the update method.
+/// </summary>
+/// <param name="tick"></param>
 void Spawner::spawnEnemy(int tick)
 {
 	bool kirikiriDir;
@@ -85,6 +103,11 @@ void Spawner::spawnEnemy(int tick)
 		ticks++;
 }
 
+
+/// <summary>
+/// called in game every frame. Controls everything the spawner does, death and spawning kirikiri
+/// </summary>
+/// <param name="input"></param>
 void Spawner::update(int input)
 {
 	if (health <= 0)
@@ -112,6 +135,7 @@ void Spawner::update(int input)
 				spawnerNum--; 
 				set_active = false;
 				set_visible = false;
+				std::make_shared<Coin>(sprite->getPosition(), 2)->initialize();
 			}
 			else
 			{
@@ -137,15 +161,19 @@ void Spawner::update(int input)
 }
 
 
+/// <summary>
+/// call when spawner needs to be reset back to original state
+/// </summary>
 void Spawner::reset()
 {
+	if(!set_active)
+		spawnerNum++;
 	set_active = true;
 	set_visible = true;
 	alive = true;
 	health = 20;
 	sprite = aliveSprite;
 	sprite->setTextureRect(*(animations[ACTIVEFLY]->getFrame(0)));
-	spawnerNum++;
 }
 
 
@@ -158,6 +186,11 @@ void Spawner::death()
 }
 
 
+
+/// <summary>
+/// returns sprite being used
+/// </summary>
+/// <returns></returns>
 sf::Sprite* Spawner::getSprite()
 {
 	if (alive)

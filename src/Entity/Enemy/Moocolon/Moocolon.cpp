@@ -1,7 +1,7 @@
 #include "Moocolon.h"
-#include <iostream>
-#include <cmath>
 
+
+/// constructor of Moocolon
 Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 {
 	float viewCenterX = viewport->getCenter().x;
@@ -16,12 +16,12 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 
 	//frames
 	sf::IntRect zone({ 10, 37 }, { 34, 17 });
-	Animation* flyRight = new Animation(1, 2, zone);
+	flyRight = new Animation(1, 2, zone);
 	
 	zone = sf::IntRect({ 148,39 }, { 34, 17});
-	Animation* flyLeft = new Animation(1, 2, zone);
+	flyLeft = new Animation(1, 2, zone);
 
-	Animation* deathAnim = new Animation;
+	deathAnim = new Animation;
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -51,24 +51,21 @@ Moocolon::Moocolon(sf::Vector2f position) : Enemy()
 	sprite->setTextureRect(*(animations[curAction]->nextFrame()));
 	sprite->setPosition(pos);
 	
-	std::cout << "Moocolon created\n";
 }
 
-
+/// deconstructor
 Moocolon::~Moocolon()
 {
-	std::cout << "Moocolon destroyed\n";
+	delete flyLeft;
+	delete flyRight;
+	delete deathAnim;
+	flyLeft = nullptr;
+	flyRight = nullptr;
+	deathAnim = nullptr;
 }
 
 
-void Moocolon::spawn()
-{
-	set_active = true;
-	set_visible = true;
-
-}
-
-//to-do: fix not moving at all after reaching centerY
+/// moves, which follows a sinusoidal but can occasionally bounce
 void Moocolon::move()
 {
 	if (faceRight)
@@ -119,7 +116,7 @@ void Moocolon::move()
 	previousY = pos.y;
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Moocolon::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -193,7 +190,7 @@ void Moocolon::update(int input)
 	}
 }
 
-
+/// gets Bottaco ready to run death animation
 void Moocolon::death()
 {
 	curAction = DEATH;

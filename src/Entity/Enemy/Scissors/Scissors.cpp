@@ -1,6 +1,9 @@
 #include "Scissors.h"
 
 
+/// Constructor of Scissors
+/// shouldShiftHappens defines whether or not scissors will immediately
+/// travel upwards, or travel downwards
 Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 {
 	sf::Vector2f viewportCenter = viewport->getCenter();
@@ -20,12 +23,12 @@ Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 	acceleration = 1.02f;
 
 	sf::IntRect zoneRight({ 9, 4 }, { 80, 16 });
-	Animation* flyRight = new Animation(1, 4, zoneRight);
+	flyRight = new Animation(1, 4, zoneRight);
 
 	sf::IntRect zoneLeft({ 103,6 }, { 80,16 });
-	Animation* flyLeft = new Animation(1, 4, zoneLeft);
+	flyLeft = new Animation(1, 4, zoneLeft);
 
-	Animation* deathAnim = new Animation;
+	deathAnim = new Animation;
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -51,36 +54,22 @@ Scissors::Scissors(sf::Vector2f position, bool shouldShiftHappen) : Enemy()
 	sprite->setTextureRect(*(animations[curAction]->getFrame(0)));
 	sprite->setPosition(pos);
 
-	//std::cout << "Scissors created\n";
 }
 
-
+/// deconstructor
 Scissors::~Scissors()
 {
-	delete sprite;
-	delete texture;
-	sprite = nullptr;
-	texture = nullptr;
-
-	//std::cout << "Scissors destroyed\n";
+	delete flyLeft;
+	delete flyRight;
+	delete deathAnim;
+	flyLeft = nullptr;
+	flyRight = nullptr;
+	deathAnim = nullptr;
 }
 
-
-void Scissors::spawn()
-{
-
-}
-
-
+// moves, which follows a sinusodial pattern
 void Scissors::move()
 {
-	/*
-	* horizontal movement is based off speed
-	* vertical movement is changed via a sine func
-	* After 7 seconds, vertical movement stops
-	* and horizontal movement increases by 5% every tick
-	*/
-
 	float wave = static_cast<float>(sin(time + shift));
 
 	bool isAlive = true;
@@ -111,7 +100,7 @@ void Scissors::move()
 	sprite->setPosition(pos);
 }
 
-
+/// runs every frame, updates the position, animation, sprite
 void Scissors::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -180,7 +169,7 @@ void Scissors::update(int input)
 	}
 }
 
-
+/// gets Scissors ready to run death animation
 void Scissors::death()
 {
 	curAction = DEATH;

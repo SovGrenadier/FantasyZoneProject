@@ -1,6 +1,10 @@
 #include"Player.h"
 #include<memory>
 
+
+/// <summary>
+/// creates a player object
+/// </summary>
 Player::Player()
 {
 	set_active = true;
@@ -38,6 +42,10 @@ Player::Player()
 
 }
 
+
+/// <summary>
+/// deallocates all memory used for sprites, textures, Animation objects
+/// </summary>
 Player::~Player()
 {
 	delete texture;
@@ -50,13 +58,22 @@ Player::~Player()
 	delete standingLeft;
 }
 
+
+/// <summary>
+/// This method should be called if you want to make the player invincible.
+/// </summary>
 void Player::setHealth()
 {
 	health = 10000000;
 	invinsible = true;
 }
 
-//don't try to walk to the left
+
+/// <summary>
+/// This method updates the players position and the viewport.
+/// This method is called in game every frame
+/// </summary>
+/// <param name="input"></param>
 void Player::update(int input)
 {
 	//std::cout << health << std::endl;
@@ -383,6 +400,9 @@ void Player::update(int input)
 }
 
 
+/// <summary>
+/// resets player to original state
+/// </summary>
 void Player::reset()
 {
 	curAction = Actions::GLIDE_RIGHT;
@@ -394,12 +414,14 @@ void Player::reset()
 	set_active = true;
 	set_visible = true;
 	alive = true;
-	viewport->setCenter(sf::Vector2f{ 840.f,101.5f });
 	sprite->setPosition({ 790.f,109.f });
 }
 
 
-//to-do: Fix viewport catchup after 1 catchup
+/// <summary>
+/// Since the player controls the viewports movement, this function controls all viewport updates
+/// </summary>
+/// <param name="input"></param>
 void Player::updateView(int input)
 {
 	//std::cout <<"Sprite:"<< sprite->getPosition().x<<' '<< sprite->getPosition().y<< std::endl;
@@ -512,7 +534,11 @@ void Player::death()
 
 }
 
-//to-do: need to come up with a way to delete bullets when created
+
+/// <summary>
+/// this should be called when the player shoots.
+/// When called the player will fire a bullet
+/// </summary>
 void Player::shoot()
 {
 	if (faceRight)
@@ -528,6 +554,11 @@ void Player::shoot()
 	}
 }
 
+
+/// <summary>
+/// this should be called when the player shoots.
+/// When called the player will fire a bomb
+/// </summary>
 void Player::bomb()
 {
 	if (faceRight)

@@ -1,8 +1,15 @@
 #include "Coin.h"
 #include <iostream>
 
+
+/// <summary> 
+/// Creates a coin obejct that spawn is the position of the entity that lauched it
+/// </summary> 
+/// <param name = "pos"></param>
+/// <param name = "size"></param> 
 Coin::Coin(sf::Vector2f pos, int size)
 {
+	//set up sprite 
 	texture = new sf::Texture();
 
 	if (!texture->loadFromFile("../res/Shop Transparent.png"))
@@ -33,12 +40,13 @@ Coin::Coin(sf::Vector2f pos, int size)
 		zones.push_back(sf::IntRect(sf::Vector2i{ 506, 170 }, sf::Vector2i{ 3, 16 }));
 	}
 
-
+	// Set the sprite to its starting fram 
 	zone = 0; 
 	sprite->setTextureRect(zones.at(zone));
 	sprite->setPosition(pos);
-	initialHeight = pos.y; 
 
+	//Initialize variables 
+	initialHeight = pos.y; 
 	bounce = true;
 	yMax = initialHeight; 
 	ySpeed = 5;
@@ -46,14 +54,11 @@ Coin::Coin(sf::Vector2f pos, int size)
 	set_visible = true;
 	set_active = true; 
 	fullView = false; 
-	
 
-	//define where groung is 
+	//define where ground is 
 	ground = 159.f; 
-
-	width = 1;
-	time = 0; 
 }
+
 
 Coin::~Coin()
 {
@@ -61,6 +66,10 @@ Coin::~Coin()
 }
 
 
+/// <summary> 
+/// Animates the coin and initiates movement.
+/// </summary> 
+/// <param name = "input"></param> 
 void Coin::update(int input)
 {
 
@@ -85,27 +94,32 @@ void Coin::update(int input)
 		sprite->setTextureRect(zones.at(zone));
 	}
 
+	//Move only when the coin has a substantial velocity. Else leave the coin on the ground 
 	if (ySpeed > 0.5)
 		move();
 	else
 		sprite->setPosition(sf::Vector2f{ sprite->getPosition().x , 159.f }); 
+	
 	ticks++;
 }
 
 
 void Coin::death()
 {
-
 }
 
+
+/// <summary> 
+/// Changes the coin's velocity based on bounce
+/// </summary> 
 void Coin::move()
 {
 	if (sprite->getPosition().y >= ground && !bounce)
 	{
-		//Change Velocity based on position
 		bounce = true;
 		ySpeed *= .5;
 
+		// Reduce the coin's maximum height with every bouce 
 		if (firstBounce)
 		{
 			yMax = 120.f;
@@ -117,32 +131,15 @@ void Coin::move()
 	}
 	else if (bounce && !(sprite->getPosition().y <= yMax))
 	{
-		//Bounce velocity 
+		//Move the coin upward after it hits the ground 
 		changeMax = true;
 		sprite->move(sf::Vector2f{ 0.f,-0.5f * ySpeed });
 	}
 	else
 	{
-		//Decensing Velocity
+		//Move the coin downward after it hits its max height
 		bounce = false;
 		sprite->move(sf::Vector2f{ 0.f, ySpeed });
 
 	}
-
-	/*if (sprite->getPosition().y >= ground)
-	{
-		std::cout << "On ground"; 
-		yMax = maxY(ticks);
-		time = 0; 
-		firstBounce = false; 
-		sprite->setPosition(sf::Vector2f{ sprite->getPosition().x, ground});
-	}
-		
-	sprite->setPosition(sf::Vector2f{ sprite->getPosition().x, parabola(ticks) });
-	std::cout << "\nPosition ( " << sprite->getPosition().x << " , " << sprite->getPosition().y << " )\n";
-
-	ticks++; 
-	time++;*/
-
-
 }

@@ -2,6 +2,11 @@
 #include <iostream>
 #include <time.h>
 
+
+/// <summary>
+/// Creates a leaf object, assigns it a random velcoity, and initializes its position
+/// </summary> 
+/// <param name = "mouthPos"></param> 
 Leaf::Leaf(sf::Vector2f mouthPos) : Weapons(mouthPos)
 {
 	texture = new sf::Texture(); 
@@ -27,12 +32,22 @@ Leaf::Leaf(sf::Vector2f mouthPos) : Weapons(mouthPos)
 	fly = new Animation(1, 3, sf::IntRect(sf::Vector2i{ 366, 391 }, sf::Vector2i{ 28,7 }));
 }
 
+
+/// <summary> 
+/// Deallocates memory used by sprites, textures, and animations 
+/// </summary>
 Leaf::~Leaf()
 {
 	delete texture;
 	delete sprite;
 }
 
+
+/// <summary> 
+/// Moves the leafs, ensures they are looped with the viewport, and deactivates the lead once 
+/// certain conditions are met
+/// </summary> 
+/// <param name = "input"></param> 
 void Leaf::update(int input)
 {
 	//Ensures sprite doesn't disappear when the viewport loops
@@ -51,12 +66,17 @@ void Leaf::update(int input)
 		sprite->setPosition({ sprite->getPosition().x + 93.f - 1109.f,sprite->getPosition().y });
 		pos = sprite->getPosition();
 	}
+	
 	ticks++; 
+
+	//Animate the leads 
 	if(ticks%8 == 0)
 		sprite->setTextureRect(*fly->nextFrame());
 
 	sprite->move(sf::Vector2f{ speedX, speedY });
 
+
+	//remove the leafs if they are offscreen or if they have no health 
 	if (!isOnScreen(*viewport))
 	{
 		set_active = false; 

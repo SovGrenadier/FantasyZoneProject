@@ -57,7 +57,7 @@ void Boss::death()
 
 
 /// <summary>
-/// Changes the location of the Boss so that it resembles a sinusoidal function, and 
+/// Changes the position of the Boss so that it resembles a sinusoidal function, and 
 /// ensures the Boss loops with the viewport 
 /// </summary>
 void Boss :: move()

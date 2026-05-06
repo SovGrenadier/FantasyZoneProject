@@ -2,7 +2,10 @@
 #include<iostream>
 #include <time.h>
 
-
+/// <summary>
+/// Creates a boss object relative to the player's position
+/// </summary>
+/// <param name="playerPos"></param>
 Boss::Boss(float playerXPos)
 { 
 	ticks = 24; 

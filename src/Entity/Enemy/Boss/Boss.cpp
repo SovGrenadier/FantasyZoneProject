@@ -94,7 +94,7 @@ void Boss :: move()
 /// <param name="input"></param>
 void Boss::update(int input)
 {
-	//creates the mouth for the boss when it is created 
+	//creates the mouth when boss is created 
 	if (ticks == 24)
 	{
 		mouth = std::make_shared<StumpalonMouth>(sprite->getPosition());
@@ -110,7 +110,7 @@ void Boss::update(int input)
 
 	move();
 
-	// Animate the boss, but not in typical pattern. 
+	// Animate the boss so it goes back and forth between sprite frames  
 	if (ticks % 50 == 0)
 	{
 		if (frame == OPEN_MOUTH)

@@ -3,7 +3,7 @@
 
 
 /// <summary>
-/// Creates a bullet and initailizes its position to the player's, and determines the velocity.
+/// Creates a bullet, initailizes its position to the player's, and determines the velocity.
 /// </summary>
 /// <param name = "playerPos"></param>
 /// <param name = "faceRight"></param>
@@ -36,6 +36,9 @@ Bullet::Bullet(sf::Vector2f playPos, bool faceRight, bool slowBullets) : Weapons
 }
 
 
+/// <summary>
+/// deallocates all memory used for sprites and textures.
+/// </summary>
 Bullet::~Bullet()
 {
 	delete sprite;
@@ -43,6 +46,9 @@ Bullet::~Bullet()
 }
 
 
+/// <summary>
+/// Changes the state of the bullet once it's deactivated
+/// </summary>
 void Bullet::death()
 {
 	set_active = false;
@@ -50,6 +56,11 @@ void Bullet::death()
 	alive = false;
 }
 
+
+/// <summary>
+/// Moves the bullet and deactivates it once certain conditions are met. 
+/// </summary> 
+/// <param name = "input"></param> 
 void Bullet::update(int input)
 {
 	if (health <= 0)

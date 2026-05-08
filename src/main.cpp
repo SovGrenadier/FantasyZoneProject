@@ -3,17 +3,18 @@ Fantasy Zone (https://github.com/SovGrenadier/FantasyZoneProject)
 Date: 5/08/2025
 Desc: This is a recreation of the Arcade Game Fantasy Zone
 
+XML Documentation:
+.../FantasyZoneProject/x64/Debug/FantasyZoneProject.xml
 
-Authors:
-Hadeel A.
-Darius W.
-Azur M.
-Philip C.
+Credits and statement of integrity:
+.../FantasyZoneProject/src/Credits.txt
 
 (Menu)
 Z - Add credit
 X - Player one button
-I - Give Player Invinsibility
+I - Give Player Invisibility
+B - Give Player Slow Bullets
+N - Stop enemy spawn rate from speeding up
 
 (Ingame)
 UP Arrow - Move up
@@ -24,18 +25,14 @@ X - Shoot
 Z - Drop Bomb
 
 What needs work:
-- more animations
-- enemy recolors/other enemies
-- other levels
+- Other levels
 - UI needs finished/polishing
-- obstacles
-- Enemy ground collisions
-- walls
-- left side off map
-- bullet collision
-- bosses
-
-We did not cheat.
+- Bosses
+- Player movement
+- Coin system
+- Player will just teleport into the void sometimes likely due to 
+issue with the viewport loop
+- Game sound; we didn't find any viable files to use
 
 */
 

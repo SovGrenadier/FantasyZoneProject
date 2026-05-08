@@ -1,0 +1,12 @@
+This project was authored by:
+Hadeel A.
+Darius W.
+Azur M.
+Philip C.
+
+All contributions to this project are entirely
+our own and were made with the intent to reproduce
+the game as faithfully as possible. All errors are
+entirely our own.
+
+All credits for the original game go to SEGA.

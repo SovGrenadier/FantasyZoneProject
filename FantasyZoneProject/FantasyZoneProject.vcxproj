@@ -41,6 +41,9 @@
     <ClCompile Include="..\src\Entity\Weapons\Weapons.cpp" />
     <ClCompile Include="..\src\Game\Game.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="Credits.txt">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ShopItem.cpp" />
   </ItemGroup>
   <ItemGroup>

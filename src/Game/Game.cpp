@@ -300,7 +300,7 @@ void Game::run()
 				//press N on title screen to disable speedup
 				if (!noSpeedup)
 				{
-					spawnTimer = 300 - (tick / 20);
+					spawnTimer = 300 - (tick / 20) + 1;
 					if (spawnTimer < 100)
 						spawnTimer = 100;
 				}

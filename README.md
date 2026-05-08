@@ -12,15 +12,10 @@ N - Stop enemy spawn rate from speeding up
 
 (Ingame)
 UP Arrow - Move up
-
 Right Arrow - Move right
-
 Left Arrow - Move left
-
 DOWN Arrow - Move down
-
 X - Shoot
-
 Z - Drop Bomb
 
 What needs work:

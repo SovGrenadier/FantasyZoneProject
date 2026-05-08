@@ -40,6 +40,7 @@ Leaf::~Leaf()
 {
 	delete texture;
 	delete sprite;
+	delete fly; 
 }
 
 

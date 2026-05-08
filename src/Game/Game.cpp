@@ -211,6 +211,7 @@ void Game::run()
 						setScreen("Game Over");
 						removeEnemies();
 						start = false;
+						playerLives = 3; 
 						std::cout << "Game over" << std::endl;
 					}
 					else
@@ -756,7 +757,8 @@ void Game::removeEnemies()
 {
 	for (int i = 0; i < entities->size(); i++)
 	{
-		if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr)
+		if (std::dynamic_pointer_cast<Enemy>(entities->at(i)) != nullptr ||
+			std::dynamic_pointer_cast<Coin>(entities->at(i)) !=nullptr)
 		{
 			entities->erase(entities->begin() + i);
 			i--;

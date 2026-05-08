@@ -28,7 +28,7 @@ Boss::Boss(float playerXPos)
 
 Boss::~Boss()
 {
-
+	delete glideRight; 
 }
 
 

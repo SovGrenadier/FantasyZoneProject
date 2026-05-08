@@ -3,7 +3,13 @@
 #include<algorithm>
 #include<cmath>
 
-
+/// <summary>
+/// creates a kirikiri enemy at new pos.
+/// When the kirikiri enemy is created it will fall down(out of spawner) and go to
+/// the direction specified by isFaceRight
+/// </summary>
+/// <param name="isFaceRight"></param>
+/// <param name="newPos"></param>
 Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 {
 	//same speed as player
@@ -14,9 +20,9 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 	speed = -1.f;
 	pos = newPos;
 
-	Animation* flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
-	Animation* flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
-	Animation* deathAnim = new Animation();
+	flyRight = new Animation(1, 3, sf::IntRect{ sf::Vector2i{8,20},sf::Vector2i{51,15} });
+	flyLeft = new Animation(1, 3, sf::IntRect{ sf::Vector2i{132,21},sf::Vector2i{51,15} });
+	deathAnim = new Animation();
 	deathAnim->addFrame(sf::IntRect({ 11,419 }, { 8,8 }));
 	deathAnim->addFrame(sf::IntRect({ 21,417 }, { 12,12 }));
 	deathAnim->addFrame(sf::IntRect({ 35,415 }, { 16,16 }));
@@ -37,28 +43,29 @@ Kirikiri::Kirikiri(bool isFaceRight, sf::Vector2f newPos) : Enemy()
 }
 
 
+/// <summary>
+/// deletes animation objects related to the kirikiri
+/// </summary>
 Kirikiri::~Kirikiri()
 {
-
+	delete flyRight;
+	delete flyLeft;
+	delete deathAnim;
+	flyRight = nullptr;
+	flyLeft = nullptr;
+	deathAnim = nullptr;
 }
 
 
 void Kirikiri::move()
 {
-	/*
-	* COMES OUT OF SPAWN DOWN, THEN MOVES TO EDGE OF SCREEN WHERE IT
-	* TURNS AROUND AND THEN CHARGES IN OPPOSITE DIRECTION
-	* OR 
-	* COMES OUT OF SPAWN DOWN, THEN MOVES IN ONE DIRECTION AND 
-	* WILL CHARGE IN THAT DIRECTION AFTER A CERTAIN AMOUNT OF TIME/DISTANCE
-	*/
-
-
-
-
 }
 
-
+/// <summary>
+/// handles all updates related to kirikiri including looping when the viewport loops,
+///  all kirikiri movement, and the death animation
+/// </summary>
+/// <param name=""></param>
 void Kirikiri::update(int) 
 {
 	//Ensures sprite doesn't disappear when the viewport loops

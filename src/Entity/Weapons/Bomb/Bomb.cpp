@@ -2,6 +2,11 @@
 #include<iostream>
 
 
+/// <summary> 
+/// Create a Bomb object and places it in a position relative to the player's 
+/// </summary> 
+/// <param name = "playerPos"></param>
+/// <param name = "faceRight"></param> 
 Bomb::Bomb(sf::Vector2f playerPos, bool faceRight) : Weapons(playerPos)	
 {
 	texture = new sf::Texture();
@@ -51,6 +56,10 @@ void Bomb::death()
 }
 
 
+/// <summary>
+/// Updates the position of the bomb and deactivates the bomb when certain conditions are met.
+/// </summary> 
+/// <param name = "imput"></param> 
 //equation to get bomb motion is -(starting height)+0.5x^2
 void Bomb::update(int input)
 {

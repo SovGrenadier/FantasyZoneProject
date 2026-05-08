@@ -14,12 +14,14 @@ public:
 	void move() override; 
 	void update(int) override;
 	int getHealth();
+	// used to determine which frame the current sprite is at and change the frame
 	enum state { OPEN_MOUTH = 2,  AJAR_MOUTH = 1, CLOSED_MOUTH = 0};
 
 private:
 	int ticks; 
 	Animation* glideRight; 
 	int frame = 0; 
-	const double PI = 4.0 * std::atan(1.0); 
+	const double PI = 4.0 * std::atan(1.0); // for movement calculations
 	std::shared_ptr<StumpalonMouth> mouth; 
+	bool openning = true; 
 };

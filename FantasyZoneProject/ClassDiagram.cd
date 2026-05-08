@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Animation">
+    <Position X="19.25" Y="0.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAABAAAAUgwAAAAAAAQAAACAAAAAAAAQAAAQE=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Animation\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bomb">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAAAAAAAAIIQgAIAAAAAAAAAAAIAEAAAAIQAEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Weapons\Bomb\Bomb.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Weapons">
+    <Position X="12.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgBA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Weapons\Weapons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAKAgAABABgCAABBEAAIQJBDChgyGAAAQAIAAECAg=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boss">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Boss::state" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Boss\Boss.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAQAQAAAAIBAQAABCAIAAAIQCEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Boss\Boss.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAIgAAAIAAAACAABAgAAAAAAAAAACAACAAIAAEABA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Enemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bottaco">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Bottaco::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Bottaco\Bottaco.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAIACAABAAABkAAAAAEgBkAAEAIAAEAQA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Bottaco\Bottaco.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bullet">
+    <Position X="12.75" Y="6.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAECAAAIAAUAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Weapons\Bullet\Bullet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coin">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAARAAAAQAAAAACAQgJABAAZABAAEAAAQABAMAAEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Shop\Coin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game">
+    <Position X="1" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAPgKiBGAAAAAiQgBQFYAIAAII2CARD/hyEAgAOAAQg=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Game\Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kirikiri">
+    <Position X="8.75" Y="5.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Kirikiri::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Kirikiri\Kirikiri.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACgAABCABBQAAAECAAAAEwAECAAAIAgEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Kirikiri\Kirikiri.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Leaf">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAIAAAAAAAAQAAAAACKAAEAYA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Weapons\Bullet\Leaf.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Moocolon">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Moocolon::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Moocolon\Moocolon.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAABIAEAACAgAADAADIAABEHAAAAEwYEABAAIAAEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Moocolon\Moocolon.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Player::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Player\Player.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>SBCQAAQEAIAAAEIBQACwAQIAAAMAEwAGBCAIIQIsgDE=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Player\Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerDeath">
+    <Position X="19.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAQAAAAAgoABEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\PlayerDeathSprite\PlayerDeathSprite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scissors">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Scissors::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Scissors\Scissors.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAABAAAACCAAAACAABAAAAEHAAAAEwYEAAAgIAAEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Scissors\Scissors.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shop">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Shop::State" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Shop\Shop.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QQCBCAAQCCAGBACEEBAKMIhAAxjCEQCAkEhAIAAGAQQ=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Shop\Shop.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShopItem">
+    <Position X="4.75" Y="7.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="ShopItem::ItemType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Shop\ShopItem\ShopItem.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAEAAQAAAAgAGYAAAAAAAAAQQABACAAABQDAABAAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Shop\ShopItem\ShopItem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Snake">
+    <Position X="6.75" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Snake::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Snake\Snake.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAACAABAAAAEKAAAIEwYEAAAAIAAEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Snake\Snake.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Spawner">
+    <Position X="17.5" Y="3.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Spawner::Actions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Spawner\Spawner.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABGAAAAGAIQAARAAABAgIAEAAAgAGACFACAAIAgEAkA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Spawner\Spawner.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StumpalonMouth">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAACAAAYAAEAYAAAAAACAIAAAIUCEAAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\Enemy\Boss\StumpalonMouth.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI">
+    <Position X="19.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAACACKAAAAAAAIAAAAAAAEEAA=</HashCode>
+      <FileName>C:\Users\pchin\source\repos\FantasyZoneProject\src\Entity\UI\UI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

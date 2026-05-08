@@ -9,7 +9,8 @@ public:
 	Entity();
 	virtual ~Entity();
 	
-	virtual void takeDamage(int); 
+	virtual void takeDamage(int);
+	int getValue() { return value; }
 	
 	//getter methods
 	//std::vector<Entity*>* getEntities() { return &entities; }
@@ -46,6 +47,7 @@ protected:
 	bool viewportLoop = false;
 	static sf::View* viewport;
 	static inline int spawnerNum = 0; 
+	int value = 0; 
 
 private:
 	//static std::vector<Entity*> entities;

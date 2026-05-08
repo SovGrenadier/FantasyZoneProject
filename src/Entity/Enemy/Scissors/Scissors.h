@@ -18,7 +18,6 @@ public:
 		DEATH
 	};
 
-	void spawn();
 	void move() override;
 	void update(int) override;
 	void death() override;
@@ -26,6 +25,9 @@ public:
 	sf::Sprite* getSprite() { return sprite; }
 	std::unordered_map<Actions, Animation*> animations;
 private:
+	Animation* flyLeft;
+	Animation* flyRight;
+	Animation* deathAnim;
 	Actions curAction;
 	bool faceRight;
 	float amplitude, time, baseY, shift;

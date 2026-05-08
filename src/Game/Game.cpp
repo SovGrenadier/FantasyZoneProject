@@ -100,11 +100,16 @@ void Game::run()
 						noSpeedup = true;
 				}
 			}
-
+			std::cout << tick << std::endl;
 			window.setView(viewportStart);
+			if(tick==0)
+				viewportStart.setCenter(sf::Vector2f{ 140.5f,108.5f });
 			if (tick > 120 && tick < 480 * 4)
 				viewportStart.move({ 0.f,0.25f });
+			activeBoss = false;
+			boss1 = nullptr;
 			window.clear();
+			
 			window.draw(*backgroundSpriteStart);
 			window.display();
 			tick++;
@@ -151,7 +156,8 @@ void Game::run()
 
 			if (loading||swapLevels)
 			{
-
+				activeBoss = false;
+				boss1 = nullptr;
 				setScreen("Player 1 Start");
 				loading = false;
 
